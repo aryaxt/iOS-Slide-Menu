@@ -7,12 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @protocol SlideNavigationControllerDelegate <NSObject>
 @optional
 - (BOOL)slideNavigationControllerShouldSisplayRightMenu;
 - (BOOL)slideNavigationControllerShouldSisplayLeftMenu;
 @end
+
+typedef  enum{
+	SideLeft,
+	SideRight,
+}Side;
 
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
 

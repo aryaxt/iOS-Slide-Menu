@@ -8,9 +8,14 @@
 
 #import "SlideNavigationController.h"
 
+@interface SlideNavigationController()
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@end
+
 @implementation SlideNavigationController
 @synthesize righMenu;
 @synthesize leftMenu;
+@synthesize tapRecognizer;
 
 #define MENU_OFFSET 60
 #define MENU_SLIDE_ANIMATION_DURATION 0.3
@@ -148,9 +153,6 @@ static SlideNavigationController *singletonInstance;
 						 rect.origin.x = (self.isMenuOpen) ? 0 : rect.size.width - MENU_OFFSET;
 						 self.view.frame = rect;
 						 
-	 }
-					 completion:^(BOOL finished) {
-		 
 	 }];
 }
 
@@ -165,10 +167,24 @@ static SlideNavigationController *singletonInstance;
 						 rect.origin.x = (self.isMenuOpen) ? 0 : (rect.size.width - MENU_OFFSET )* -1;
 						 self.view.frame = rect;
 						 
-					 }
-					 completion:^(BOOL finished) {
-						 
 					 }];
+}
+
+- (void)tapDetected:(UITapGestureRecognizer *)tapRecognizer
+{
+
+}
+
+#pragma mark - Setter & Getter -
+
+- (UITapGestureRecognizer *)tapRecognizer
+{
+	if (tapRecognizer)
+	{
+		tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
+	}
+	
+	return tapRecognizer;
 }
 
 @end
