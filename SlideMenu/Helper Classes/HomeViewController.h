@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  HomeViewController.h
 //  SlideMenu
 //
 //  Created by Aryan Gh on 4/24/13.
@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SlideNavigationController.h"
 
-@interface ViewController : UIViewController
+@interface HomeViewController : UIViewController <SlideNavigationControllerDelegate>
 
 @end

@@ -18,12 +18,18 @@
 		15371EF91728E3B400A508F4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15371EF81728E3B400A508F4 /* Default-568h@2x.png */; };
 		15371EFC1728E3B400A508F4 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15371EFA1728E3B400A508F4 /* MainStoryboard_iPhone.storyboard */; };
 		15371EFF1728E3B400A508F4 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15371EFD1728E3B400A508F4 /* MainStoryboard_iPad.storyboard */; };
-		15371F021728E3B400A508F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15371F011728E3B400A508F4 /* ViewController.m */; };
 		15371F0A1728E3B400A508F4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371F091728E3B400A508F4 /* SenTestingKit.framework */; };
 		15371F0B1728E3B400A508F4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE21728E3B400A508F4 /* UIKit.framework */; };
 		15371F0C1728E3B400A508F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE41728E3B400A508F4 /* Foundation.framework */; };
 		15371F141728E3B400A508F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15371F121728E3B400A508F4 /* InfoPlist.strings */; };
 		15371F171728E3B400A508F4 /* SlideMenuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 15371F161728E3B400A508F4 /* SlideMenuTests.m */; };
+		15371F281728E44E00A508F4 /* SlideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15371F271728E44E00A508F4 /* SlideNavigationController.m */; };
+		15CBD67C172A15F900F0C53E /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CBD677172A15F900F0C53E /* HomeViewController.m */; };
+		15CBD67D172A15F900F0C53E /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CBD679172A15F900F0C53E /* MenuViewController.m */; };
+		15CBD67E172A15F900F0C53E /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CBD67B172A15F900F0C53E /* ProfileViewController.m */; };
+		15CBD684172A20DA00F0C53E /* left-menu-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CBD682172A20DA00F0C53E /* left-menu-button.png */; };
+		15CBD685172A20DA00F0C53E /* right-menu-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CBD683172A20DA00F0C53E /* right-menu-button.png */; };
+		15CBD689172A22B700F0C53E /* ProfileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15CBD688172A22B700F0C53E /* ProfileDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,14 +58,24 @@
 		15371EF81728E3B400A508F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		15371EFB1728E3B400A508F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		15371EFE1728E3B400A508F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		15371F001728E3B400A508F4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		15371F011728E3B400A508F4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		15371F081728E3B400A508F4 /* SlideMenuTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlideMenuTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		15371F091728E3B400A508F4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		15371F111728E3B400A508F4 /* SlideMenuTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SlideMenuTests-Info.plist"; sourceTree = "<group>"; };
 		15371F131728E3B400A508F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		15371F151728E3B400A508F4 /* SlideMenuTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuTests.h; sourceTree = "<group>"; };
 		15371F161728E3B400A508F4 /* SlideMenuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SlideMenuTests.m; sourceTree = "<group>"; };
+		15371F261728E44E00A508F4 /* SlideNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideNavigationController.h; sourceTree = "<group>"; };
+		15371F271728E44E00A508F4 /* SlideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideNavigationController.m; sourceTree = "<group>"; };
+		15CBD676172A15F900F0C53E /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		15CBD677172A15F900F0C53E /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		15CBD678172A15F900F0C53E /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
+		15CBD679172A15F900F0C53E /* MenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuViewController.m; sourceTree = "<group>"; };
+		15CBD67A172A15F900F0C53E /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		15CBD67B172A15F900F0C53E /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		15CBD682172A20DA00F0C53E /* left-menu-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "left-menu-button.png"; sourceTree = "<group>"; };
+		15CBD683172A20DA00F0C53E /* right-menu-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "right-menu-button.png"; sourceTree = "<group>"; };
+		15CBD687172A22B600F0C53E /* ProfileDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileDetailViewController.h; sourceTree = "<group>"; };
+		15CBD688172A22B700F0C53E /* ProfileDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileDetailViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,12 +135,12 @@
 		15371EE81728E3B400A508F4 /* SlideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				15CBD675172A15F900F0C53E /* Helper Classes */,
+				15371F241728E43600A508F4 /* Source */,
 				15371EF11728E3B400A508F4 /* AppDelegate.h */,
 				15371EF21728E3B400A508F4 /* AppDelegate.m */,
 				15371EFA1728E3B400A508F4 /* MainStoryboard_iPhone.storyboard */,
 				15371EFD1728E3B400A508F4 /* MainStoryboard_iPad.storyboard */,
-				15371F001728E3B400A508F4 /* ViewController.h */,
-				15371F011728E3B400A508F4 /* ViewController.m */,
 				15371EE91728E3B400A508F4 /* Supporting Files */,
 			);
 			path = SlideMenu;
@@ -161,6 +177,40 @@
 				15371F121728E3B400A508F4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		15371F241728E43600A508F4 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				15CBD681172A209500F0C53E /* Assets */,
+				15371F261728E44E00A508F4 /* SlideNavigationController.h */,
+				15371F271728E44E00A508F4 /* SlideNavigationController.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		15CBD675172A15F900F0C53E /* Helper Classes */ = {
+			isa = PBXGroup;
+			children = (
+				15CBD676172A15F900F0C53E /* HomeViewController.h */,
+				15CBD677172A15F900F0C53E /* HomeViewController.m */,
+				15CBD678172A15F900F0C53E /* MenuViewController.h */,
+				15CBD679172A15F900F0C53E /* MenuViewController.m */,
+				15CBD67A172A15F900F0C53E /* ProfileViewController.h */,
+				15CBD67B172A15F900F0C53E /* ProfileViewController.m */,
+				15CBD687172A22B600F0C53E /* ProfileDetailViewController.h */,
+				15CBD688172A22B700F0C53E /* ProfileDetailViewController.m */,
+			);
+			path = "Helper Classes";
+			sourceTree = "<group>";
+		};
+		15CBD681172A209500F0C53E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				15CBD682172A20DA00F0C53E /* left-menu-button.png */,
+				15CBD683172A20DA00F0C53E /* right-menu-button.png */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +290,8 @@
 				15371EF91728E3B400A508F4 /* Default-568h@2x.png in Resources */,
 				15371EFC1728E3B400A508F4 /* MainStoryboard_iPhone.storyboard in Resources */,
 				15371EFF1728E3B400A508F4 /* MainStoryboard_iPad.storyboard in Resources */,
+				15CBD684172A20DA00F0C53E /* left-menu-button.png in Resources */,
+				15CBD685172A20DA00F0C53E /* right-menu-button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +328,11 @@
 			files = (
 				15371EEF1728E3B400A508F4 /* main.m in Sources */,
 				15371EF31728E3B400A508F4 /* AppDelegate.m in Sources */,
-				15371F021728E3B400A508F4 /* ViewController.m in Sources */,
+				15371F281728E44E00A508F4 /* SlideNavigationController.m in Sources */,
+				15CBD67C172A15F900F0C53E /* HomeViewController.m in Sources */,
+				15CBD67D172A15F900F0C53E /* MenuViewController.m in Sources */,
+				15CBD67E172A15F900F0C53E /* ProfileViewController.m in Sources */,
+				15CBD689172A22B700F0C53E /* ProfileDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +516,7 @@
 				15371F1C1728E3B400A508F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		15371F1D1728E3B400A508F4 /* Build configuration list for PBXNativeTarget "SlideMenuTests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +525,7 @@
 				15371F1F1728E3B400A508F4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

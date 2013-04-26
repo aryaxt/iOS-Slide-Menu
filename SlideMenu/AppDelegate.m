@@ -12,6 +12,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone"
+															 bundle: nil];
+	
+	MenuViewController *rightMenu = (MenuViewController*)[mainStoryboard
+													   instantiateViewControllerWithIdentifier: @"MenuViewController"];
+	
+	MenuViewController *leftMenu = (MenuViewController*)[mainStoryboard
+														   instantiateViewControllerWithIdentifier: @"MenuViewController"];
+	
+	[SlideNavigationController sharedInstance].righMenu = rightMenu;
+	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
+	
     // Override point for customization after application launch.
     return YES;
 }

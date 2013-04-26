@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  ProfileViewController.h
 //  SlideMenu
 //
 //  Created by Aryan Gh on 4/24/13.
@@ -8,10 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SlideNavigationController.h"
-#import "MenuViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface ProfileViewController : UIViewController <SlideNavigationControllerDelegate>
 
 @end
