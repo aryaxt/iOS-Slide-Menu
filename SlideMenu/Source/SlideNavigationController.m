@@ -22,7 +22,10 @@
 @synthesize draggingPoint;
 
 #define MENU_OFFSET 60
-#define MENU_SLIDE_ANIMATION_DURATION 0.3
+#define MENU_SLIDE_ANIMATION_DURATION .3
+#define MENU_QUICK_SLIDE_ANIMATION_DURATION .1
+#define MENU_LEFT_IMAGE @"left-menu-button"
+#define MENU_RIGHT_IMAGE @"left-menu-button"
 
 static SlideNavigationController *singletonInstance;
 
@@ -36,6 +39,16 @@ static SlideNavigationController *singletonInstance;
 - (void)awakeFromNib
 {
 	[self setup];
+}
+
+- (id)initWithRootViewController:(UIViewController *)rootViewController
+{
+	if (self = [super initWithRootViewController:rootViewController])
+	{
+		[self setup];
+	}
+	
+	return self;
 }
 
 - (id)init
@@ -71,7 +84,10 @@ static SlideNavigationController *singletonInstance;
 	
 	if ([self isMenuOpen])
 	{
-		[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION animations:^{
+		[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
+							  delay:0
+							options:UIViewAnimationOptionCurveEaseOut
+						 animations:^{
 			rect.origin.x = (rect.origin.x > 0) ? rect.size.width : -1*rect.size.width;
 			self.view.frame = rect;
 		} completion:^(BOOL finished) {
@@ -97,18 +113,26 @@ static SlideNavigationController *singletonInstance;
 
 #pragma mark - Private Methods -
 
-- (UIBarButtonItem *)leftBarButton
+- (UIBarButtonItem *)barButtonItemForMenu:(Menu)menu
 {
-	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
-														 target:self
-														 action:@selector(leftMenuSelected:)];
-}
-
-- (UIBarButtonItem *)rightBarButton
-{
-	return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
-														 target:self
-														 action:@selector(righttMenuSelected:)];
+	SEL selector = (menu == MenuLeft) ? @selector(leftMenuSelected:) : @selector(righttMenuSelected:);
+	UIImage *image = [UIImage imageNamed:(menu == MenuLeft) ? MENU_LEFT_IMAGE : MENU_RIGHT_IMAGE];
+	
+	if (image)
+	{
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:image forState:UIControlStateNormal];
+        button.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+		[button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+		
+        return [[UIBarButtonItem alloc] initWithCustomView:button];
+	}
+	else
+	{
+		return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
+															 target:self
+															 action:selector];
+	}
 }
 
 - (BOOL)isMenuOpen
@@ -140,6 +164,63 @@ static SlideNavigationController *singletonInstance;
 	return NO;
 }
 
+- (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)())completion
+{
+	[self.topViewController.view addGestureRecognizer:self.tapRecognizer];
+	
+	if (menu == MenuLeft)
+	{
+		[self.righMenu.view removeFromSuperview];
+		[self.view.window insertSubview:self.leftMenu.view atIndex:0];
+	}
+	else
+	{
+		[self.leftMenu.view removeFromSuperview];
+		[self.view.window insertSubview:self.righMenu.view atIndex:0];
+	}
+	
+	[UIView animateWithDuration:duration
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseOut
+					 animations:^{
+						 CGRect rect = self.view.frame;
+						 rect.origin.x = (menu == MenuLeft) ? (rect.size.width - MENU_OFFSET) : ((rect.size.width - MENU_OFFSET )* -1);
+						 self.view.frame = rect;
+					 }
+					 completion:^(BOOL finished) {
+						 if (completion)
+							 completion();
+					 }];
+}
+
+- (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
+{
+	[self openMenu:menu withDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
+}
+
+- (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
+{
+	[self.topViewController.view removeGestureRecognizer:self.tapRecognizer];
+	
+	[UIView animateWithDuration:duration
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseOut
+					 animations:^{
+						 CGRect rect = self.view.frame;
+						 rect.origin.x = 0;
+						 self.view.frame = rect;
+					 }
+					 completion:^(BOOL finished) {
+						 if (completion)
+							 completion();
+					 }];
+}
+
+- (void)closeMenuWithCompletion:(void (^)())completion
+{
+	[self closeMenuWithDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
+}
+
 #pragma mark - UINavigationControllerDelegate Methods -
 
 - (void)navigationController:(UINavigationController *)navigationController
@@ -147,12 +228,12 @@ static SlideNavigationController *singletonInstance;
 					animated:(BOOL)animated
 {
 	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
-		viewController.navigationItem.leftBarButtonItem = [self leftBarButton];
+		viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
 	else
 		viewController.navigationItem.leftBarButtonItem = nil;
 	
 	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
-		viewController.navigationItem.rightBarButtonItem = [self rightBarButton];
+		viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
 	else
 		viewController.navigationItem.rightBarButtonItem = nil;
 }
@@ -174,49 +255,6 @@ static SlideNavigationController *singletonInstance;
 		[self closeMenuWithCompletion:nil];
 	else
 		[self openMenu:MenuRight withCompletion:nil];
-}
-
-- (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
-{
-	[self.topViewController.view addGestureRecognizer:self.tapRecognizer];
-	
-	if (menu == MenuLeft)
-	{
-		[self.righMenu.view removeFromSuperview];
-		[self.view.window insertSubview:self.leftMenu.view atIndex:0];
-	}
-	else
-	{
-		[self.leftMenu.view removeFromSuperview];
-		[self.view.window insertSubview:self.righMenu.view atIndex:0];
-	}
-	
-	[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
-					 animations:^{
-						 CGRect rect = self.view.frame;
-						 rect.origin.x = (menu == MenuLeft) ? (rect.size.width - MENU_OFFSET) : ((rect.size.width - MENU_OFFSET )* -1);
-						 self.view.frame = rect;
-					 }
-					 completion:^(BOOL finished) {
-						 if (completion)
-							 completion();
-					 }];
-}
-
-- (void)closeMenuWithCompletion:(void (^)())completion
-{
-	[self.topViewController.view removeGestureRecognizer:self.tapRecognizer];
-	
-	[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
-					 animations:^{
-						 CGRect rect = self.view.frame;
-						 rect.origin.x = 0;
-						 self.view.frame = rect;
-					 }
-					 completion:^(BOOL finished) {
-						 if (completion)
-							 completion();
-					 }];
 }
 
 #pragma mark - Gesture Recognizing -
@@ -244,9 +282,21 @@ static SlideNavigationController *singletonInstance;
 		rect.origin.x += movement;
 		
 		if (rect.origin.x >= self.minXForDragging && rect.origin.x <= self.maxXForDragging)
-		self.view.frame = rect;
+			self.view.frame = rect;
 		
 		self.draggingPoint = translation;
+		
+		//
+		if (rect.origin.x > 0)
+		{
+			[self.righMenu.view removeFromSuperview];
+			[self.view.window insertSubview:self.leftMenu.view atIndex:0];
+		}
+		else
+		{
+			[self.leftMenu.view removeFromSuperview];
+			[self.view.window insertSubview:self.righMenu.view atIndex:0];
+		}
 	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
 	{
@@ -266,7 +316,7 @@ static SlideNavigationController *singletonInstance;
 				}
 				else
 				{
-					[self closeMenuWithCompletion:nil];
+					[self closeMenuWithDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
 				}
 			}
 			// Moving Left
@@ -278,7 +328,7 @@ static SlideNavigationController *singletonInstance;
 				}
 				else
 				{
-					[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withCompletion:nil];
+					[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
 				}
 			}
 		}
