@@ -31,18 +31,30 @@ static SlideNavigationController *singletonInstance;
 
 - (void)awakeFromNib
 {
-	singletonInstance = self;
-	self.delegate = self;
+	[self setup];
 }
 
 - (id)init
 {
 	if (self = [super init])
 	{
-		singletonInstance = self;
+		[self setup];
 	}
 	
 	return self;
+}
+
+- (void)setup
+{
+	singletonInstance = self;
+	self.delegate = self;
+	
+	self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+	self.view.layer.shadowRadius = 10;
+	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+	self.view.layer.shadowOpacity = 1;
+	self.view.layer.shouldRasterize = YES;
+	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
 #pragma mark - Public Methods -
@@ -58,13 +70,10 @@ static SlideNavigationController *singletonInstance;
 			self.view.frame = rect;
 		} completion:^(BOOL finished) {
 			
-			[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION animations:^{
-				rect.origin.x = 0;
-				self.view.frame = rect;
-				
-				[self popToRootViewControllerAnimated:NO];
-				[self pushViewController:viewController animated:NO];
-				
+			[self popToRootViewControllerAnimated:NO];
+			[self pushViewController:viewController animated:NO];
+			
+			[self closeMenuWithCompletion:^{
 				if (completion)
 					completion();
 			}];

@@ -45,8 +45,22 @@
 	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone"
 															 bundle: nil];
 	
-	UIViewController *vc = (MenuViewController*)[mainStoryboard
-														  instantiateViewControllerWithIdentifier: @"ProfileViewController"];
+	UIViewController *vc ;
+	
+	switch (indexPath.row)
+	{
+		case 0:
+			vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"HomeViewController"];
+			break;
+			
+		case 1:
+			vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"ProfileViewController"];
+			break;
+			
+		case 2:
+			vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"ProfileViewController"];
+			break;
+	}
 	
 	[[SlideNavigationController sharedInstance] switchViewController:vc withCompletion:nil];
 }

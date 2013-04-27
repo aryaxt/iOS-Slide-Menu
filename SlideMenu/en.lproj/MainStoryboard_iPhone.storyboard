@@ -72,9 +72,24 @@
                                     <segue destination="BLR-mt-TZ9" kind="push" id="Z6R-Ri-GZ4"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="liN-HX-4nb">
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Jz-Yy-2WY">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="114" id="49B-Qz-2Hc"/>
+                                </constraints>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="5Jz-Yy-2WY" firstAttribute="top" secondItem="nXC-Mu-u90" secondAttribute="top" constant="251" id="1zS-Ah-2Hz"/>
+                            <constraint firstAttribute="trailing" secondItem="5Jz-Yy-2WY" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="Ein-yb-hQ0"/>
+                            <constraint firstItem="liN-HX-4nb" firstAttribute="leading" secondItem="nXC-Mu-u90" secondAttribute="leading" constant="26" id="mDt-La-5IM"/>
+                            <constraint firstItem="liN-HX-4nb" firstAttribute="top" secondItem="nXC-Mu-u90" secondAttribute="top" constant="32" id="odl-3V-5WW"/>
                             <constraint firstItem="coh-kj-UCb" firstAttribute="top" secondItem="nXC-Mu-u90" secondAttribute="top" constant="116" id="r8I-zY-MHB"/>
                             <constraint firstItem="coh-kj-UCb" firstAttribute="leading" secondItem="nXC-Mu-u90" secondAttribute="leading" constant="143" id="wxy-h2-ep0"/>
                         </constraints>
