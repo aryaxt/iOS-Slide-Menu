@@ -9,7 +9,7 @@ ___________
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	LeftMenuViewController *leftMenu = [[LeftMenuViewController alloc] init];
-  RightMenuViewController *leftMenu = [[RightMenuViewController alloc] init];
+        RightMenuViewController *righMenu = [[RightMenuViewController alloc] init];
 	
 	[SlideNavigationController sharedInstance].righMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
@@ -35,7 +35,7 @@ Configuring Left and Right menu for different Viewcontrollers
 
 - (BOOL)slideNavigationControllerShouldSisplayLeftMenu
 {
-  return YES;
+        return YES;
 }
 
 - (BOOL)slideNavigationControllerShouldSisplayRightMenu
