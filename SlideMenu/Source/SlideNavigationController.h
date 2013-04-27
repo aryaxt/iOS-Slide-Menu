@@ -16,9 +16,9 @@
 @end
 
 typedef  enum{
-	SideLeft,
-	SideRight,
-}Side;
+	MenuLeft,
+	MenuRight,
+}Menu;
 
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
 

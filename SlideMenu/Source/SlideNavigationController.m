@@ -144,42 +144,74 @@ static SlideNavigationController *singletonInstance;
 
 - (void)leftMenuSelected:(id)sender
 {
-	[self.righMenu.view removeFromSuperview];
-	[self.view.window insertSubview:self.leftMenu.view atIndex:0];
-	
-	[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
-					 animations:^{
-						 CGRect rect = self.view.frame;
-						 rect.origin.x = (self.isMenuOpen) ? 0 : rect.size.width - MENU_OFFSET;
-						 self.view.frame = rect;
-						 
-	 }];
+	if ([self isMenuOpen])
+		[self closeMenuWithCompletion:nil];
+	else
+		[self openMenu:MenuLeft withCompletion:nil];
+		
 }
 
 - (void)righttMenuSelected:(id)sender
 {
-	[self.leftMenu.view removeFromSuperview];
-	[self.view.window insertSubview:self.righMenu.view atIndex:0];
+	if ([self isMenuOpen])
+		[self closeMenuWithCompletion:nil];
+	else
+		[self openMenu:MenuRight withCompletion:nil];
+}
+
+- (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
+{
+	[self.topViewController.view addGestureRecognizer:self.tapRecognizer];
+	
+	if (menu == MenuLeft)
+	{
+		[self.righMenu.view removeFromSuperview];
+		[self.view.window insertSubview:self.leftMenu.view atIndex:0];
+	}
+	else
+	{
+		[self.leftMenu.view removeFromSuperview];
+		[self.view.window insertSubview:self.righMenu.view atIndex:0];
+	}
 	
 	[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
 					 animations:^{
 						 CGRect rect = self.view.frame;
-						 rect.origin.x = (self.isMenuOpen) ? 0 : (rect.size.width - MENU_OFFSET )* -1;
+						 rect.origin.x = (menu == MenuLeft) ? (rect.size.width - MENU_OFFSET) : ((rect.size.width - MENU_OFFSET )* -1);
 						 self.view.frame = rect;
-						 
+					 }
+					 completion:^(BOOL finished) {
+						 if (completion)
+							 completion();
+					 }];
+}
+
+- (void)closeMenuWithCompletion:(void (^)())completion
+{
+	[self.topViewController.view removeGestureRecognizer:self.tapRecognizer];
+	
+	[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
+					 animations:^{
+						 CGRect rect = self.view.frame;
+						 rect.origin.x = 0;
+						 self.view.frame = rect;
+					 }
+					 completion:^(BOOL finished) {
+						 if (completion)
+							 completion();
 					 }];
 }
 
 - (void)tapDetected:(UITapGestureRecognizer *)tapRecognizer
 {
-
+	[self closeMenuWithCompletion:nil];
 }
 
 #pragma mark - Setter & Getter -
 
 - (UITapGestureRecognizer *)tapRecognizer
 {
-	if (tapRecognizer)
+	if (!tapRecognizer)
 	{
 		tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
 	}
