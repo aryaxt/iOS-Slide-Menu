@@ -64,6 +64,7 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setup
 {
+	self.avoidSwitchingToSameClassViewController = YES;
 	singletonInstance = self;
 	self.delegate = self;
 	
@@ -81,6 +82,12 @@ static SlideNavigationController *singletonInstance;
 
 - (void)switchViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
 {
+	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
+	{
+		[self closeMenuWithCompletion:completion];
+		return;
+	}
+	
 	__block CGRect rect = self.view.frame;
 	
 	if ([self isMenuOpen])
