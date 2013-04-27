@@ -24,6 +24,8 @@ typedef  enum{
 
 @property (nonatomic, strong) UIViewController *righMenu;
 @property (nonatomic, strong) UIViewController *leftMenu;
+@property (nonatomic, strong) UIBarButtonItem *leftbarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;

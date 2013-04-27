@@ -20,12 +20,13 @@
 @synthesize tapRecognizer;
 @synthesize panRecognizer;
 @synthesize draggingPoint;
+@synthesize leftbarButtonItem;
+@synthesize rightBarButtonItem;
 
 #define MENU_OFFSET 60
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .1
-#define MENU_LEFT_IMAGE @"left-menu-button"
-#define MENU_RIGHT_IMAGE @"left-menu-button"
+#define MENU_IMAGE @"menu-button"
 
 static SlideNavigationController *singletonInstance;
 
@@ -116,22 +117,18 @@ static SlideNavigationController *singletonInstance;
 - (UIBarButtonItem *)barButtonItemForMenu:(Menu)menu
 {
 	SEL selector = (menu == MenuLeft) ? @selector(leftMenuSelected:) : @selector(righttMenuSelected:);
-	UIImage *image = [UIImage imageNamed:(menu == MenuLeft) ? MENU_LEFT_IMAGE : MENU_RIGHT_IMAGE];
+	UIBarButtonItem *customButton = (menu == MenuLeft) ? self.leftbarButtonItem : self.rightBarButtonItem;
 	
-	if (image)
+	if (customButton)
 	{
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setImage:image forState:UIControlStateNormal];
-        button.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-		[button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-		
-        return [[UIBarButtonItem alloc] initWithCustomView:button];
+		customButton.action = selector;
+		customButton.target = self;
+		return customButton;
 	}
 	else
 	{
-		return [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemBookmarks
-															 target:self
-															 action:selector];
+		UIImage *image = [UIImage imageNamed:MENU_IMAGE];
+        return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
 	}
 }
 
