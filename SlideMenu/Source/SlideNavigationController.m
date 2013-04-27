@@ -10,12 +10,16 @@
 
 @interface SlideNavigationController()
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
+@property (nonatomic, assign) CGPoint draggingPoint;
 @end
 
 @implementation SlideNavigationController
 @synthesize righMenu;
 @synthesize leftMenu;
 @synthesize tapRecognizer;
+@synthesize panRecognizer;
+@synthesize draggingPoint;
 
 #define MENU_OFFSET 60
 #define MENU_SLIDE_ANIMATION_DURATION 0.3
@@ -55,6 +59,8 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.shadowOpacity = 1;
 	self.view.layer.shouldRasterize = YES;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	
+	[self.view addGestureRecognizer:self.panRecognizer];
 }
 
 #pragma mark - Public Methods -
@@ -110,23 +116,25 @@ static SlideNavigationController *singletonInstance;
 	return (self.view.frame.origin.x == 0) ? NO : YES;
 }
 
-- (BOOL)shouldDisplayRightMenuButtonForViewController:(UIViewController *)vc
+- (BOOL)shouldDisplayMenu:(Menu)menu forViewController:(UIViewController *)vc
 {
-	if ([vc respondsToSelector:@selector(slideNavigationControllerShouldSisplayRightMenu)] &&
-		[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldSisplayRightMenu])
+	if (menu == MenuRight)
 	{
-		return YES;
+		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldSisplayRightMenu)] &&
+			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldSisplayRightMenu])
+		{
+			return YES;
+		}
 	}
-
-	return NO;
-}
-
-- (BOOL)shouldDisplayLeftMenuButtonForViewController:(UIViewController *)vc
-{
-	if ([vc respondsToSelector:@selector(slideNavigationControllerShouldSisplayLeftMenu)] &&
-		[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldSisplayLeftMenu])
+	if (menu == MenuLeft)
 	{
-		return YES;
+		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldSisplayLeftMenu)] &&
+			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldSisplayLeftMenu])
+		{
+			return YES;
+		}
+		
+		return NO;
 	}
 	
 	return NO;
@@ -138,12 +146,12 @@ static SlideNavigationController *singletonInstance;
 	  willShowViewController:(UIViewController *)viewController
 					animated:(BOOL)animated
 {
-	if ([self shouldDisplayLeftMenuButtonForViewController:viewController])
+	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
 		viewController.navigationItem.leftBarButtonItem = [self leftBarButton];
 	else
 		viewController.navigationItem.leftBarButtonItem = nil;
 	
-	if ([self shouldDisplayRightMenuButtonForViewController:viewController])
+	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
 		viewController.navigationItem.rightBarButtonItem = [self rightBarButton];
 	else
 		viewController.navigationItem.rightBarButtonItem = nil;
@@ -211,9 +219,97 @@ static SlideNavigationController *singletonInstance;
 					 }];
 }
 
+#pragma mark - Gesture Recognizing -
+
 - (void)tapDetected:(UITapGestureRecognizer *)tapRecognizer
 {
 	[self closeMenuWithCompletion:nil];
+}
+
+- (void)panDetected:(UIPanGestureRecognizer *)aPanRecognizer
+{
+	static NSInteger velocityForFollowingDirection = 1000;
+	
+	CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
+    CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
+	
+    if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
+	{
+		self.draggingPoint = translation;
+    }
+	else if (aPanRecognizer.state == UIGestureRecognizerStateChanged)
+	{
+		NSInteger movement = translation.x - self.draggingPoint.x;
+		CGRect rect = self.view.frame;
+		rect.origin.x += movement;
+		
+		if (rect.origin.x >= self.minXForDragging && rect.origin.x <= self.maxXForDragging)
+		self.view.frame = rect;
+		
+		self.draggingPoint = translation;
+	}
+	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
+	{
+        NSInteger currentX = self.view.frame.origin.x;
+		NSInteger currentXOffset = (currentX > 0) ? currentX : currentX * -1;
+		NSInteger positiveVelocity = (velocity.x > 0) ? velocity.x : velocity.x * -1;
+		
+		// If the speed is high enough follow direction
+		if (positiveVelocity >= velocityForFollowingDirection)
+		{
+			// Moving Right
+			if (velocity.x > 0)
+			{
+				if (currentX > 0)
+				{
+					[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withCompletion:nil];
+				}
+				else
+				{
+					[self closeMenuWithCompletion:nil];
+				}
+			}
+			// Moving Left
+			else
+			{
+				if (currentX > 0)
+				{
+					[self closeMenuWithCompletion:nil];
+				}
+				else
+				{
+					[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withCompletion:nil];
+				}
+			}
+		}
+		else
+		{
+			if (currentXOffset < self.view.frame.size.width/2)
+				[self closeMenuWithCompletion:nil];
+			else
+				[self openMenu:(currentX > 0) ? MenuLeft : MenuRight withCompletion:nil];
+		}
+    }
+}
+
+- (NSInteger)minXForDragging
+{
+	if ([self shouldDisplayMenu:MenuRight forViewController:self.topViewController])
+	{
+		return (self.view.frame.size.width - MENU_OFFSET)  * -1;
+	}
+	
+	return 0;
+}
+
+- (NSInteger)maxXForDragging
+{
+	if ([self shouldDisplayMenu:MenuLeft forViewController:self.topViewController])
+	{
+		return self.view.frame.size.width - MENU_OFFSET;
+	}
+	
+	return 0;
 }
 
 #pragma mark - Setter & Getter -
@@ -226,6 +322,16 @@ static SlideNavigationController *singletonInstance;
 	}
 	
 	return tapRecognizer;
+}
+
+- (UIPanGestureRecognizer *)panRecognizer
+{
+	if (!panRecognizer)
+	{
+		panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+	}
+	
+	return panRecognizer;
 }
 
 @end
