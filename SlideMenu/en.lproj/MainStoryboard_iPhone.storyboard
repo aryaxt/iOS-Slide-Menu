@@ -37,12 +37,15 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="Tha-f2-JWx" kind="push" id="jGs-V7-na4"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="0tp-7h-5YK" secondAttribute="bottom" constant="111" id="2jf-Bb-0Hn"/>
-                            <constraint firstItem="0tp-7h-5YK" firstAttribute="leading" secondItem="KmS-nM-BIh" secondAttribute="leading" constant="137" id="xpZ-Fx-eqr"/>
+                            <constraint firstItem="0tp-7h-5YK" firstAttribute="top" secondItem="KmS-nM-BIh" secondAttribute="top" constant="96" id="my8-MJ-mEI"/>
+                            <constraint firstAttribute="trailing" secondItem="0tp-7h-5YK" secondAttribute="trailing" constant="87" id="s5F-Qo-4kK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="YV6-8b-6Lr"/>
@@ -50,6 +53,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wf8-rc-ajb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="552" y="-204"/>
+        </scene>
+        <!--View Controller - No Menu-->
+        <scene sceneID="b5b-is-lY2">
+            <objects>
+                <viewController id="Tha-f2-JWx" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Fks-yk-ua6">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="No Menu" id="k71-Cl-mOP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LfU-9k-SWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1015" y="-204"/>
         </scene>
         <!--Profile View Controller - Profile-->
         <scene sceneID="xeE-nX-pb6">
@@ -69,7 +87,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BLR-mt-TZ9" kind="push" id="Z6R-Ri-GZ4"/>
+                                    <segue destination="BLR-mt-TZ9" kind="push" id="yr9-GK-Pwl"/>
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="liN-HX-4nb">
@@ -109,16 +127,34 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="sDo-qF-VCh">
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="menuCell" textLabel="xb6-XA-Fp2" style="IBUITableViewCellStyleDefault" id="xqJ-Km-cL1">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="rightMenuCell" textLabel="xb6-XA-Fp2" style="IBUITableViewCellStyleDefault" id="xqJ-Km-cL1">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Home" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xb6-XA-Fp2">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Home" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xb6-XA-Fp2">
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="leftMenuCell" textLabel="4Da-Pk-Ol7" style="IBUITableViewCellStyleDefault" id="WPD-BV-qjw">
+                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Home" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Da-Pk-Ol7">
                                                     <rect key="frame" x="10" y="0.0" width="300" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -137,7 +173,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96439273969999995" green="1" blue="0.19383566830000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sDo-qF-VCh" firstAttribute="bottom" secondItem="SGn-Wf-7bo" secondAttribute="bottom" type="default" id="CIM-le-06X"/>
                             <constraint firstItem="sDo-qF-VCh" firstAttribute="top" secondItem="SGn-Wf-7bo" secondAttribute="top" type="default" id="Prl-0H-WcZ"/>
@@ -150,7 +186,7 @@
             </objects>
             <point key="canvasLocation" x="-508" y="63"/>
         </scene>
-        <!--Profile Detail View Controller - Profile Detail-->
+        <!--Profile Detail View Controller - Right Menu Only-->
         <scene sceneID="w1a-xD-Zgv">
             <objects>
                 <viewController storyboardIdentifier="ProfileDetailViewController" id="BLR-mt-TZ9" customClass="ProfileDetailViewController" sceneMemberID="viewController">
@@ -159,7 +195,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Profile Detail" id="YcQ-Z1-05c"/>
+                    <navigationItem key="navigationItem" title="Right Menu Only" id="YcQ-Z1-05c"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zoB-W7-tIa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

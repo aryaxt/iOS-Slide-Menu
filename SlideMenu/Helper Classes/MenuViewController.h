@@ -11,5 +11,6 @@
 
 @interface MenuViewController : UIViewController <UITableViewDelegate>
 
+@property (nonatomic, strong) NSString *cellIdentifier;
 
 @end

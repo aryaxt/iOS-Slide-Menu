@@ -17,9 +17,13 @@
 	
 	MenuViewController *rightMenu = (MenuViewController*)[mainStoryboard
 													   instantiateViewControllerWithIdentifier: @"MenuViewController"];
+	rightMenu.view.backgroundColor = [UIColor yellowColor];
+	rightMenu.cellIdentifier = @"rightMenuCell";
 	
 	MenuViewController *leftMenu = (MenuViewController*)[mainStoryboard
 														   instantiateViewControllerWithIdentifier: @"MenuViewController"];
+	leftMenu.view.backgroundColor = [UIColor lightGrayColor];
+	leftMenu.cellIdentifier = @"leftMenuCell";
 	
 	[SlideNavigationController sharedInstance].righMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;

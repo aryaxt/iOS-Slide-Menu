@@ -9,6 +9,7 @@
 #import "MenuViewController.h"
 
 @implementation MenuViewController
+@synthesize cellIdentifier;
 
 #pragma mark - UITableView Delegate & Datasrouce -
 
@@ -19,8 +20,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *identifier = @"menuCell";
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
 	
 	switch (indexPath.row)
 	{
