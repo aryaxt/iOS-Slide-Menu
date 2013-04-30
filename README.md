@@ -4,7 +4,7 @@ iOS-Slide-Menu
 iOS Slide Menu built on top of UINavigationController
 
 Setup
-___________
+---------
 ```
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -18,8 +18,8 @@ ___________
     return YES;
 }
 ```
-
-Switch Between ViewController
+Switch Between ViewControllers
+----------
 Let's say a menu item was selected
 ```
 SomeViewController *vc = [[SomeViewController alloc] init];
@@ -33,12 +33,12 @@ Configuring Left and Right menu for different Viewcontrollers
 ```
 @implementation MyViewController
 
-- (BOOL)slideNavigationControllerShouldSisplayLeftMenu
+- (BOOL)slideNavigationControllerShoulDSisplayLeftMenu
 {
         return YES;
 }
 
-- (BOOL)slideNavigationControllerShouldSisplayRightMenu
+- (BOOL)slideNavigationControllerShouldDisplayRightMenu
 {
 	return YES;
 }
