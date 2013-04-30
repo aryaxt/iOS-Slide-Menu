@@ -26,6 +26,7 @@ SomeViewController *vc = [[SomeViewController alloc] init];
 [[SlideNavigationController sharedInstance] switchViewController:vc withCompletion:nil];
 ```
 Configuring Left and Right menu for different Viewcontrollers
+---------
 ```
 @interface MyViewController : UIViewController <SlideNavigationControllerDelegate>
 @end
