@@ -100,8 +100,8 @@ static SlideNavigationController *singletonInstance;
 			self.view.frame = rect;
 		} completion:^(BOOL finished) {
 			
-			[self popToRootViewControllerAnimated:NO];
-			[self pushViewController:viewController animated:NO];
+			[super popToRootViewControllerAnimated:NO];
+			[super pushViewController:viewController animated:NO];
 			
 			[self closeMenuWithCompletion:^{
 				if (completion)
@@ -111,12 +111,58 @@ static SlideNavigationController *singletonInstance;
 	}
 	else
 	{
-		[self popToRootViewControllerAnimated:NO];
-		[self pushViewController:viewController animated:YES];
+		[super popToRootViewControllerAnimated:NO];
+		[super pushViewController:viewController animated:YES];
 		
 		if (completion)
 			completion();
 	}
+}
+
+- (NSArray *)popToRootViewControllerAnimated:(BOOL)animated
+{
+	if ([self isMenuOpen])
+	{
+		[self closeMenuWithCompletion:^{
+			[super popToRootViewControllerAnimated:animated];
+		}];
+	}
+	else
+	{
+		return [super popToRootViewControllerAnimated:animated];
+	}
+	
+	return nil;
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	if ([self isMenuOpen])
+	{
+		[self closeMenuWithCompletion:^{
+			[super pushViewController:viewController animated:animated];
+		}];
+	}
+	else
+	{
+		[super pushViewController:viewController animated:animated];
+	}
+}
+
+- (NSArray *)popToViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	if ([self isMenuOpen])
+	{
+		[self closeMenuWithCompletion:^{
+			[super popToViewController:viewController animated:animated];
+		}];
+	}
+	else
+	{
+		return [super popToViewController:viewController animated:animated];
+	}
+	
+	return nil;
 }
 
 #pragma mark - Private Methods -
@@ -148,16 +194,16 @@ static SlideNavigationController *singletonInstance;
 {
 	if (menu == MenuRight)
 	{
-		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldSisplayRightMenu)] &&
-			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldSisplayRightMenu])
+		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldDisplayRightMenu)] &&
+			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldDisplayRightMenu])
 		{
 			return YES;
 		}
 	}
 	if (menu == MenuLeft)
 	{
-		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldSisplayLeftMenu)] &&
-			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldSisplayLeftMenu])
+		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldDisplayLeftMenu)] &&
+			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldDisplayLeftMenu])
 		{
 			return YES;
 		}

@@ -11,8 +11,8 @@
 
 @protocol SlideNavigationControllerDelegate <NSObject>
 @optional
-- (BOOL)slideNavigationControllerShouldSisplayRightMenu;
-- (BOOL)slideNavigationControllerShouldSisplayLeftMenu;
+- (BOOL)slideNavigationControllerShouldDisplayRightMenu;
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu;
 @end
 
 typedef  enum{

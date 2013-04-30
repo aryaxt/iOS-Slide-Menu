@@ -17,12 +17,12 @@
 
 #pragma mark - SlideNavigationController Methods -
 
-- (BOOL)slideNavigationControllerShouldSisplayLeftMenu
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu
 {
 	return NO;
 }
 
-- (BOOL)slideNavigationControllerShouldSisplayRightMenu
+- (BOOL)slideNavigationControllerShouldDisplayRightMenu
 {
 	return YES;
 }
