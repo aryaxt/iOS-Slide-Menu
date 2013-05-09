@@ -1,7 +1,14 @@
 iOS-Slide-Menu
 ==============
 
-iOS Slide Menu built on top of UINavigationController
+iOS Slide Menu built on top of UINavigationController.
+
+Features: 
+- Righ Menu
+- Left Menu
+- Configurable Buttons
+- Allows Enable/Disable menu by implmenting delegate methods
+- Tap/Swipe gesture recognizer to Open/Close the Menus
 
 Setup
 ---------
