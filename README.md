@@ -30,7 +30,7 @@ Switch Between ViewControllers
 Let's say a menu item was selected
 ```
 SomeViewController *vc = [[SomeViewController alloc] init];
-[[SlideNavigationController sharedInstance] switchViewController:vc withCompletion:nil];
+[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
 ```
 Configuring Left and Right menu for different Viewcontrollers
 ---------
@@ -41,7 +41,7 @@ Configuring Left and Right menu for different Viewcontrollers
 ```
 @implementation MyViewController
 
-- (BOOL)slideNavigationControllerShoulDSisplayLeftMenu
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu
 {
         return YES;
 }
