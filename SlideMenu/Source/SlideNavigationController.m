@@ -80,7 +80,7 @@ static SlideNavigationController *singletonInstance;
 
 #pragma mark - Public Methods -
 
-- (void)switchViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
+- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
 {
 	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
 	{
@@ -207,8 +207,6 @@ static SlideNavigationController *singletonInstance;
 		{
 			return YES;
 		}
-		
-		return NO;
 	}
 	
 	return NO;
@@ -279,13 +277,9 @@ static SlideNavigationController *singletonInstance;
 {
 	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
 		viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
-	else
-		viewController.navigationItem.leftBarButtonItem = nil;
 	
 	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
 		viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
-	else
-		viewController.navigationItem.rightBarButtonItem = nil;
 }
 
 #pragma mark - IBActions -

@@ -13,7 +13,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="mAB-md-uek" kind="relationship" relationship="rootViewController" id="z8d-Ml-dpq"/>
-                        <segue destination="nrg-5w-bbF" kind="push" id="VVC-UO-FWZ"/>
+                        <segue destination="nrg-5w-bbF" kind="push" identifier="ProfileSegue" id="VVC-UO-FWZ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Qg-wo-U2C" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -38,7 +38,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Tha-f2-JWx" kind="push" id="jGs-V7-na4"/>
+                                    <segue destination="Tha-f2-JWx" kind="push" identifier="NoMenuSegue" id="jGs-V7-na4"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -63,7 +63,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="No Menu" id="k71-Cl-mOP"/>
+                    <navigationItem key="navigationItem" title="No Menu" id="k71-Cl-mOP">
+                        <barButtonItem key="rightBarButtonItem" id="NgO-HE-8LY">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="nE8-Dp-UZR">
+                                <rect key="frame" x="220" y="6" width="95" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="Seg 1"/>
+                                    <segment title="Seg 2"/>
+                                </segments>
+                            </segmentedControl>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LfU-9k-SWv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -87,7 +98,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BLR-mt-TZ9" kind="push" id="yr9-GK-Pwl"/>
+                                    <segue destination="BLR-mt-TZ9" kind="push" identifier="RightMenuOnlySegue" id="yr9-GK-Pwl"/>
                                 </connections>
                             </button>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="liN-HX-4nb">

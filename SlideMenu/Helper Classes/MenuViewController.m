@@ -62,7 +62,7 @@
 			break;
 	}
 	
-	[[SlideNavigationController sharedInstance] switchViewController:vc withCompletion:nil];
+	[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
 }
 
 @end
