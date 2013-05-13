@@ -23,6 +23,7 @@ typedef  enum{
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
 
 @property (nonatomic, assign) BOOL avoidSwitchingToSameClassViewController;
+@property (nonatomic, assign) BOOL enableSwipeGesture;
 @property (nonatomic, strong) UIViewController *righMenu;
 @property (nonatomic, strong) UIViewController *leftMenu;
 @property (nonatomic, strong) UIBarButtonItem *leftbarButtonItem;

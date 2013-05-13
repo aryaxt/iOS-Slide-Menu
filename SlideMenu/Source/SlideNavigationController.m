@@ -22,6 +22,7 @@
 @synthesize draggingPoint;
 @synthesize leftbarButtonItem;
 @synthesize rightBarButtonItem;
+@synthesize enableSwipeGesture;
 
 #define MENU_OFFSET 60
 #define MENU_SLIDE_ANIMATION_DURATION .3
@@ -75,7 +76,7 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.shouldRasterize = YES;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
-	[self.view addGestureRecognizer:self.panRecognizer];
+	[self setEnableSwipeGesture:YES];
 }
 
 #pragma mark - Public Methods -
@@ -426,6 +427,20 @@ static SlideNavigationController *singletonInstance;
 	}
 	
 	return panRecognizer;
+}
+
+- (void)setEnableSwipeGesture:(BOOL)markEnableSwipeGesture
+{
+	enableSwipeGesture = markEnableSwipeGesture;
+	
+	if (enableSwipeGesture)
+	{
+		[self.view addGestureRecognizer:self.panRecognizer];
+	}
+	else
+	{
+		[self.view removeGestureRecognizer:self.panRecognizer];
+	}
 }
 
 @end
