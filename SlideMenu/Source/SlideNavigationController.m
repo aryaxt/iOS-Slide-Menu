@@ -350,7 +350,6 @@ static SlideNavigationController *singletonInstance;
 		
 		self.draggingPoint = translation;
 		
-		//
 		if (rect.origin.x > 0)
 		{
 			[self.righMenu.view removeFromSuperview];
@@ -392,7 +391,10 @@ static SlideNavigationController *singletonInstance;
 				}
 				else
 				{
-					[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
+					Menu menu = (velocity.x > 0) ? MenuLeft : MenuRight;
+					
+					if ([self shouldDisplayMenu:menu forViewController:self.visibleViewController])
+						[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
 				}
 			}
 		}
