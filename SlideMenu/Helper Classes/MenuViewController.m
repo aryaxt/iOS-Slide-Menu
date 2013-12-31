@@ -15,7 +15,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 3;
+	return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -25,15 +25,19 @@
 	switch (indexPath.row)
 	{
 		case 0:
-			cell.detailTextLabel.text = @"Home";
+			cell.textLabel.text = @"Home";
 			break;
 			
 		case 1:
-			cell.detailTextLabel.text = @"Profile";
+			cell.textLabel.text = @"Profile";
 			break;
 			
 		case 2:
-			cell.detailTextLabel.text = @"Friends";
+			cell.textLabel.text = @"Friends";
+			break;
+			
+		case 3:
+			cell.textLabel.text = @"Sign Out";
 			break;
 	}
 	
@@ -58,7 +62,12 @@
 			break;
 			
 		case 2:
-			vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"ProfileViewController"];
+			vc = [mainStoryboard instantiateViewControllerWithIdentifier: @"FriendsViewController"];
+			break;
+			
+		case 3:
+			[[SlideNavigationController sharedInstance] popToRootViewControllerAnimated:YES];
+			return;
 			break;
 	}
 	
