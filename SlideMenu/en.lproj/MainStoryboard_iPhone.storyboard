@@ -146,8 +146,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="huN-S6-yGa"/>
                     <connections>
-                        <segue destination="nrg-5w-bbF" kind="push" identifier="" id="Rkp-YM-Gz0"/>
-                        <segue destination="Lbt-nV-gfv" kind="push" id="08n-QA-L1b"/>
+                        <segue destination="nrg-5w-bbF" kind="push" identifier="FakeSegue" id="Rkp-YM-Gz0"/>
+                        <segue destination="Lbt-nV-gfv" kind="push" identifier="FakeSegue2" id="08n-QA-L1b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QC9-GK-F3v" userLabel="First Responder" sceneMemberID="firstResponder"/>
