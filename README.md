@@ -9,6 +9,8 @@ Features:
 - Configurable Buttons
 - Allows Enable/Disable menu by implmenting delegate methods
 - Tap/Swipe gesture recognizer to Open/Close the Menus
+- 
+![alt tag](https://raw.github.com/aryaxt/iOS-Slide-Menu/master/screenshot.png)
 
 Setup
 ---------
