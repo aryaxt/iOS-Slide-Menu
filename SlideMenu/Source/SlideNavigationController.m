@@ -34,19 +34,12 @@
 @end
 
 @implementation SlideNavigationController
-@synthesize righMenu;
-@synthesize leftMenu;
-@synthesize tapRecognizer;
-@synthesize panRecognizer;
-@synthesize draggingPoint;
-@synthesize leftbarButtonItem;
-@synthesize rightBarButtonItem;
-@synthesize enableSwipeGesture;
 
 #define MENU_OFFSET 60
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .1
 #define MENU_IMAGE @"menu-button"
+#define DegreesToRadians(degrees) (degrees * M_PI / 180)
 
 static SlideNavigationController *singletonInstance;
 
@@ -95,6 +88,16 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.shouldRasterize = YES;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
+	[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidChangeStatusBarFrameNotification
+													  object:nil
+													   queue:nil
+												  usingBlock:^(NSNotification *note){
+													  UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+													  // Do more resizing on menus
+													  [self.leftMenu.view setTransform:[self transformForOrientation:orientation]];
+													  [self.righMenu.view setTransform:[self transformForOrientation:orientation]];
+	}];
+	
 	[self setEnableSwipeGesture:YES];
 }
 
@@ -116,7 +119,7 @@ static SlideNavigationController *singletonInstance;
 							  delay:0
 							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
-			rect.origin.x = (rect.origin.x > 0) ? rect.size.width : -1*rect.size.width;
+			[self moveHorizontallyToLocation:(rect.origin.x > 0) ? rect.size.width : -1*rect.size.width];
 			self.view.frame = rect;
 		} completion:^(BOOL finished) {
 			
@@ -207,7 +210,14 @@ static SlideNavigationController *singletonInstance;
 
 - (BOOL)isMenuOpen
 {
-	return (self.view.frame.origin.x == 0) ? NO : YES;
+	if (UIInterfaceOrientationIsLandscape([UIDevice currentDevice].orientation))
+	{
+		return (self.view.frame.origin.y == 0) ? NO : YES;
+	}
+	else
+	{
+		return (self.view.frame.origin.x == 0) ? NO : YES;
+	}
 }
 
 - (BOOL)shouldDisplayMenu:(Menu)menu forViewController:(UIViewController *)vc
@@ -253,7 +263,8 @@ static SlideNavigationController *singletonInstance;
 					 animations:^{
 						 CGRect rect = self.view.frame;
 						 rect.origin.x = (menu == MenuLeft) ? (rect.size.width - MENU_OFFSET) : ((rect.size.width - MENU_OFFSET )* -1);
-						 self.view.frame = rect;
+						 [self moveHorizontallyToLocation:rect.origin.x];
+						 //self.view.frame = rect;
 					 }
 					 completion:^(BOOL finished) {
 						 if (completion)
@@ -276,7 +287,8 @@ static SlideNavigationController *singletonInstance;
 					 animations:^{
 						 CGRect rect = self.view.frame;
 						 rect.origin.x = 0;
-						 self.view.frame = rect;
+						 [self moveHorizontallyToLocation:rect.origin.x];
+						 //self.view.frame = rect;
 					 }
 					 completion:^(BOOL finished) {
 						 if (completion)
@@ -287,6 +299,63 @@ static SlideNavigationController *singletonInstance;
 - (void)closeMenuWithCompletion:(void (^)())completion
 {
 	[self closeMenuWithDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
+}
+
+- (CGAffineTransform)transformForOrientation:(UIInterfaceOrientation)orientation
+{
+    switch (orientation)
+	{
+        case UIInterfaceOrientationLandscapeLeft:
+            return CGAffineTransformMakeRotation(-DegreesToRadians(90));
+			
+        case UIInterfaceOrientationLandscapeRight:
+            return CGAffineTransformMakeRotation(DegreesToRadians(90));
+			
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return CGAffineTransformMakeRotation(DegreesToRadians(180));
+			
+        case UIInterfaceOrientationPortrait:
+        default:
+            return CGAffineTransformMakeRotation(DegreesToRadians(0));
+    }
+}
+
+- (void)moveHorizontallyToLocation:(CGFloat)location
+{
+	CGRect rect = self.view.frame;
+	UIInterfaceOrientation orientation = [UIDevice currentDevice].orientation;
+	
+	if (UIInterfaceOrientationIsLandscape(orientation))
+	{
+		rect.origin.x = 0;
+		rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
+	}
+	else
+	{
+		rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
+		rect.origin.y = 0;
+	}
+	
+	self.view.frame = rect;
+}
+
+- (CGFloat)horizontalLocation
+{
+	CGRect rect = self.view.frame;
+	UIInterfaceOrientation orientation = [UIDevice currentDevice].orientation;
+	
+	if (UIInterfaceOrientationIsLandscape(orientation))
+	{
+		return (orientation == UIInterfaceOrientationLandscapeRight)
+			? rect.origin.y
+			: rect.origin.y*-1;
+	}
+	else
+	{
+		return (orientation == UIInterfaceOrientationPortrait)
+			? rect.origin.x
+			: rect.origin.x*-1;
+	}
 }
 
 #pragma mark - UINavigationControllerDelegate Methods -
@@ -342,15 +411,16 @@ static SlideNavigationController *singletonInstance;
 	else if (aPanRecognizer.state == UIGestureRecognizerStateChanged)
 	{
 		NSInteger movement = translation.x - self.draggingPoint.x;
-		CGRect rect = self.view.frame;
-		rect.origin.x += movement;
+		NSInteger newHorizontalLocation = [self horizontalLocation];
+		newHorizontalLocation += movement;
 		
-		if (rect.origin.x >= self.minXForDragging && rect.origin.x <= self.maxXForDragging)
-			self.view.frame = rect;
+		if (newHorizontalLocation >= self.minXForDragging && newHorizontalLocation <= self.maxXForDragging)
+			[self moveHorizontallyToLocation:newHorizontalLocation];
+			//self.view.frame = rect;
 		
 		self.draggingPoint = translation;
 		
-		if (rect.origin.x > 0)
+		if (newHorizontalLocation > 0)
 		{
 			[self.righMenu.view removeFromSuperview];
 			[self.view.window insertSubview:self.leftMenu.view atIndex:0];
@@ -363,7 +433,7 @@ static SlideNavigationController *singletonInstance;
 	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
 	{
-        NSInteger currentX = self.view.frame.origin.x;
+        NSInteger currentX = [self horizontalLocation];
 		NSInteger currentXOffset = (currentX > 0) ? currentX : currentX * -1;
 		NSInteger positiveVelocity = (velocity.x > 0) ? velocity.x : velocity.x * -1;
 		
@@ -432,29 +502,29 @@ static SlideNavigationController *singletonInstance;
 
 - (UITapGestureRecognizer *)tapRecognizer
 {
-	if (!tapRecognizer)
+	if (!_tapRecognizer)
 	{
-		tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
+		_tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
 	}
 	
-	return tapRecognizer;
+	return _tapRecognizer;
 }
 
 - (UIPanGestureRecognizer *)panRecognizer
 {
-	if (!panRecognizer)
+	if (!_panRecognizer)
 	{
-		panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+		_panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
 	}
 	
-	return panRecognizer;
+	return _panRecognizer;
 }
 
 - (void)setEnableSwipeGesture:(BOOL)markEnableSwipeGesture
 {
-	enableSwipeGesture = markEnableSwipeGesture;
+	_enableSwipeGesture = markEnableSwipeGesture;
 	
-	if (enableSwipeGesture)
+	if (_enableSwipeGesture)
 	{
 		[self.view addGestureRecognizer:self.panRecognizer];
 	}
