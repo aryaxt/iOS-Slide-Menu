@@ -50,14 +50,9 @@ static SlideNavigationController *singletonInstance;
 	return singletonInstance;
 }
 
-- (void)awakeFromNib
+- (id)init
 {
-	[self setup];
-}
-
-- (id)initWithRootViewController:(UIViewController *)rootViewController
-{
-	if (self = [super initWithRootViewController:rootViewController])
+	if (self = [super init])
 	{
 		[self setup];
 	}
@@ -65,9 +60,19 @@ static SlideNavigationController *singletonInstance;
 	return self;
 }
 
-- (id)init
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super init])
+	if (self = [super initWithCoder:aDecoder])
+	{
+		[self setup];
+	}
+	
+	return self;
+}
+
+- (id)initWithRootViewController:(UIViewController *)rootViewController
+{
+	if (self = [super initWithRootViewController:rootViewController])
 	{
 		[self setup];
 	}
@@ -88,17 +93,20 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.shouldRasterize = YES;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
-	[[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidChangeStatusBarFrameNotification
-													  object:nil
-													   queue:nil
-												  usingBlock:^(NSNotification *note){
-													  UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-													  // Do more resizing on menus
-													  [self.leftMenu.view setTransform:[self transformForOrientation:orientation]];
-													  [self.righMenu.view setTransform:[self transformForOrientation:orientation]];
-	}];
-	
 	[self setEnableSwipeGesture:YES];
+}
+
+- (void)viewWillLayoutSubviews
+{
+	[super viewWillLayoutSubviews];
+	
+	CGAffineTransform transform = self.view.transform;
+	self.leftMenu.view.transform = transform;
+	self.righMenu.view.transform = transform;
+	
+	CGRect rect = self.view.frame;
+	self.leftMenu.view.frame = rect;
+	self.righMenu.view.frame = rect;
 }
 
 #pragma mark - Public Methods -
@@ -210,7 +218,7 @@ static SlideNavigationController *singletonInstance;
 
 - (BOOL)isMenuOpen
 {
-	if (UIInterfaceOrientationIsLandscape([UIDevice currentDevice].orientation))
+	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 	{
 		return (self.view.frame.origin.y == 0) ? NO : YES;
 	}
@@ -301,29 +309,10 @@ static SlideNavigationController *singletonInstance;
 	[self closeMenuWithDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
 }
 
-- (CGAffineTransform)transformForOrientation:(UIInterfaceOrientation)orientation
-{
-    switch (orientation)
-	{
-        case UIInterfaceOrientationLandscapeLeft:
-            return CGAffineTransformMakeRotation(-DegreesToRadians(90));
-			
-        case UIInterfaceOrientationLandscapeRight:
-            return CGAffineTransformMakeRotation(DegreesToRadians(90));
-			
-        case UIInterfaceOrientationPortraitUpsideDown:
-            return CGAffineTransformMakeRotation(DegreesToRadians(180));
-			
-        case UIInterfaceOrientationPortrait:
-        default:
-            return CGAffineTransformMakeRotation(DegreesToRadians(0));
-    }
-}
-
 - (void)moveHorizontallyToLocation:(CGFloat)location
 {
 	CGRect rect = self.view.frame;
-	UIInterfaceOrientation orientation = [UIDevice currentDevice].orientation;
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
 	if (UIInterfaceOrientationIsLandscape(orientation))
 	{
@@ -342,7 +331,7 @@ static SlideNavigationController *singletonInstance;
 - (CGFloat)horizontalLocation
 {
 	CGRect rect = self.view.frame;
-	UIInterfaceOrientation orientation = [UIDevice currentDevice].orientation;
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
 	if (UIInterfaceOrientationIsLandscape(orientation))
 	{
