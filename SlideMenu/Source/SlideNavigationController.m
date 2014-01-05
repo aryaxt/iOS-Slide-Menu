@@ -41,6 +41,7 @@
 #define MENU_SHADOW_RADIUS 10
 #define MENU_SHADOW_OPACITY 1
 #define MENU_DEFAULT_SLIDE_OFFSET 60
+#define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1000
 
 static SlideNavigationController *singletonInstance;
 
@@ -112,12 +113,6 @@ static SlideNavigationController *singletonInstance;
 	self.rightMenu.view.frame = rect;
 }
 
-- (void)viewDidLayoutSubviews
-{
-	[super viewDidLayoutSubviews];
-	
-}
-
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -142,16 +137,15 @@ static SlideNavigationController *singletonInstance;
 		return;
 	}
 	
-	__block CGRect rect = self.view.frame;
-	
 	if ([self isMenuOpen])
 	{
 		[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
 							  delay:0
 							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
-			[self moveHorizontallyToLocation:(rect.origin.x > 0) ? rect.size.width : -1*rect.size.width];
-			self.view.frame = rect;
+			CGFloat width = self.horizontalSize;
+			CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
+			[self moveHorizontallyToLocation:moveLocation];
 		} completion:^(BOOL finished) {
 			
 			[super popToRootViewControllerAnimated:NO];
@@ -241,14 +235,7 @@ static SlideNavigationController *singletonInstance;
 
 - (BOOL)isMenuOpen
 {
-	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-	{
-		return (self.view.frame.origin.y == 0) ? NO : YES;
-	}
-	else
-	{
-		return (self.view.frame.origin.x == 0) ? NO : YES;
-	}
+	return (self.horizontalLocation == 0) ? NO : YES;
 }
 
 - (BOOL)shouldDisplayMenu:(Menu)menu forViewController:(UIViewController *)vc
@@ -293,10 +280,9 @@ static SlideNavigationController *singletonInstance;
 						options:UIViewAnimationOptionCurveEaseOut
 					 animations:^{
 						 CGRect rect = self.view.frame;
-						 CGFloat width = (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) ? rect.size.height : rect.size.width;
+						 CGFloat width = self.horizontalSize;
 						 rect.origin.x = (menu == MenuLeft) ? (width - self.slideOffset) : ((width - self.slideOffset )* -1);
 						 [self moveHorizontallyToLocation:rect.origin.x];
-						 //self.view.frame = rect;
 					 }
 					 completion:^(BOOL finished) {
 						 if (completion)
@@ -320,7 +306,6 @@ static SlideNavigationController *singletonInstance;
 						 CGRect rect = self.view.frame;
 						 rect.origin.x = 0;
 						 [self moveHorizontallyToLocation:rect.origin.x];
-						 //self.view.frame = rect;
 					 }
 					 completion:^(BOOL finished) {
 						 if (completion)
@@ -368,6 +353,21 @@ static SlideNavigationController *singletonInstance;
 		return (orientation == UIInterfaceOrientationPortrait)
 			? rect.origin.x
 			: rect.origin.x*-1;
+	}
+}
+
+- (CGFloat)horizontalSize
+{
+	CGRect rect = self.view.frame;
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
+	
+	if (UIInterfaceOrientationIsLandscape(orientation))
+	{
+		return rect.size.height;
+	}
+	else
+	{
+		return rect.size.width;
 	}
 }
 
@@ -419,8 +419,6 @@ static SlideNavigationController *singletonInstance;
 
 - (void)panDetected:(UIPanGestureRecognizer *)aPanRecognizer
 {
-	static NSInteger velocityForFollowingDirection = 1000;
-	
 	CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
     CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
 	
@@ -436,7 +434,6 @@ static SlideNavigationController *singletonInstance;
 		
 		if (newHorizontalLocation >= self.minXForDragging && newHorizontalLocation <= self.maxXForDragging)
 			[self moveHorizontallyToLocation:newHorizontalLocation];
-			//self.view.frame = rect;
 		
 		self.draggingPoint = translation;
 		
@@ -458,7 +455,7 @@ static SlideNavigationController *singletonInstance;
 		NSInteger positiveVelocity = (velocity.x > 0) ? velocity.x : velocity.x * -1;
 		
 		// If the speed is high enough follow direction
-		if (positiveVelocity >= velocityForFollowingDirection)
+		if (positiveVelocity >= MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION)
 		{
 			// Moving Right
 			if (velocity.x > 0)
@@ -502,7 +499,7 @@ static SlideNavigationController *singletonInstance;
 {
 	if ([self shouldDisplayMenu:MenuRight forViewController:self.topViewController])
 	{
-		return (self.view.frame.size.width - self.slideOffset)  * -1;
+		return (self.horizontalSize - self.slideOffset)  * -1;
 	}
 	
 	return 0;
@@ -512,7 +509,7 @@ static SlideNavigationController *singletonInstance;
 {
 	if ([self shouldDisplayMenu:MenuLeft forViewController:self.topViewController])
 	{
-		return self.view.frame.size.width - self.slideOffset;
+		return self.horizontalSize - self.slideOffset;
 	}
 	
 	return 0;
