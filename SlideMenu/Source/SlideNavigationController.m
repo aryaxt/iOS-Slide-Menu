@@ -35,11 +35,9 @@
 
 @implementation SlideNavigationController
 
-#define MENU_OFFSET 60
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .1
 #define MENU_IMAGE @"menu-button"
-#define DegreesToRadians(degrees) (degrees * M_PI / 180)
 
 static SlideNavigationController *singletonInstance;
 
@@ -82,6 +80,8 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setup
 {
+	self.landscapeSlideOffset = 60;
+	self.portraitSlideOffset = 60;
 	self.avoidSwitchingToSameClassViewController = YES;
 	singletonInstance = self;
 	self.delegate = self;
@@ -270,7 +270,8 @@ static SlideNavigationController *singletonInstance;
 						options:UIViewAnimationOptionCurveEaseOut
 					 animations:^{
 						 CGRect rect = self.view.frame;
-						 rect.origin.x = (menu == MenuLeft) ? (rect.size.width - MENU_OFFSET) : ((rect.size.width - MENU_OFFSET )* -1);
+						 CGFloat width = (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) ? rect.size.height : rect.size.width;
+						 rect.origin.x = (menu == MenuLeft) ? (width - self.slideOffset) : ((width - self.slideOffset )* -1);
 						 [self moveHorizontallyToLocation:rect.origin.x];
 						 //self.view.frame = rect;
 					 }
@@ -358,6 +359,13 @@ static SlideNavigationController *singletonInstance;
 	
 	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
 		viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+}
+
+- (CGFloat)slideOffset
+{
+	return (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+		? self.landscapeSlideOffset
+		: self.portraitSlideOffset;
 }
 
 #pragma mark - IBActions -
@@ -471,7 +479,7 @@ static SlideNavigationController *singletonInstance;
 {
 	if ([self shouldDisplayMenu:MenuRight forViewController:self.topViewController])
 	{
-		return (self.view.frame.size.width - MENU_OFFSET)  * -1;
+		return (self.view.frame.size.width - self.slideOffset)  * -1;
 	}
 	
 	return 0;
@@ -481,7 +489,7 @@ static SlideNavigationController *singletonInstance;
 {
 	if ([self shouldDisplayMenu:MenuLeft forViewController:self.topViewController])
 	{
-		return self.view.frame.size.width - MENU_OFFSET;
+		return self.view.frame.size.width - self.slideOffset;
 	}
 	
 	return 0;

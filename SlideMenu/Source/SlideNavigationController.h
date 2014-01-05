@@ -47,6 +47,8 @@ typedef  enum{
 @property (nonatomic, strong) UIViewController *leftMenu;
 @property (nonatomic, strong) UIBarButtonItem *leftbarButtonItem;
 @property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
+@property (nonatomic, assign) CGFloat portraitSlideOffset;
+@property (nonatomic, assign) CGFloat landscapeSlideOffset;
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
