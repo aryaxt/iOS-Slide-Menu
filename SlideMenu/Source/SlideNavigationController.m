@@ -111,6 +111,8 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	self.leftMenu.view.frame = rect;
 	self.rightMenu.view.frame = rect;
+	
+	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
