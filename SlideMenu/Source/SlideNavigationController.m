@@ -36,12 +36,12 @@
 @implementation SlideNavigationController
 
 #define MENU_SLIDE_ANIMATION_DURATION .3
-#define MENU_QUICK_SLIDE_ANIMATION_DURATION .1
+#define MENU_QUICK_SLIDE_ANIMATION_DURATION .2
 #define MENU_IMAGE @"menu-button"
 #define MENU_SHADOW_RADIUS 10
 #define MENU_SHADOW_OPACITY 1
 #define MENU_DEFAULT_SLIDE_OFFSET 60
-#define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1000
+#define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1300
 
 static SlideNavigationController *singletonInstance;
 
@@ -459,12 +459,15 @@ static SlideNavigationController *singletonInstance;
 		// If the speed is high enough follow direction
 		if (positiveVelocity >= MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION)
 		{
+			Menu menu = (velocity.x > 0) ? MenuLeft : MenuRight;
+			
 			// Moving Right
 			if (velocity.x > 0)
 			{
 				if (currentX > 0)
 				{
-					[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withCompletion:nil];
+					if ([self shouldDisplayMenu:menu forViewController:self.visibleViewController])
+						[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
 				}
 				else
 				{
@@ -476,12 +479,10 @@ static SlideNavigationController *singletonInstance;
 			{
 				if (currentX > 0)
 				{
-					[self closeMenuWithCompletion:nil];
+					[self closeMenuWithDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
 				}
 				else
 				{
-					Menu menu = (velocity.x > 0) ? MenuLeft : MenuRight;
-					
 					if ([self shouldDisplayMenu:menu forViewController:self.visibleViewController])
 						[self openMenu:(velocity.x > 0) ? MenuLeft : MenuRight withDuration:MENU_QUICK_SLIDE_ANIMATION_DURATION andCompletion:nil];
 				}
