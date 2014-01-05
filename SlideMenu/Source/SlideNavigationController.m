@@ -38,6 +38,9 @@
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .1
 #define MENU_IMAGE @"menu-button"
+#define MENU_SHADOW_RADIUS 10
+#define MENU_SHADOW_OPACITY 1
+#define MENU_DEFAULT_SLIDE_OFFSET 60
 
 static SlideNavigationController *singletonInstance;
 
@@ -80,16 +83,16 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setup
 {
-	self.landscapeSlideOffset = 60;
-	self.portraitSlideOffset = 60;
+	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
+	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.avoidSwitchingToSameClassViewController = YES;
 	singletonInstance = self;
 	self.delegate = self;
 	
 	self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-	self.view.layer.shadowRadius = 10;
+	self.view.layer.shadowRadius = MENU_SHADOW_RADIUS;
+	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
 	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
-	self.view.layer.shadowOpacity = 1;
 	self.view.layer.shouldRasterize = YES;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
@@ -102,11 +105,31 @@ static SlideNavigationController *singletonInstance;
 	
 	CGAffineTransform transform = self.view.transform;
 	self.leftMenu.view.transform = transform;
-	self.righMenu.view.transform = transform;
+	self.rightMenu.view.transform = transform;
 	
 	CGRect rect = self.view.frame;
 	self.leftMenu.view.frame = rect;
-	self.righMenu.view.frame = rect;
+	self.rightMenu.view.frame = rect;
+}
+
+- (void)viewDidLayoutSubviews
+{
+	[super viewDidLayoutSubviews];
+	
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
+	self.view.layer.shadowOpacity = 0;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+	
+	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
 }
 
 #pragma mark - Public Methods -
@@ -256,13 +279,13 @@ static SlideNavigationController *singletonInstance;
 	
 	if (menu == MenuLeft)
 	{
-		[self.righMenu.view removeFromSuperview];
+		[self.rightMenu.view removeFromSuperview];
 		[self.view.window insertSubview:self.leftMenu.view atIndex:0];
 	}
 	else
 	{
 		[self.leftMenu.view removeFromSuperview];
-		[self.view.window insertSubview:self.righMenu.view atIndex:0];
+		[self.view.window insertSubview:self.rightMenu.view atIndex:0];
 	}
 	
 	[UIView animateWithDuration:duration
@@ -419,13 +442,13 @@ static SlideNavigationController *singletonInstance;
 		
 		if (newHorizontalLocation > 0)
 		{
-			[self.righMenu.view removeFromSuperview];
+			[self.rightMenu.view removeFromSuperview];
 			[self.view.window insertSubview:self.leftMenu.view atIndex:0];
 		}
 		else
 		{
 			[self.leftMenu.view removeFromSuperview];
-			[self.view.window insertSubview:self.righMenu.view atIndex:0];
+			[self.view.window insertSubview:self.rightMenu.view atIndex:0];
 		}
 	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
