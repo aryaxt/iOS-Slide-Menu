@@ -490,7 +490,7 @@ static SlideNavigationController *singletonInstance;
 		}
 		else
 		{
-			if (currentXOffset < self.view.frame.size.width/2)
+			if (currentXOffset < (self.horizontalSize - self.slideOffset)/2)
 				[self closeMenuWithCompletion:nil];
 			else
 				[self openMenu:(currentX > 0) ? MenuLeft : MenuRight withCompletion:nil];
