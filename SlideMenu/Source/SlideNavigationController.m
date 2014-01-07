@@ -396,6 +396,7 @@ static SlideNavigationController *singletonInstance;
 	if (self.menuRevealAnimation == MenuRevealAnimationFade || self.menuRevealAnimation == MenuRevealAnimationSlideAndFade)
 	{
 		menuViewController.view.alpha = self.menuRevealAnimationFadeMaximumAlpha;
+		self.menuRevealFadeAnimationView.frame = menuViewController.view.bounds;
 	}
 	
 	if (self.menuRevealAnimation == MenuRevealAnimationSlide || self.menuRevealAnimation == MenuRevealAnimationSlideAndFade)
