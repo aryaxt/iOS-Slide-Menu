@@ -46,12 +46,6 @@
 #define MENU_REVEAL_ANIMATION_DEFAULT_SLIDE_MOVEMENT 100
 #define MENU_REVEAL_ANIMATION_DEFAULT_FADE_MAXIMUM_ALPHA .9
 
-- (NSUInteger)supportedInterfaceOrientations
-{
-    //return (UIInterfaceOrientationMaskAll);
-    return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortraitUpsideDown);
-}
-
 static SlideNavigationController *singletonInstance;
 
 #pragma mark - Initialization -
