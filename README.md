@@ -22,8 +22,6 @@ Setup
 	
 	[SlideNavigationController sharedInstance].righMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
-	[SlideNavigationController sharedInstance].landscapeSlideOffset = 400;
-	[SlideNavigationController sharedInstance].portraitSlideOffset = 60;
 	
     // Override point for customization after application launch.
     return YES;
@@ -57,3 +55,35 @@ Configuring Left and Right menu for different Viewcontrollers
 
 @end
 ```
+
+Configuring menu offset
+---------
+Menu offset can be configured for both portrait and landscape mode
+```
+[SlideNavigationController sharedInstance].landscapeSlideOffset = 400;
+[SlideNavigationController sharedInstance].portraitSlideOffset = 60;
+```
+Menu Reveal Animations
+---------
+There are three types of animations that can be applied when revealing the menu
+
+```
+MenuAnimationNone
+MenuAnimationFade
+MenuAnimationSlide
+MenuAnimationSlideAndFade
+
+[SlideNavigationController sharedInstance].menuRevealAnimation = MenuAnimationSlideAndFade;
+```
+
+The opacity applied during a fade animation can be configured using a property on SlideNavigationController called menuRevealAnimationFadeMaximumAlpha. This value can be anywhere between 0 and 1, and it represents the darkes a menu can become. The color of fade layer can also be configured using the property called menuRevealAnimationFadeColor
+```
+[SlideNavigationController sharedInstance].menuRevealAnimationFadeColor = [UIColor greenColor];
+[SlideNavigationController sharedInstance].menuRevealAnimationFadeMaximumAlpha = .5;
+```
+
+The movement of menu during a slide animation can also be configured
+```
+[SlideNavigationController sharedInstance].menuRevealAnimationSlideMovement = 50;
+```
+
