@@ -22,6 +22,8 @@ Setup
 	
 	[SlideNavigationController sharedInstance].righMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
+	[SlideNavigationController sharedInstance].landscapeSlideOffset = 400;
+	[SlideNavigationController sharedInstance].portraitSlideOffset = 60;
 	
     // Override point for customization after application launch.
     return YES;
