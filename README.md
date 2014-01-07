@@ -68,12 +68,12 @@ Menu Reveal Animations
 There are three types of animations that can be applied when revealing the menu
 
 ```
-MenuAnimationNone
-MenuAnimationFade
-MenuAnimationSlide
-MenuAnimationSlideAndFade
+MenuRevealAnimationNone
+MenuRevealAnimationFade
+MenuRevealAnimationSlide
+MenuRevealAnimationSlideAndFade
 
-[SlideNavigationController sharedInstance].menuRevealAnimation = MenuAnimationSlideAndFade;
+[SlideNavigationController sharedInstance].menuRevealAnimation = MenuRevealAnimationSlideAndFade;
 ```
 
 The opacity applied during a fade animation can be configured using a property on SlideNavigationController called menuRevealAnimationFadeMaximumAlpha. This value can be anywhere between 0 and 1, and it represents the darkes a menu can become. The color of fade layer can also be configured using the property called menuRevealAnimationFadeColor
