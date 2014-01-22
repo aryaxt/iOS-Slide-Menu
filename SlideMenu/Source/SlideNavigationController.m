@@ -45,7 +45,7 @@
 #define MENU_DEFAULT_SLIDE_OFFSET 60
 #define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1200
 #define MENU_REVEAL_ANIMATION_DEFAULT_SLIDE_MOVEMENT 100
-#define MENU_REVEAL_ANIMATION_DEFAULT_FADE_MAXIMUM_ALPHA .7
+#define MENU_REVEAL_ANIMATION_DEFAULT_FADE_MAXIMUM_ALPHA .8
 #define STATUS_BAR_HEIGHT 20
 
 static SlideNavigationController *singletonInstance;
@@ -111,12 +111,17 @@ static SlideNavigationController *singletonInstance;
 - (void)viewWillLayoutSubviews
 {
 	[super viewWillLayoutSubviews];
-
+	
+	// Update shadow size
+	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
+	// Update rotation animation
+	[self updateMenuFrameAndTransformAccordingToOrientation];
 	
 	// Avoid an ugnly shadow in background while rotating
 	self.view.layer.shadowOpacity = 0;
@@ -126,6 +131,14 @@ static SlideNavigationController *singletonInstance;
 {
 	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	
+	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+	
+	// we set shadowOpacity to 0 in willRotateToInterfaceOrientation, after the rotation we want to add the shadow back
+	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
+}
+
+- (void)updateMenuFrameAndTransformAccordingToOrientation
+{
 	CGAffineTransform transform = self.view.transform;
 	self.leftMenu.view.transform = transform;
 	self.rightMenu.view.transform = transform;
@@ -137,11 +150,6 @@ static SlideNavigationController *singletonInstance;
 	// Move menus accordingly to avoid a weird animation during opening/closing menu after a rotation
 	[self updateMenuAnimation:MenuLeft];
 	[self updateMenuAnimation:MenuRight];
-	
-	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
-	
-	// we set shadowOpacity to 0 in willRotateToInterfaceOrientation, after the rotation we want to add the shadow back
-	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
 }
 
 #pragma mark - Public Methods -
@@ -311,7 +319,7 @@ static SlideNavigationController *singletonInstance;
 {
 	[self.topViewController.view addGestureRecognizer:self.tapRecognizer];
 	
-	[self prepareMenuForReveal:menu];
+	[self prepareMenuForReveal:menu forcePrepare:NO];
 	
 	[UIView animateWithDuration:duration
 						  delay:0
@@ -427,10 +435,16 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
-- (void)prepareMenuForReveal:(Menu)menu
+- (void)prepareMenuForReveal:(Menu)menu forcePrepare:(BOOL)forcePrepare
 {
+	// If menu is already open don't prepare, unless forcePrepare is set to true
+	if ([self isMenuOpen] && !forcePrepare)
+		return;
+	
 	UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
 	UIViewController *removingMenuViewController = (menu == MenuLeft) ? self.rightMenu : self.leftMenu;
+	
+	[self updateMenuFrameAndTransformAccordingToOrientation];
 	
 	// If already has been added to the view (has superview) it means it has been initialized so avoid reinitializing
 	if (menuViewController.view.superview)
@@ -562,15 +576,25 @@ static SlideNavigationController *singletonInstance;
     CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
 	NSInteger movement = translation.x - self.draggingPoint.x;
 	
-	[self prepareMenuForReveal:(self.horizontalLocation > 0 || (self.horizontalLocation == 0 && translation.x > 0) ) ? MenuLeft : MenuRight];
+	Menu menu = (self.horizontalLocation > 0 || (self.horizontalLocation == 0 && translation.x > 0) ) ? MenuLeft : MenuRight;
 	
     if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
 	{
+		[self prepareMenuForReveal:menu forcePrepare:YES];
 		self.draggingPoint = translation;
     }
 	else if (aPanRecognizer.state == UIGestureRecognizerStateChanged)
 	{
-		NSInteger newHorizontalLocation = [self horizontalLocation];
+		static CGFloat lastHorizontalLocation = 0;
+		CGFloat newHorizontalLocation = [self horizontalLocation];
+		
+		// Force prepare menu when slides quickly between left and right menu
+		if ((lastHorizontalLocation < 0 && newHorizontalLocation > 0) ||
+			(lastHorizontalLocation > 0 && newHorizontalLocation < 0))
+			[self prepareMenuForReveal:menu forcePrepare:YES];
+		
+		lastHorizontalLocation = newHorizontalLocation;
+
 		newHorizontalLocation += movement;
 		
 		if (newHorizontalLocation >= self.minXForDragging && newHorizontalLocation <= self.maxXForDragging)
