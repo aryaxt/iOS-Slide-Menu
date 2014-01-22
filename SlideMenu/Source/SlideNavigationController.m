@@ -288,8 +288,14 @@ static SlideNavigationController *singletonInstance;
 	}
 	else
 	{
-		UIImage *image = [UIImage imageNamed:MENU_IMAGE];
-        return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
+        UIImage *image = [UIImage imageNamed:MENU_IMAGE];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        [button setBounds:CGRectMake(0, 0, 18, 18)];
+        [button setImage:image forState:UIControlStateNormal];
+        [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+        
+        return [[UIBarButtonItem alloc] initWithCustomView:button];
 	}
 }
 
