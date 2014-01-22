@@ -576,12 +576,14 @@ static SlideNavigationController *singletonInstance;
     CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
 	NSInteger movement = translation.x - self.draggingPoint.x;
 	
-	Menu menu = (self.horizontalLocation > 0 || (self.horizontalLocation == 0 && translation.x > 0) ) ? MenuLeft : MenuRight;
+	static Menu lastMenu;
+	Menu menu = (self.horizontalLocation > 0 || (self.horizontalLocation == 0 && movement > 0) ) ? MenuLeft : MenuRight;
 	
     if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
 	{
 		[self prepareMenuForReveal:menu forcePrepare:YES];
 		self.draggingPoint = translation;
+		lastMenu = menu;
     }
 	else if (aPanRecognizer.state == UIGestureRecognizerStateChanged)
 	{
@@ -589,18 +591,18 @@ static SlideNavigationController *singletonInstance;
 		CGFloat newHorizontalLocation = [self horizontalLocation];
 		
 		// Force prepare menu when slides quickly between left and right menu
-		if ((lastHorizontalLocation < 0 && newHorizontalLocation > 0) ||
-			(lastHorizontalLocation > 0 && newHorizontalLocation < 0))
+		if (lastMenu != menu)
 			[self prepareMenuForReveal:menu forcePrepare:YES];
 		
 		lastHorizontalLocation = newHorizontalLocation;
-
+		
 		newHorizontalLocation += movement;
 		
 		if (newHorizontalLocation >= self.minXForDragging && newHorizontalLocation <= self.maxXForDragging)
 			[self moveHorizontallyToLocation:newHorizontalLocation];
 		
 		self.draggingPoint = translation;
+		lastMenu = menu;
 	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
 	{
@@ -647,6 +649,8 @@ static SlideNavigationController *singletonInstance;
 			else
 				[self openMenu:(currentX > 0) ? MenuLeft : MenuRight withCompletion:nil];
 		}
+		
+		lastMenu = -1;
     }
 }
 
