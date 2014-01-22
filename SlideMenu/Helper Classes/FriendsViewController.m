@@ -10,6 +10,10 @@
 
 @implementation FriendsViewController
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+}
 
 - (BOOL)slideNavigationControllerShouldDisplayLeftMenu
 {
@@ -19,6 +23,18 @@
 - (BOOL)slideNavigationControllerShouldDisplayRightMenu
 {
 	return NO;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return 20;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell"];
+	cell.textLabel.text = [NSString stringWithFormat:@"Friend %d", indexPath.row];
+	return cell;
 }
 
 @end
