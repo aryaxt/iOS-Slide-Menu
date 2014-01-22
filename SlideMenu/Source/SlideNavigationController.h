@@ -63,5 +63,10 @@ typedef  enum{
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+- (void)openMenu:(Menu)menu withCompletion:(void (^)())completion;
+- (void)closeMenuWithCompletion:(void (^)())completion;
+- (void)toggleLeftMenu;
+- (void)toggleRightMenu;
+- (BOOL)isMenuOpen;
 
 @end

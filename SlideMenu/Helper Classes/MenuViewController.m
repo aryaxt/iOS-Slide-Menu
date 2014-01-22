@@ -15,7 +15,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 4;
+	return 15;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -38,6 +38,10 @@
 			
 		case 3:
 			cell.textLabel.text = @"Sign Out";
+			break;
+			
+		default:
+			cell.textLabel.text = @"Random Cell";
 			break;
 	}
 	
@@ -69,6 +73,9 @@
 			[[SlideNavigationController sharedInstance] popToRootViewControllerAnimated:YES];
 			return;
 			break;
+			
+		default:
+			return;
 	}
 	
 	[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];

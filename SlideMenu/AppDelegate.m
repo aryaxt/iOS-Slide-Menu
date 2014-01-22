@@ -17,16 +17,22 @@
 	
 	MenuViewController *rightMenu = (MenuViewController*)[mainStoryboard
 													   instantiateViewControllerWithIdentifier: @"MenuViewController"];
-	rightMenu.view.backgroundColor = [UIColor whiteColor];
 	rightMenu.cellIdentifier = @"rightMenuCell";
 	
 	MenuViewController *leftMenu = (MenuViewController*)[mainStoryboard
 														   instantiateViewControllerWithIdentifier: @"MenuViewController"];
-	leftMenu.view.backgroundColor = [UIColor whiteColor];
 	leftMenu.cellIdentifier = @"leftMenuCell";
 	
 	[SlideNavigationController sharedInstance].rightMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
+	
+	// Creating a custom bar button for right menu
+	UIButton *button  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+	[button setImage:[UIImage imageNamed:@"menu-button"] forState:UIControlStateNormal];
+	[button addTarget:[SlideNavigationController sharedInstance] action:@selector(toggleRightMenu) forControlEvents:UIControlEventTouchUpInside];
+	UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+	[SlideNavigationController sharedInstance].rightBarButtonItem = rightBarButtonItem;
+	
 	
     // Override point for customization after application launch.
     return YES;
