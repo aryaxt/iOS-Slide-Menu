@@ -370,8 +370,8 @@ static SlideNavigationController *singletonInstance;
 - (void)updateMenuAnimation:(Menu)menu
 {
 	CGFloat progress = (menu == MenuLeft)
-		? (self.horizontalLocation / self.maxXForDragging)
-		: (self.horizontalLocation / self.minXForDragging);
+		? (self.horizontalLocation / (self.horizontalSize - self.slideOffset))
+		: (self.horizontalLocation / ((self.horizontalSize - self.slideOffset) * -1));
 	
 	[self.menuRevealAnimator animateMenu:menu withProgress:progress];
 }
