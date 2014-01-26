@@ -7,6 +7,11 @@
 //
 
 #import "MenuViewController.h"
+#import "SlideNavigationContorllerAnimatorFade.h"
+#import "SlideNavigationContorllerAnimatorSlide.h"
+#import "SlideNavigationContorllerAnimatorScale.h"
+#import "SlideNavigationContorllerAnimatorScaleAndFade.h"
+#import "SlideNavigationContorllerAnimatorSlideAndFade.h"
 
 @implementation MenuViewController
 @synthesize cellIdentifier;
@@ -74,7 +79,7 @@
 															 bundle: nil];
 	
 	UIViewController *vc ;
-	MenuRevealAnimation revealAnimation = MenuRevealAnimationNone;
+	id <SlideNavigationContorllerAnimator> revealAnimator;
 	
 	switch (indexPath.row)
 	{
@@ -96,27 +101,27 @@
 			break;
 			
 		case 4:
-			revealAnimation = MenuRevealAnimationNone;
+			revealAnimator = nil;
 			break;
 			
 		case 5:
-			revealAnimation = MenuRevealAnimationSlide;
+			revealAnimator = [[SlideNavigationContorllerAnimatorSlide alloc] init];
 			break;
 			
 		case 6:
-			revealAnimation = MenuRevealAnimationFade;
+			revealAnimator = [[SlideNavigationContorllerAnimatorFade alloc] init];
 			break;
 			
 		case 7:
-			revealAnimation = MenuRevealAnimationSlideAndFade;
+			revealAnimator = [[SlideNavigationContorllerAnimatorSlideAndFade alloc] init];
 			break;
 			
 		case 8:
-			revealAnimation = MenuRevealAnimationScale;
+			revealAnimator = [[SlideNavigationContorllerAnimatorScale alloc] init];
 			break;
 			
 		case 9:
-			revealAnimation = MenuRevealAnimationScaleAndFade;
+			revealAnimator = [[SlideNavigationContorllerAnimatorScaleAndFade alloc] init];
 			break;
 			
 		default:
@@ -127,7 +132,7 @@
 		[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
 	else
 		[[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
-			[SlideNavigationController sharedInstance].menuRevealAnimation = revealAnimation;
+			[SlideNavigationController sharedInstance].menuRevealAnimator = revealAnimator;
 		}];
 }
 

@@ -26,11 +26,11 @@
 // THE SOFTWARE.
 
 #import "SlideNavigationController.h"
+#import "SlideNavigationContorllerAnimator.h"
 
 @interface SlideNavigationController()
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
-@property (nonatomic, strong) UIView *menuRevealFadeAnimationView;
 @property (nonatomic, assign) CGPoint draggingPoint;
 @end
 
@@ -44,9 +44,6 @@
 #define MENU_SHADOW_OPACITY 1
 #define MENU_DEFAULT_SLIDE_OFFSET 60
 #define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1200
-#define MENU_REVEAL_ANIMATION_DEFAULT_SLIDE_MOVEMENT 100
-#define MENU_REVEAL_ANIMATION_DEFAULT_FADE_MAXIMUM_ALPHA .8
-#define MENU_REVEAL_ANIMATION_DEFAULT_SCALE_MINIMUM_SCALE .85
 #define STATUS_BAR_HEIGHT 20
 
 static SlideNavigationController *singletonInstance;
@@ -90,10 +87,6 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setup
 {
-	self.menuRevealAnimationSlideMovement = MENU_REVEAL_ANIMATION_DEFAULT_SLIDE_MOVEMENT;
-	self.menuRevealAnimationScaleMinScale = MENU_REVEAL_ANIMATION_DEFAULT_SCALE_MINIMUM_SCALE;
-	self.menuRevealAnimationFadeMaximumAlpha = MENU_REVEAL_ANIMATION_DEFAULT_FADE_MAXIMUM_ALPHA;
-	self.menuRevealAnimation = MenuRevealAnimationSlideAndFade;
 	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.avoidSwitchingToSameClassViewController = YES;
@@ -108,7 +101,7 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
 	[self setEnableSwipeGesture:YES];
-	[self updateMenuFrameAndTransformAccordingToOrientation];
+	[self updateMenuFrameAndTransformAccordingToOrientation]; // Do we need this?
 }
 
 - (void)viewWillLayoutSubviews
@@ -376,57 +369,11 @@ static SlideNavigationController *singletonInstance;
 
 - (void)updateMenuAnimation:(Menu)menu
 {
-	if (self.menuRevealAnimation == MenuRevealAnimationNone)
-		return;
-	
-	UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
-	
 	CGFloat progress = (menu == MenuLeft)
 		? (self.horizontalLocation / self.maxXForDragging)
 		: (self.horizontalLocation / self.minXForDragging);
-
-	if (self.menuRevealAnimation == MenuRevealAnimationFade ||
-		self.menuRevealAnimation == MenuRevealAnimationSlideAndFade ||
-		self.menuRevealAnimation == MenuRevealAnimationScaleAndFade)
-	{
-		self.menuRevealFadeAnimationView.frame = menuViewController.view.bounds;
-		[menuViewController.view addSubview:self.menuRevealFadeAnimationView];
-		self.menuRevealFadeAnimationView.alpha = self.menuRevealAnimationFadeMaximumAlpha - (self.menuRevealAnimationFadeMaximumAlpha *progress);
-	}
 	
-	if (self.menuRevealAnimation == MenuRevealAnimationSlide ||
-		self.menuRevealAnimation == MenuRevealAnimationSlideAndFade)
-	{
-		NSInteger location = (menu == MenuLeft)
-			? (self.menuRevealAnimationSlideMovement * -1) + (self.menuRevealAnimationSlideMovement * progress)
-			: (self.menuRevealAnimationSlideMovement * (1-progress));
-		
-		if (menu == MenuLeft)
-			location = (location > 0) ? 0 : location;
-		
-		if (menu == MenuRight)
-			location = (location < 0) ? 0 : location;
-		
-		CGRect rect = [self initialRectForMenu];
-		
-		if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-		{
-			rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
-		}
-		else
-		{
-			rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? location : location*-1;
-		}
-		
-		menuViewController.view.frame = rect;
-	}
-	
-	if (self.menuRevealAnimation == MenuRevealAnimationScale ||
-		self.menuRevealAnimation == MenuRevealAnimationScaleAndFade)
-	{
-		CGFloat scale = MIN(1, (1-self.menuRevealAnimationScaleMinScale) *progress + self.menuRevealAnimationScaleMinScale);
-		menuViewController.view.transform = CGAffineTransformScale(self.view.transform, scale, scale);
-	}
+	[self.menuRevealAnimator animateMenu:menu withProgress:progress];
 }
 
 - (CGRect)initialRectForMenu
@@ -461,63 +408,16 @@ static SlideNavigationController *singletonInstance;
 
 - (void)prepareMenuForReveal:(Menu)menu forcePrepare:(BOOL)forcePrepare
 {
-	// If menu is already open don't prepare, unless forcePrepare is set to true
-	if ([self isMenuOpen] && !forcePrepare)
-		return;
-	
 	UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
 	UIViewController *removingMenuViewController = (menu == MenuLeft) ? self.rightMenu : self.leftMenu;
 	
-	//[self updateMenuFrameAndTransformAccordingToOrientation];
-	
+	// If menu is already open don't prepare, unless forcePrepare is set to true
 	// If already has been added to the view (has superview) it means it has been initialized so avoid reinitializing
-	if (menuViewController.view.superview)
+	if (([self isMenuOpen] && !forcePrepare) || menuViewController.view.superview)
 		return;
 	
-	if (self.menuRevealAnimation == MenuRevealAnimationFade ||
-		self.menuRevealAnimation == MenuRevealAnimationSlideAndFade ||
-		self.menuRevealAnimation == MenuRevealAnimationScaleAndFade)
-	{
-		self.menuRevealFadeAnimationView.alpha = self.menuRevealAnimationFadeMaximumAlpha;
-		self.menuRevealFadeAnimationView.frame = menuViewController.view.bounds;
-	}
-	
-	if (self.menuRevealAnimation == MenuRevealAnimationSlide ||
-		self.menuRevealAnimation == MenuRevealAnimationSlideAndFade)
-	{
-		CGRect rect = menuViewController.view.frame;
-		
-		if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-		{
-			if (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-			{
-				rect.origin.y = (menu == MenuLeft) ? self.menuRevealAnimationSlideMovement*-1 : self.menuRevealAnimationSlideMovement;
-			}
-			else
-			{
-				rect.origin.y = (menu == MenuRight) ? self.menuRevealAnimationSlideMovement*-1 : self.menuRevealAnimationSlideMovement;
-			}
-		}
-		else
-		{
-			if (self.interfaceOrientation == UIInterfaceOrientationPortrait)
-			{
-				rect.origin.x = (menu == MenuLeft) ? self.menuRevealAnimationSlideMovement*-1 : self.menuRevealAnimationSlideMovement;
-			}
-			else
-			{
-				rect.origin.x = (menu == MenuRight) ? self.menuRevealAnimationSlideMovement*-1 : self.menuRevealAnimationSlideMovement;
-			}
-		}
-		
-		menuViewController.view.frame = rect;
-	}
-	
-	if (self.menuRevealAnimation == MenuRevealAnimationScale ||
-		self.menuRevealAnimation == MenuRevealAnimationScaleAndFade)
-	{
-		menuViewController.view.transform = CGAffineTransformScale(self.view.transform, self.menuRevealAnimationScaleMinScale, self.menuRevealAnimationScaleMinScale);
-	}
+	menuViewController.view.frame = [self initialRectForMenu];
+	[self.menuRevealAnimator prepareMenuForAnimation:menu];
 	
 	[removingMenuViewController.view removeFromSuperview];
 	[self.view.window insertSubview:menuViewController.view atIndex:0];
@@ -745,29 +645,11 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
-- (UIView *)menuRevealFadeAnimationView
+- (void)setMenuRevealAnimator:(id<SlideNavigationContorllerAnimator>)menuRevealAnimator
 {
-	if (!_menuRevealFadeAnimationView)
-	{
-		_menuRevealFadeAnimationView = [[UIView alloc] init];
-		_menuRevealFadeAnimationView.backgroundColor = [UIColor blackColor];
-		_menuRevealFadeAnimationView.frame = self.view.bounds;
-	}
+	[self.menuRevealAnimator clear];
 	
-	return _menuRevealFadeAnimationView;
-}
-
-- (void)setMenuRevealAnimationFadeColor:(UIColor *)menuRevealAnimationFadeColor
-{
-	_menuRevealAnimationFadeColor = menuRevealAnimationFadeColor;
-	self.menuRevealFadeAnimationView.backgroundColor = menuRevealAnimationFadeColor;
-}
-
-- (void)setMenuRevealAnimation:(MenuRevealAnimation)menuRevealAnimation
-{
-	_menuRevealAnimation = menuRevealAnimation;
-	
-	[self updateMenuFrameAndTransformAccordingToOrientation];
+	_menuRevealAnimator = menuRevealAnimator;
 }
 
 @end

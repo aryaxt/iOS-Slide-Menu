@@ -39,15 +39,7 @@ typedef  enum{
 	MenuRight,
 }Menu;
 
-typedef  enum{
-	MenuRevealAnimationNone,
-	MenuRevealAnimationFade,
-	MenuRevealAnimationSlide,
-	MenuRevealAnimationSlideAndFade,
-	MenuRevealAnimationScale,
-	MenuRevealAnimationScaleAndFade
-}MenuRevealAnimation;
-
+@protocol SlideNavigationContorllerAnimator;
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
 
 @property (nonatomic, assign) BOOL avoidSwitchingToSameClassViewController;
@@ -58,11 +50,7 @@ typedef  enum{
 @property (nonatomic, strong) UIBarButtonItem *rightBarButtonItem;
 @property (nonatomic, assign) CGFloat portraitSlideOffset;
 @property (nonatomic, assign) CGFloat landscapeSlideOffset;
-@property (nonatomic, assign) MenuRevealAnimation menuRevealAnimation;
-@property (nonatomic, assign) CGFloat menuRevealAnimationFadeMaximumAlpha;
-@property (nonatomic, strong) UIColor *menuRevealAnimationFadeColor;
-@property (nonatomic, assign) CGFloat menuRevealAnimationSlideMovement;
-@property (nonatomic, assign) CGFloat menuRevealAnimationScaleMinScale;
+@property (nonatomic, strong) id <SlideNavigationContorllerAnimator> menuRevealAnimator;
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
