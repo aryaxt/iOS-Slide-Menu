@@ -43,7 +43,9 @@ typedef  enum{
 	MenuRevealAnimationNone,
 	MenuRevealAnimationFade,
 	MenuRevealAnimationSlide,
-	MenuRevealAnimationSlideAndFade
+	MenuRevealAnimationSlideAndFade,
+	MenuRevealAnimationScale,
+	MenuRevealAnimationScaleAndFade
 }MenuRevealAnimation;
 
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
@@ -60,6 +62,7 @@ typedef  enum{
 @property (nonatomic, assign) CGFloat menuRevealAnimationFadeMaximumAlpha;
 @property (nonatomic, strong) UIColor *menuRevealAnimationFadeColor;
 @property (nonatomic, assign) CGFloat menuRevealAnimationSlideMovement;
+@property (nonatomic, assign) CGFloat menuRevealAnimationScaleMinScale;
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;

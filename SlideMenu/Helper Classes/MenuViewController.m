@@ -15,7 +15,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 15;
+	return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -40,8 +40,28 @@
 			cell.textLabel.text = @"Sign Out";
 			break;
 			
-		default:
-			cell.textLabel.text = @"Random Cell";
+		case 4:
+			cell.textLabel.text = @"No Animation";
+			break;
+			
+		case 5:
+			cell.textLabel.text = @"Slide Animation";
+			break;
+			
+		case 6:
+			cell.textLabel.text = @"Fade Animation";
+			break;
+			
+		case 7:
+			cell.textLabel.text = @"Slide And Fade Animation";
+			break;
+			
+		case 8:
+			cell.textLabel.text = @"Scale Animation";
+			break;
+			
+		case 9:
+			cell.textLabel.text = @"Scale And Fade Animation";
 			break;
 	}
 	
@@ -54,6 +74,7 @@
 															 bundle: nil];
 	
 	UIViewController *vc ;
+	MenuRevealAnimation revealAnimation = MenuRevealAnimationNone;
 	
 	switch (indexPath.row)
 	{
@@ -74,11 +95,40 @@
 			return;
 			break;
 			
+		case 4:
+			revealAnimation = MenuRevealAnimationNone;
+			break;
+			
+		case 5:
+			revealAnimation = MenuRevealAnimationSlide;
+			break;
+			
+		case 6:
+			revealAnimation = MenuRevealAnimationFade;
+			break;
+			
+		case 7:
+			revealAnimation = MenuRevealAnimationSlideAndFade;
+			break;
+			
+		case 8:
+			revealAnimation = MenuRevealAnimationScale;
+			break;
+			
+		case 9:
+			revealAnimation = MenuRevealAnimationScaleAndFade;
+			break;
+			
 		default:
 			return;
 	}
 	
-	[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
+	if (vc)
+		[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
+	else
+		[[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
+			[SlideNavigationController sharedInstance].menuRevealAnimation = revealAnimation;
+		}];
 }
 
 @end
