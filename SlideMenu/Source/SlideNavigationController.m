@@ -416,7 +416,7 @@ static SlideNavigationController *singletonInstance;
 	if (([self isMenuOpen] && !forcePrepare) || menuViewController.view.superview)
 		return;
 	
-	menuViewController.view.frame = [self initialRectForMenu];
+	//menuViewController.view.frame = [self initialRectForMenu];
 	[self.menuRevealAnimator prepareMenuForAnimation:menu];
 	
 	[removingMenuViewController.view removeFromSuperview];

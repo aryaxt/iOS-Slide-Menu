@@ -14,7 +14,7 @@
 
 - (id)init
 {
-	if (self = [self initWithMinimumScale:.8])
+	if (self = [self initWithMinimumScale:.9])
 	{
 	}
 	
@@ -39,7 +39,7 @@
 		? [SlideNavigationController sharedInstance].leftMenu
 		: [SlideNavigationController sharedInstance].rightMenu;
 	
-	menuViewController.view.transform = CGAffineTransformScale([SlideNavigationController sharedInstance].view.transform, self.minimumScale, self.minimumScale);
+	menuViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.minimumScale, self.minimumScale);
 }
 
 - (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress

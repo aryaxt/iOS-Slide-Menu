@@ -102,7 +102,32 @@
 
 - (void)clear
 {
-	// Nothing to do
+	[self clearMenu:MenuLeft];
+	[self clearMenu:MenuRight];
+}
+
+#pragma mark - Private Method -
+
+- (void)clearMenu:(Menu)menu
+{
+	UIViewController *menuViewController = (menu == MenuLeft)
+		? [SlideNavigationController sharedInstance].leftMenu
+		: [SlideNavigationController sharedInstance].rightMenu;
+	
+	UIInterfaceOrientation orientation= [SlideNavigationController sharedInstance].interfaceOrientation;
+	
+	CGRect rect = menuViewController.view.frame;
+	
+	if (UIInterfaceOrientationIsLandscape(orientation))
+	{
+		rect.origin.y = 0;
+	}
+	else
+	{
+		rect.origin.x = 0;
+	}
+	
+	menuViewController.view.frame = rect;
 }
 
 @end
