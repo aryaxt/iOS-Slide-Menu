@@ -88,9 +88,9 @@ Default value of portraitSlideOffset is 60. This means when the menu is open, th
 ###### landscapeSlideOffset
 Default value of portraitSlideOffset is 60. This means when the menu is open, the width of the visible portion of the navigation controller is 60 pixels in landscape mode
 ###### menuRevealAnimator
-menuRevealAnimator is used to animate the left/right menu during reveal. The default value is nil that means no animations occure when opening/closing the menu. 
+menuRevealAnimator is used to animate the left/right menu during reveal. The default value is nil, that means no animations occure when opening/closing the menu. 
 
-There are existing animation that can be used out of the box. These animation classes can be configured through init method options.
+There are existing animation classes that can be used. These animation classes can be configured through init method options.
 
 - SlideNavigationContorllerAnimatorSlide
 - SlideNavigationContorllerAnimatorFade
