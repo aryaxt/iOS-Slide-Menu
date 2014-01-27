@@ -102,6 +102,7 @@ There are existing animation that can be used out of the box. These animation cl
 SlideNavigationContorllerAnimatorSlideAndFade *alideAndFadeAnimator = [[SlideNavigationContorllerAnimatorSlideAndFade alloc] initWithMaximumFadeAlpha:.8 fadeColor:[UIColor redColor] andSlideMovement:100];
 [SlideNavigationController sharedInstance].menuRevealAnimator = alideAndFadeAnimator;
 ```
+Public Methods
 ---------
 ###### + (SlideNavigationController *)sharedInstance;
 Returns the singleton instance of SlideNavigationController
