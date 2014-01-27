@@ -1,15 +1,13 @@
 iOS-Slide-Menu
 ---------
+iOS Slide Menu built on top of UINavigationController, with configurable buttons, reveal animations, and tap/swiper gesture recognizers.
 
-iOS Slide Menu built on top of UINavigationController.
-
-Features: 
-- Righ Menu
-- Left Menu
-- Configurable Buttons
-- Allows Enable/Disable menu by implmenting delegate methods
-- Tap/Swipe gesture recognizer to Open/Close the Menus
-- Allows custom animation
+- [Setup](https://github.com/aryaxt/iOS-Slide-Menu#setup)
+- [Switch ViewController](https://github.com/aryaxt/iOS-Slide-Menu#switch-between-viewcontrollers)
+- [Enable/Disable Left/Right Menu](https://github.com/aryaxt/iOS-Slide-Menu#configuring-left-and-right-menu-for-different-viewcontrollers)
+- [Public Properties](https://github.com/aryaxt/iOS-Slide-Menu#public-properties)
+- [Public Methods](https://github.com/aryaxt/iOS-Slide-Menu#public-methods)
+- [Custom Animations](https://github.com/aryaxt/iOS-Slide-Menu#custom-animations)
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Slide-Menu/master/slideMenuAnimation.gif)
 
@@ -104,17 +102,6 @@ There are existing animation that can be used out of the box. These animation cl
 SlideNavigationContorllerAnimatorSlideAndFade *alideAndFadeAnimator = [[SlideNavigationContorllerAnimatorSlideAndFade alloc] initWithMaximumFadeAlpha:.8 fadeColor:[UIColor redColor] andSlideMovement:100];
 [SlideNavigationController sharedInstance].menuRevealAnimator = alideAndFadeAnimator;
 ```
-Custom Animations
----------
-SlideNavigationController allows custom reveal animations. In order to add custom animations create a new class implementing SlideNavigationContorllerAnimator protocol. For more information take a look at the existing animation classes.
-
-###### - (void)prepareMenuForAnimation:(Menu)menu;
-This method gets called right before the menu is about to reveal
-###### - (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress;
-This method gets called as the menu reveal occurs, and passes the progress to be used for animations(progress is between 0 and 1)
-###### - (void)clear;
-This method gets called if for any resons the instance of animator is being changed. For instance, the animator is changed from SlideNavigationContorllerAnimatorFade to SlideNavigationContorllerAnimatorSlide. In this method you should cleanup the state of the menu if neede. For instance if you added a view to the menu for reveal animation, you should remove it when clear gets called.
-Public Methods
 ---------
 ###### + (SlideNavigationController *)sharedInstance;
 Returns the singleton instance of SlideNavigationController
@@ -143,4 +130,16 @@ Works exactly the same as toggleLeftMenu, but used to toggle left menu
 
 ###### - (BOOL)isMenuOpen;
 Returns a boolean stating whether the menu is open or not
+
+Custom Animations
+---------
+SlideNavigationController allows custom reveal animations. In order to add custom animations create a new class implementing SlideNavigationContorllerAnimator protocol. For more information take a look at the existing animation classes.
+
+###### - (void)prepareMenuForAnimation:(Menu)menu;
+This method gets called right before the menu is about to reveal
+###### - (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress;
+This method gets called as the menu reveal occurs, and passes the progress to be used for animations(progress is between 0 and 1)
+###### - (void)clear;
+This method gets called if for any resons the instance of animator is being changed. For instance, the animator is changed from SlideNavigationContorllerAnimatorFade to SlideNavigationContorllerAnimatorSlide. In this method you should cleanup the state of the menu if neede. For instance if you added a view to the menu for reveal animation, you should remove it when clear gets called.
+Public Methods
 
