@@ -101,7 +101,6 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
 	[self setEnableSwipeGesture:YES];
-	[self updateMenuFrameAndTransformAccordingToOrientation]; // Do we need this?
 }
 
 - (void)viewWillLayoutSubviews
@@ -270,7 +269,7 @@ static SlideNavigationController *singletonInstance;
 - (UIBarButtonItem *)barButtonItemForMenu:(Menu)menu
 {
 	SEL selector = (menu == MenuLeft) ? @selector(leftMenuSelected:) : @selector(righttMenuSelected:);
-	UIBarButtonItem *customButton = (menu == MenuLeft) ? self.leftbarButtonItem : self.rightBarButtonItem;
+	UIBarButtonItem *customButton = (menu == MenuLeft) ? self.leftBarButtonItem : self.rightBarButtonItem;
 	
 	if (customButton)
 	{
@@ -416,7 +415,6 @@ static SlideNavigationController *singletonInstance;
 	if (([self isMenuOpen] && !forcePrepare) || menuViewController.view.superview)
 		return;
 	
-	//menuViewController.view.frame = [self initialRectForMenu];
 	[self.menuRevealAnimator prepareMenuForAnimation:menu];
 	
 	[removingMenuViewController.view removeFromSuperview];
