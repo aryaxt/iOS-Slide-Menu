@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SlideNavigationController.h"
 
-@interface MenuViewController : UIViewController <UITableViewDelegate>
+@interface MenuViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSString *cellIdentifier;
 
