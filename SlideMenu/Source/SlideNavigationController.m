@@ -411,14 +411,15 @@ static SlideNavigationController *singletonInstance;
 	UIViewController *removingMenuViewController = (menu == MenuLeft) ? self.rightMenu : self.leftMenu;
 	
 	// If menu is already open don't prepare, unless forcePrepare is set to true
-	// If already has been added to the view (has superview) it means it has been initialized so avoid reinitializing
-	if (([self isMenuOpen] && !forcePrepare) || menuViewController.view.superview)
+	if ([self isMenuOpen] && !forcePrepare)
 		return;
-	
-	[self.menuRevealAnimator prepareMenuForAnimation:menu];
 	
 	[removingMenuViewController.view removeFromSuperview];
 	[self.view.window insertSubview:menuViewController.view atIndex:0];
+
+	[self updateMenuFrameAndTransformAccordingToOrientation];
+	
+	[self.menuRevealAnimator prepareMenuForAnimation:menu];
 }
 
 - (CGFloat)horizontalLocation
