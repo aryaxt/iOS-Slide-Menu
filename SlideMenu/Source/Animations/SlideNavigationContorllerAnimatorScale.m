@@ -39,7 +39,7 @@
 		? [SlideNavigationController sharedInstance].leftMenu
 		: [SlideNavigationController sharedInstance].rightMenu;
 	
-	menuViewController.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, self.minimumScale, self.minimumScale);
+	menuViewController.view.transform = CGAffineTransformScale(menuViewController.view.transform, self.minimumScale, self.minimumScale);
 }
 
 - (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
