@@ -139,8 +139,8 @@ static SlideNavigationController *singletonInstance;
 	self.leftMenu.view.transform = transform;
 	self.rightMenu.view.transform = transform;
 	
-	self.leftMenu.view.frame = [self initialRectForMenu];
-	self.rightMenu.view.frame = [self initialRectForMenu];
+	self.leftMenu.view.frame = [self initialRectForMenu:MenuLeft];
+	self.rightMenu.view.frame = [self initialRectForMenu:MenuRight];
 }
 
 #pragma mark - Public Methods -
@@ -375,7 +375,7 @@ static SlideNavigationController *singletonInstance;
 	[self.menuRevealAnimator animateMenu:menu withProgress:progress];
 }
 
-- (CGRect)initialRectForMenu
+- (CGRect)initialRectForMenu:(Menu)menu
 {
 	CGRect rect = self.view.frame;
 	rect.origin.x = 0;
@@ -385,21 +385,31 @@ static SlideNavigationController *singletonInstance;
 	
 	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 	{
+        rect.size.height -= MENU_DEFAULT_SLIDE_OFFSET;
+        
 		if (!isIos7)
 		{
 			// For some reasons in landscape belos the status bar is considered y=0, but in portrait it's considered y=20
 			rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
-			rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
+			rect.size.width -= STATUS_BAR_HEIGHT;
+            
 		}
+        
+        rect.origin.y = (menu == MenuLeft) ? MENU_DEFAULT_SLIDE_OFFSET : 0;
+        
 	}
 	else
 	{
+        rect.size.width -= MENU_DEFAULT_SLIDE_OFFSET;
+        
 		if (!isIos7)
 		{
 			// For some reasons in landscape belos the status bar is considered y=0, but in portrait it's considered y=20
 			rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
-			rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
+			rect.size.height -= STATUS_BAR_HEIGHT;
 		}
+        
+        rect.origin.x = (menu == MenuLeft) ? 0 : MENU_DEFAULT_SLIDE_OFFSET;
 	}
 	
 	return rect;
