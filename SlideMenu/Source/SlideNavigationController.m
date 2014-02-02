@@ -308,7 +308,8 @@ static SlideNavigationController *singletonInstance;
 
 - (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)())completion
 {
-	[self.topViewController.view addGestureRecognizer:self.tapRecognizer];
+	self.topViewController.view.userInteractionEnabled = NO;
+	[self.topViewController.navigationController.view addGestureRecognizer:self.tapRecognizer];
 	
 	[self prepareMenuForReveal:menu forcePrepare:NO];
 	
@@ -329,7 +330,8 @@ static SlideNavigationController *singletonInstance;
 
 - (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
 {
-	[self.topViewController.view removeGestureRecognizer:self.tapRecognizer];
+	self.topViewController.view.userInteractionEnabled = YES;
+	[self.topViewController.navigationController.view removeGestureRecognizer:self.tapRecognizer];
 	
 	[UIView animateWithDuration:duration
 						  delay:0
