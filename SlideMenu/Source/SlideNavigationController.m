@@ -107,6 +107,10 @@ static SlideNavigationController *singletonInstance;
 {
 	[super viewWillLayoutSubviews];
 	
+	// When menu open we disable user interaction
+	// When rotates we want to make sure that userInteraction is enabled again
+	self.topViewController.view.userInteractionEnabled = YES;
+	
 	// Update shadow size
 	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
 }
@@ -309,7 +313,7 @@ static SlideNavigationController *singletonInstance;
 - (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)())completion
 {
 	self.topViewController.view.userInteractionEnabled = NO;
-	[self.topViewController.navigationController.view addGestureRecognizer:self.tapRecognizer];
+	[self.view addGestureRecognizer:self.tapRecognizer];
 	
 	[self prepareMenuForReveal:menu forcePrepare:NO];
 	
@@ -331,7 +335,7 @@ static SlideNavigationController *singletonInstance;
 - (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
 {
 	self.topViewController.view.userInteractionEnabled = YES;
-	[self.topViewController.navigationController.view removeGestureRecognizer:self.tapRecognizer];
+	[self.view removeGestureRecognizer:self.tapRecognizer];
 	
 	[UIView animateWithDuration:duration
 						  delay:0
