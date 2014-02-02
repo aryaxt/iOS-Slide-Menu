@@ -107,11 +107,6 @@ static SlideNavigationController *singletonInstance;
 {
 	[super viewWillLayoutSubviews];
 	
-	// When menu open we disable user interaction
-	// When rotates we want to make sure that userInteraction is enabled again
-	self.topViewController.view.userInteractionEnabled = YES;
-	[self.view removeGestureRecognizer:self.tapRecognizer];
-	
 	// Update shadow size
 	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
 }
@@ -119,6 +114,10 @@ static SlideNavigationController *singletonInstance;
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	
+	// When menu open we disable user interaction
+	// When rotates we want to make sure that userInteraction is enabled again
+	[self enableTapGestureToCloseMenu:NO];
 	
 	// Avoid an ugnly shadow in background while rotating
 	self.view.layer.shadowOpacity = 0;
@@ -263,6 +262,20 @@ static SlideNavigationController *singletonInstance;
 
 #pragma mark - Private Methods -
 
+- (void)enableTapGestureToCloseMenu:(BOOL)enable
+{
+	if (enable)
+	{
+		self.topViewController.view.userInteractionEnabled = NO;
+		[self.view addGestureRecognizer:self.tapRecognizer];
+	}
+	else
+	{
+		self.topViewController.view.userInteractionEnabled = YES;
+		[self.view removeGestureRecognizer:self.tapRecognizer];
+	}
+}
+
 - (void)toggleMenu:(Menu)menu withCompletion:(void (^)())completion
 {
 	if ([self isMenuOpen])
@@ -313,8 +326,7 @@ static SlideNavigationController *singletonInstance;
 
 - (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)())completion
 {
-	self.topViewController.view.userInteractionEnabled = NO;
-	[self.view addGestureRecognizer:self.tapRecognizer];
+	[self enableTapGestureToCloseMenu:YES];
 	
 	[self prepareMenuForReveal:menu forcePrepare:NO];
 	
@@ -335,8 +347,7 @@ static SlideNavigationController *singletonInstance;
 
 - (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
 {
-	self.topViewController.view.userInteractionEnabled = YES;
-	[self.view removeGestureRecognizer:self.tapRecognizer];
+	[self enableTapGestureToCloseMenu:NO];
 	
 	[UIView animateWithDuration:duration
 						  delay:0
