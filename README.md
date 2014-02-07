@@ -119,8 +119,6 @@ Closes the menu and calls the completion block oppon animation completion
 ###### - (void)toggleLeftMenu;
 Toggles the left menu open or close depending on the existing state. This was made public in order to pass the selector to a custom UIBarButtonItem (ex: UIBarButtonItem with a button as a custom view)
 
-###### - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion;
-Bounces either right or left menu, and calls the completion block oppon animation completion
 ```
 UIButton *button  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
 [button setImage:[UIImage imageNamed:@"menu-button"] forState:UIControlStateNormal];
@@ -129,6 +127,8 @@ UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomVie
 [SlideNavigationController sharedInstance].rightBarButtonItem = rightBarButtonItem;
 ```
 
+###### - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion;
+Bounces either right or left menu, and calls the completion block oppon animation completion
 ###### - (void)toggleRightMenu;
 Works exactly the same as toggleLeftMenu, but used to toggle left menu
 
