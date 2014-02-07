@@ -136,18 +136,40 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
 }
 
-- (void)updateMenuFrameAndTransformAccordingToOrientation
-{
-	// Animate rotatation when menu is open and device rotates
-	CGAffineTransform transform = self.view.transform;
-	self.leftMenu.view.transform = transform;
-	self.rightMenu.view.transform = transform;
-	
-	self.leftMenu.view.frame = [self initialRectForMenu];
-	self.rightMenu.view.frame = [self initialRectForMenu];
-}
-
 #pragma mark - Public Methods -
+
+- (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion
+{
+	[self prepareMenuForReveal:menu forcePrepare:YES];
+	NSInteger movementDirection = (menu == MenuLeft) ? 1 : -1;
+	
+	[UIView animateWithDuration:.16 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+		[self moveHorizontallyToLocation:30*movementDirection];
+	} completion:^(BOOL finished){
+		[UIView animateWithDuration:.1 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+			[self moveHorizontallyToLocation:0];
+		} completion:^(BOOL finished){
+			[UIView animateWithDuration:.12 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+				[self moveHorizontallyToLocation:16*movementDirection];
+			} completion:^(BOOL finished){
+				[UIView animateWithDuration:.08 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+					[self moveHorizontallyToLocation:0];
+				} completion:^(BOOL finished){
+					[UIView animateWithDuration:.08 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+						[self moveHorizontallyToLocation:6*movementDirection];
+					} completion:^(BOOL finished){
+						[UIView animateWithDuration:.06 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+							[self moveHorizontallyToLocation:0];
+						} completion:^(BOOL finished){
+							if (completion)
+								completion();
+						}];
+					}];
+				}];
+			}];
+		}];
+	}];
+}
 
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
 {
@@ -261,6 +283,17 @@ static SlideNavigationController *singletonInstance;
 }
 
 #pragma mark - Private Methods -
+
+- (void)updateMenuFrameAndTransformAccordingToOrientation
+{
+	// Animate rotatation when menu is open and device rotates
+	CGAffineTransform transform = self.view.transform;
+	self.leftMenu.view.transform = transform;
+	self.rightMenu.view.transform = transform;
+	
+	self.leftMenu.view.frame = [self initialRectForMenu];
+	self.rightMenu.view.frame = [self initialRectForMenu];
+}
 
 - (void)enableTapGestureToCloseMenu:(BOOL)enable
 {

@@ -11,4 +11,6 @@
 
 @interface HomeViewController : UIViewController <SlideNavigationControllerDelegate>
 
+- (IBAction)bounceMenu:(id)sender;
+
 @end

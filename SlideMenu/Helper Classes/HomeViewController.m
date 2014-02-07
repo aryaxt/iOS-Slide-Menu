@@ -27,4 +27,15 @@
 	return YES;
 }
 
+#pragma mark - IBActions -
+
+- (IBAction)bounceMenu:(id)sender
+{
+	static Menu menu = MenuLeft;
+	
+	[[SlideNavigationController sharedInstance] bounceMenu:menu withCompletion:nil];
+	
+	menu = (menu == MenuLeft) ? MenuRight : MenuLeft;
+}
+
 @end
