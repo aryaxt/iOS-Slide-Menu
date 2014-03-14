@@ -209,6 +209,44 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
+- (void)swapToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
+{
+    NSArray *viewControllers = [NSArray arrayWithObject:viewController];
+    
+	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
+	{
+		[self closeMenuWithCompletion:completion];
+		return;
+	}
+    
+	if ([self isMenuOpen])
+	{
+		[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
+							  delay:0
+							options:UIViewAnimationOptionCurveEaseOut
+						 animations:^{
+                             CGFloat width = self.horizontalSize;
+                             CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
+                             [self moveHorizontallyToLocation:moveLocation];
+                         } completion:^(BOOL finished) {
+                             
+                             [super setViewControllers:viewControllers animated:NO];
+                             
+                             [self closeMenuWithCompletion:^{
+                                 if (completion)
+                                     completion();
+                             }];
+                         }];
+	}
+	else
+	{
+        [super setViewControllers:viewControllers animated:YES];
+		
+		if (completion)
+			completion();
+	}
+}
+
 - (void)closeMenuWithCompletion:(void (^)())completion
 {
 	[self closeMenuWithDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
