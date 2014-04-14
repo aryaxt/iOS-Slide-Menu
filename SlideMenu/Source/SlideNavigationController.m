@@ -46,51 +46,36 @@
 #define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1200
 #define STATUS_BAR_HEIGHT 20
 
-static SlideNavigationController *singletonInstance;
+static SlideNavigationController *singletonInstance = nil;
+static dispatch_once_t onceToken = 0;
 
 #pragma mark - Initialization -
 
 + (SlideNavigationController *)sharedInstance
 {
-	return singletonInstance;
+    dispatch_once(&onceToken, ^{
+        singletonInstance = [[SlideNavigationController alloc] init];
+        [singletonInstance setup];
+    });
+    return singletonInstance;
 }
 
-- (id)init
-{
-	if (self = [super init])
-	{
-		[self setup];
-	}
-	
-	return self;
-}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-	if (self = [super initWithCoder:aDecoder])
-	{
-		[self setup];
-	}
-	
-	return self;
+    dispatch_once(&onceToken, ^{
+        singletonInstance = [super initWithCoder:aDecoder];
+        [singletonInstance setup];
+    });
+	return singletonInstance;
 }
 
-- (id)initWithRootViewController:(UIViewController *)rootViewController
-{
-	if (self = [super initWithRootViewController:rootViewController])
-	{
-		[self setup];
-	}
-	
-	return self;
-}
 
 - (void)setup
 {
 	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.avoidSwitchingToSameClassViewController = YES;
-	singletonInstance = self;
 	self.delegate = self;
 	
 	self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
