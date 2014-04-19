@@ -53,7 +53,11 @@ typedef  enum{
 @property (nonatomic, strong) id <SlideNavigationContorllerAnimator> menuRevealAnimator;
 
 + (SlideNavigationController *)sharedInstance;
-- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion __deprecated;
+- (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
+- (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+- (void)popAllAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
+- (void)popAllAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
 - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion;
 - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion;
 - (void)closeMenuWithCompletion:(void (^)())completion;

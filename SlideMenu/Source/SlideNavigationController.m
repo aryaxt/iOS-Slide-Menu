@@ -28,6 +28,11 @@
 #import "SlideNavigationController.h"
 #import "SlideNavigationContorllerAnimator.h"
 
+typedef enum {
+	PopTypeAll,
+	PopTypeRoot
+} PopType;
+
 @interface SlideNavigationController()
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
@@ -171,7 +176,10 @@ static SlideNavigationController *singletonInstance;
 	}];
 }
 
-- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
+- (void)switchToViewController:(UIViewController *)viewController
+		 withSlideOutAnimation:(BOOL)slideOutAnimation
+					   popType:(PopType)poptype
+				 andCompletion:(void (^)())completion
 {
 	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
 	{
@@ -179,34 +187,84 @@ static SlideNavigationController *singletonInstance;
 		return;
 	}
 	
-	if ([self isMenuOpen])
-	{
-		[UIView animateWithDuration:MENU_SLIDE_ANIMATION_DURATION
-							  delay:0
-							options:UIViewAnimationOptionCurveEaseOut
-						 animations:^{
-			CGFloat width = self.horizontalSize;
-			CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
-			[self moveHorizontallyToLocation:moveLocation];
-		} completion:^(BOOL finished) {
-			
+	void (^switchAndCallCompletion)(BOOL) = ^(BOOL closeMenuBeforeCallingCompletion) {
+		if (poptype == PopTypeAll) {
+			[self setViewControllers:@[viewController]];
+		}
+		else {
 			[super popToRootViewControllerAnimated:NO];
 			[super pushViewController:viewController animated:NO];
-			
+		}
+		
+		if (closeMenuBeforeCallingCompletion)
+		{
 			[self closeMenuWithCompletion:^{
 				if (completion)
 					completion();
 			}];
-		}];
+		}
+		else
+		{
+			if (completion)
+				completion();
+		}
+	};
+	
+	if ([self isMenuOpen])
+	{
+		if (slideOutAnimation)
+		{
+			[UIView animateWithDuration:(slideOutAnimation) ? MENU_SLIDE_ANIMATION_DURATION : 0
+								  delay:0
+								options:UIViewAnimationOptionCurveEaseOut
+							 animations:^{
+								 CGFloat width = self.horizontalSize;
+								 CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
+								 [self moveHorizontallyToLocation:moveLocation];
+							 } completion:^(BOOL finished) {
+								 switchAndCallCompletion(YES);
+							 }];
+		}
+		else
+		{
+			switchAndCallCompletion(YES);
+		}
 	}
 	else
 	{
-		[super popToRootViewControllerAnimated:NO];
-		[super pushViewController:viewController animated:YES];
-		
-		if (completion)
-			completion();
+		switchAndCallCompletion(NO);
 	}
+}
+
+- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
+{
+	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeRoot andCompletion:completion];
+}
+
+- (void)popToRootAndSwitchToViewController:(UIViewController *)viewController
+				  withSlideOutAnimation:(BOOL)slideOutAnimation
+						  andCompletion:(void (^)())completion
+{
+	[self switchToViewController:viewController withSlideOutAnimation:slideOutAnimation popType:PopTypeRoot andCompletion:completion];
+}
+
+- (void)popToRootAndSwitchToViewController:(UIViewController *)viewController
+						 withCompletion:(void (^)())completion
+{
+	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeRoot andCompletion:completion];
+}
+
+- (void)popAllAndSwitchToViewController:(UIViewController *)viewController
+		 withSlideOutAnimation:(BOOL)slideOutAnimation
+				 andCompletion:(void (^)())completion
+{
+	[self switchToViewController:viewController withSlideOutAnimation:slideOutAnimation popType:PopTypeAll andCompletion:completion];
+}
+
+- (void)popAllAndSwitchToViewController:(UIViewController *)viewController
+						 withCompletion:(void (^)())completion
+{
+	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeAll andCompletion:completion];
 }
 
 - (void)closeMenuWithCompletion:(void (^)())completion

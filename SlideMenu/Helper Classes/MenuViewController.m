@@ -120,7 +120,7 @@
 				break;
 		}
 		
-		[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
+		[[SlideNavigationController sharedInstance] popToRootAndSwitchToViewController:vc withCompletion:nil];
 	}
 	else
 	{
