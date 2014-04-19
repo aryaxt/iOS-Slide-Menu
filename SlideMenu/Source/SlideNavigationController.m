@@ -299,11 +299,17 @@ static SlideNavigationController *singletonInstance;
 {
 	if (enable)
 	{
+		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+			self.interactivePopGestureRecognizer.enabled = NO;
+		
 		self.topViewController.view.userInteractionEnabled = NO;
 		[self.view addGestureRecognizer:self.tapRecognizer];
 	}
 	else
 	{
+		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+			self.interactivePopGestureRecognizer.enabled = YES;
+		
 		self.topViewController.view.userInteractionEnabled = YES;
 		[self.view removeGestureRecognizer:self.tapRecognizer];
 	}
