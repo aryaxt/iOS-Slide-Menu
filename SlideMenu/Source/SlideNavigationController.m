@@ -101,6 +101,7 @@ static SlideNavigationController *singletonInstance;
 	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
 	
 	[self setEnableSwipeGesture:YES];
+    [self setEnableViewControllerSwitchBounce:YES];
 }
 
 - (void)viewWillLayoutSubviews
@@ -185,9 +186,19 @@ static SlideNavigationController *singletonInstance;
 							  delay:0
 							options:UIViewAnimationOptionCurveEaseOut
 						 animations:^{
-			CGFloat width = self.horizontalSize;
-			CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
-			[self moveHorizontallyToLocation:moveLocation];
+                             if (_enableViewControllerSwitchBounce)
+                             {
+                                 CGFloat width = self.horizontalSize;
+                                 CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
+                                 [self moveHorizontallyToLocation:moveLocation];
+                             }
+                             else
+                             {
+                                 CGRect rect = self.view.frame;
+                                 rect.origin.x = 0;
+                                 [self moveHorizontallyToLocation:rect.origin.x];
+                             }
+			
 		} completion:^(BOOL finished) {
 			
 			[super popToRootViewControllerAnimated:NO];
@@ -693,6 +704,11 @@ static SlideNavigationController *singletonInstance;
 	{
 		[self.view removeGestureRecognizer:self.panRecognizer];
 	}
+}
+
+- (void)setEnableViewControllerSwitchBounce:(BOOL)markEnableViewControllerSwitchBounce
+{
+    _enableViewControllerSwitchBounce = markEnableViewControllerSwitchBounce;
 }
 
 - (void)setMenuRevealAnimator:(id<SlideNavigationContorllerAnimator>)menuRevealAnimator
