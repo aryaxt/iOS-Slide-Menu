@@ -97,23 +97,17 @@ static SlideNavigationController *singletonInstance;
 	self.avoidSwitchingToSameClassViewController = YES;
 	singletonInstance = self;
 	self.delegate = self;
-	
-	self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-	self.view.layer.shadowRadius = MENU_SHADOW_RADIUS;
-	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
-	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
-	self.view.layer.shouldRasterize = YES;
-	self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
-	
-	[self setEnableSwipeGesture:YES];
+	self.enableShadow = YES;
+	self.enableSwipeGesture = YES;
 }
 
 - (void)viewWillLayoutSubviews
 {
 	[super viewWillLayoutSubviews];
 	
-	// Update shadow size
-	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+	// Update shadow size of enabled
+	if (self.enableShadow)
+		self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -290,6 +284,24 @@ static SlideNavigationController *singletonInstance;
 - (BOOL)isMenuOpen
 {
 	return (self.horizontalLocation == 0) ? NO : YES;
+}
+
+- (void)setEnableShaddow:(BOOL)enable
+{
+	if (enable)
+	{
+		self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
+		self.view.layer.shadowRadius = MENU_SHADOW_RADIUS;
+		self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
+		self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+		self.view.layer.shouldRasterize = YES;
+		self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	}
+	else
+	{
+		self.view.layer.shadowOpacity = 0;
+		self.view.layer.shadowRadius = 0;
+	}
 }
 
 #pragma mark - Override Methods -
