@@ -57,6 +57,9 @@ static SlideNavigationController *singletonInstance;
 
 + (SlideNavigationController *)sharedInstance
 {
+	if (!singletonInstance)
+		NSLog(@"SlideNavigationController has not been initialized. Either place one in your storyboard or initialize one in code");
+	
 	return singletonInstance;
 }
 
@@ -92,13 +95,19 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setup
 {
+	if (singletonInstance)
+		@throw ([NSException exceptionWithName:@"InvalidInitialization"
+										reason:@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController"
+									  userInfo:@{@"instance" : singletonInstance}]);
+	
+	singletonInstance = self;
+	
 	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.avoidSwitchingToSameClassViewController = YES;
-	singletonInstance = self;
-	self.delegate = self;
 	self.enableShadow = YES;
 	self.enableSwipeGesture = YES;
+	self.delegate = self;
 }
 
 - (void)viewWillLayoutSubviews
