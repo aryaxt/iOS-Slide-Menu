@@ -33,7 +33,7 @@ typedef enum {
 	PopTypeRoot
 } PopType;
 
-@interface SlideNavigationController()
+@interface SlideNavigationController() <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
@@ -104,6 +104,7 @@ static SlideNavigationController *singletonInstance;
 	
 	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
+	self.panGestureSideOffset = 0;
 	self.avoidSwitchingToSameClassViewController = YES;
 	self.enableShadow = YES;
 	self.enableSwipeGesture = YES;
@@ -638,6 +639,19 @@ static SlideNavigationController *singletonInstance;
 	[self closeMenuWithCompletion:nil];
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+	if (self.panGestureSideOffset == 0)
+		return YES;
+	
+	CGPoint pointInView = [touch locationInView:self.view];
+	CGFloat horizontalSize = [self horizontalSize];
+	
+	return (pointInView.x <= self.panGestureSideOffset || pointInView.x >= horizontalSize - self.panGestureSideOffset)
+		? YES
+		: NO;
+}
+
 - (void)panDetected:(UIPanGestureRecognizer *)aPanRecognizer
 {
 	CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
@@ -761,6 +775,7 @@ static SlideNavigationController *singletonInstance;
 	if (!_panRecognizer)
 	{
 		_panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panDetected:)];
+		_panRecognizer.delegate = self;
 	}
 	
 	return _panRecognizer;
