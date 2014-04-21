@@ -296,7 +296,7 @@ static SlideNavigationController *singletonInstance;
 	return (self.horizontalLocation == 0) ? NO : YES;
 }
 
-- (void)setEnableShaddow:(BOOL)enable
+- (void)setEnableShadow:(BOOL)enable
 {
 	if (enable)
 	{
