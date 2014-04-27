@@ -15,20 +15,18 @@
 	UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone"
 															 bundle: nil];
 	
-	MenuViewController *rightMenu = (MenuViewController*)[mainStoryboard
-													   instantiateViewControllerWithIdentifier: @"MenuViewController"];
-	rightMenu.cellIdentifier = @"rightMenuCell";
+	LeftMenuViewController *leftMenu = (LeftMenuViewController*)[mainStoryboard
+													   instantiateViewControllerWithIdentifier: @"LeftMenuViewController"];
 	
-	MenuViewController *leftMenu = (MenuViewController*)[mainStoryboard
-														   instantiateViewControllerWithIdentifier: @"MenuViewController"];
-	leftMenu.cellIdentifier = @"leftMenuCell";
+	RightMenuViewController *rightMenu = (RightMenuViewController*)[mainStoryboard
+														   instantiateViewControllerWithIdentifier: @"RightMenuViewController"];
 	
 	[SlideNavigationController sharedInstance].rightMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
 	
 	// Creating a custom bar button for right menu
 	UIButton *button  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-	[button setImage:[UIImage imageNamed:@"menu-button"] forState:UIControlStateNormal];
+	[button setImage:[UIImage imageNamed:@"gear"] forState:UIControlStateNormal];
 	[button addTarget:[SlideNavigationController sharedInstance] action:@selector(toggleRightMenu) forControlEvents:UIControlEventTouchUpInside];
 	UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 	[SlideNavigationController sharedInstance].rightBarButtonItem = rightBarButtonItem;

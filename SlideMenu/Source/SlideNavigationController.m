@@ -298,6 +298,8 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setEnableShadow:(BOOL)enable
 {
+	_enableShadow = enable;
+	
 	if (enable)
 	{
 		self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
