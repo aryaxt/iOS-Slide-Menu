@@ -96,9 +96,7 @@ static SlideNavigationController *singletonInstance;
 - (void)setup
 {
 	if (singletonInstance)
-		@throw ([NSException exceptionWithName:@"InvalidInitialization"
-										reason:@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController"
-									  userInfo:@{@"instance" : singletonInstance}]);
+		NSLog(@"Singleton instance already exists. You can only instantiate one instance of SlideNavigationController. This could cause major issues");
 	
 	singletonInstance = self;
 	

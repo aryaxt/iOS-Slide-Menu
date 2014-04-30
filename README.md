@@ -11,6 +11,16 @@ iOS Slide Menu built on top of UINavigationController, with configurable buttons
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Slide-Menu/master/slideMenuAnimation.gif)
 
+Version 1.4.0 Notes
+---------
+```switchToViewController:withCompletion:``` method has been deprecated. In order to get the exact same behavior use ```popToRootAndSwitchToViewController:withCompletion```
+
+New features:
+- Allows limiting pan gesture to the sides of the view
+- Allows turning shadow on/off
+- Allows turning slide-out animation on/off when switching between viewControllers
+- Minor bug fixes
+
 Version 1.3.0 Notes
 ---------
 If you are updating from previous versions you'll get compile errors, due to changes to RevealAnimations.
@@ -75,6 +85,12 @@ This can be usefull when you have a menu item, and when the user selects an alre
 When set to YES user can swipe to open the menu
 
 When set to NO swipe is disabled, and use can only open the menu using the UIBarButtonItem added to the navigationBar
+######panGestureSideOffset
+This property allows you to limit the gesture to the sides of the view. For instance setting this value to 50 means touches are limited to 50 pixels to the right and 50 pixels to the left of the view. This could be useful if you are expecting slide-to-delete functionality on UITableViews.
+
+Default value of panGestureSideOffset is set to 0. Setting panGestureSideOffset to 0 means touches are detected in the whole view if enableSwipeGesture is set to true.
+###### enableShadow
+A boolean that allows you to turn shadow on/off. On default shadow is set to true
 ###### rightMenu
 The viewController of the right menu in the navigationController
 ###### leftMenu
@@ -108,7 +124,19 @@ Public Methods
 Returns the singleton instance of SlideNavigationController
 
 ###### - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
-Pops to root ViewController, then pushes the new ViewController and finally calls the completion
+This method is deprecated
+
+###### - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+Pops to root view controller and calls the completion.
+
+###### - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
+Similar to previous method, but allows turning on/off slide-out-animation during the switch
+
+###### - (void)popAllAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+Replaces the ViewController stack with a new stack that includes the new ViewController, and calls completion
+
+###### - (void)popAllAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
+Similar to previous method, but allows turning on/off slide-out-animation during the switch
 
 ###### - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion;
 Opens a given menu and calls the completion block oppon animation completion
