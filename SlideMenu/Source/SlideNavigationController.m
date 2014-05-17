@@ -416,7 +416,7 @@ static SlideNavigationController *singletonInstance;
 	}
 	else
 	{
-		UIImage *image = [UIImage imageNamed:MENU_IMAGE];
+		UIImage *image = [UIImage imageNamed: self.menuImageName ?:  MENU_IMAGE];
         return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
 	}
 }
@@ -477,6 +477,10 @@ static SlideNavigationController *singletonInstance;
 						 [self moveHorizontallyToLocation:rect.origin.x];
 					 }
 					 completion:^(BOOL finished) {
+                         
+                         [self.leftMenu.view removeFromSuperview];
+                         [self.rightMenu.view removeFromSuperview];
+                         
 						 if (completion)
 							 completion();
 					 }];
@@ -551,9 +555,10 @@ static SlideNavigationController *singletonInstance;
 	if ([self isMenuOpen] && !forcePrepare)
 		return;
 	
+	[menuViewController.view removeFromSuperview];
 	[removingMenuViewController.view removeFromSuperview];
 	[self.view.window insertSubview:menuViewController.view atIndex:0];
-
+    
 	[self updateMenuFrameAndTransformAccordingToOrientation];
 	
 	[self.menuRevealAnimator prepareMenuForAnimation:menu];
