@@ -37,6 +37,7 @@ typedef enum {
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
+@property (nonatomic, assign) Menu lastRevealedMenu;
 @end
 
 @implementation SlideNavigationController
@@ -147,7 +148,7 @@ static SlideNavigationController *singletonInstance;
 
 - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion
 {
-	[self prepareMenuForReveal:menu forcePrepare:YES];
+	[self prepareMenuForReveal:menu];
 	NSInteger movementDirection = (menu == MenuLeft) ? 1 : -1;
 	
 	[UIView animateWithDuration:.16 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -446,8 +447,8 @@ static SlideNavigationController *singletonInstance;
 - (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)())completion
 {
 	[self enableTapGestureToCloseMenu:YES];
-	
-	[self prepareMenuForReveal:menu forcePrepare:NO];
+
+	[self prepareMenuForReveal:menu];
 	
 	[UIView animateWithDuration:duration
 						  delay:0
@@ -542,14 +543,16 @@ static SlideNavigationController *singletonInstance;
 	return rect;
 }
 
-- (void)prepareMenuForReveal:(Menu)menu forcePrepare:(BOOL)forcePrepare
+- (void)prepareMenuForReveal:(Menu)menu
 {
-	UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
+	// Only prepare menu if it has changed (ex: from MenuLeft to MenuRight or vice versa)
+    if (self.lastRevealedMenu && menu == self.lastRevealedMenu)
+        return;
+    
+    UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
 	UIViewController *removingMenuViewController = (menu == MenuLeft) ? self.rightMenu : self.leftMenu;
-	
-	// If menu is already open don't prepare, unless forcePrepare is set to true
-	if ([self isMenuOpen] && !forcePrepare)
-		return;
+
+    self.lastRevealedMenu = menu;
 	
 	[removingMenuViewController.view removeFromSuperview];
 	[self.view.window insertSubview:menuViewController.view atIndex:0];
@@ -658,35 +661,32 @@ static SlideNavigationController *singletonInstance;
     CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
 	NSInteger movement = translation.x - self.draggingPoint.x;
 	
-	static Menu lastMenu;
-	Menu menu = (self.horizontalLocation > 0 || (self.horizontalLocation == 0 && movement > 0) ) ? MenuLeft : MenuRight;
-	
+    Menu currentMenu;
+    
+    if (self.horizontalLocation > 0)
+        currentMenu = MenuLeft;
+    else if (self.horizontalLocation < 0)
+        currentMenu = MenuRight;
+    else
+        currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
+    
+    [self prepareMenuForReveal:currentMenu];
+    
     if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
 	{
-		if (![self isMenuOpen])
-			[self prepareMenuForReveal:menu forcePrepare:YES];
-		
 		self.draggingPoint = translation;
-		lastMenu = menu;
     }
 	else if (aPanRecognizer.state == UIGestureRecognizerStateChanged)
 	{
 		static CGFloat lastHorizontalLocation = 0;
 		CGFloat newHorizontalLocation = [self horizontalLocation];
-		
-		// Force prepare menu when slides quickly between left and right menu
-		if (lastMenu != menu)
-			[self prepareMenuForReveal:menu forcePrepare:YES];
-		
 		lastHorizontalLocation = newHorizontalLocation;
-		
 		newHorizontalLocation += movement;
 		
 		if (newHorizontalLocation >= self.minXForDragging && newHorizontalLocation <= self.maxXForDragging)
 			[self moveHorizontallyToLocation:newHorizontalLocation];
 		
 		self.draggingPoint = translation;
-		lastMenu = menu;
 	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
 	{
@@ -733,8 +733,6 @@ static SlideNavigationController *singletonInstance;
 			else
 				[self openMenu:(currentX > 0) ? MenuLeft : MenuRight withCompletion:nil];
 		}
-		
-		lastMenu = -1;
     }
 }
 

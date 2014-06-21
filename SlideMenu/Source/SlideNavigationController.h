@@ -35,8 +35,8 @@
 @end
 
 typedef  enum{
-	MenuLeft,
-	MenuRight,
+	MenuLeft = 1,
+	MenuRight = 2
 }Menu;
 
 @protocol SlideNavigationContorllerAnimator;
