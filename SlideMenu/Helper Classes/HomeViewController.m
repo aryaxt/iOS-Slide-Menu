@@ -22,6 +22,9 @@
 	self.shadowSwitch.on = [SlideNavigationController sharedInstance].enableShadow;
 	self.limitPanGestureSwitch.on = ([SlideNavigationController sharedInstance].panGestureSideOffset == 0) ? NO : YES;
 	self.slideOutAnimationSwitch.on = ((LeftMenuViewController *)[SlideNavigationController sharedInstance].leftMenu).slideOutAnimationEnabled;
+    
+    //ChangeMe
+    [SlideNavigationController sharedInstance].enableShiftStatusBar = NO;
 }
 
 #pragma mark - SlideNavigationController Methods -
