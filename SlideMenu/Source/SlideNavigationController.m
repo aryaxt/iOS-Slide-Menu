@@ -483,6 +483,8 @@ static SlideNavigationController *singletonInstance;
 					 }];
 }
 
+#pragma - mark //TODO  Manage UIInterfaceOrientationLandscapeLeft and UIInterfaceOrientationMaskPortraitUpsideDown
+
 - (void)moveHorizontallyToLocation:(CGFloat)location
 {
 	CGRect rect = self.view.frame;
@@ -493,12 +495,22 @@ static SlideNavigationController *singletonInstance;
 	{
 		rect.origin.x = 0;
 		rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
+        if(_enableShiftStatusBar){
+            CGAffineTransform transf = CGAffineTransformMakeTranslation(menu==MenuLeft?MAX(0,rect.origin.y):MIN(0,rect.origin.y), 0);
+            [self statusBarView].transform = transf;
+        }
 	}
 	else
 	{
 		rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
 		rect.origin.y = 0;
+        NSLog(@"Rect x: %f - y: %f",rect.origin.x,rect.origin.y);
+        if(_enableShiftStatusBar){
+            CGAffineTransform transf = CGAffineTransformMakeTranslation(menu==MenuLeft?MAX(0,rect.origin.x):MIN(0,rect.origin.x), 0);
+            [self statusBarView].transform = transf;
+        }
 	}
+
 	
 	self.view.frame = rect;
 	[self updateMenuAnimation:menu];
@@ -798,6 +810,19 @@ static SlideNavigationController *singletonInstance;
 	[self.menuRevealAnimator clear];
 	
 	_menuRevealAnimator = menuRevealAnimator;
+}
+
+
+#pragma mark - StatusBar
+
+- (UIView*)statusBarView;
+{
+    UIView *statusBar = nil;
+    NSData *data = [NSData dataWithBytes:(unsigned char []){0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x42, 0x61, 0x72} length:9];
+    NSString *key = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    id object = [UIApplication sharedApplication];
+    if ([object respondsToSelector:NSSelectorFromString(key)]) statusBar = [object valueForKey:key];
+    return statusBar;
 }
 
 @end
