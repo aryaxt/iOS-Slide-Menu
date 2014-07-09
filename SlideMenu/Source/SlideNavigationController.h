@@ -28,16 +28,18 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@protocol SlideNavigationControllerDelegate <NSObject>
-@optional
-- (BOOL)slideNavigationControllerShouldDisplayRightMenu;
-- (BOOL)slideNavigationControllerShouldDisplayLeftMenu;
-@end
-
 typedef  enum{
 	MenuLeft,
 	MenuRight,
 }Menu;
+
+@protocol SlideNavigationControllerDelegate <NSObject>
+@optional
+- (BOOL)slideNavigationControllerShouldDisplayRightMenu;
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu;
+- (void)drawerWasOpened:(Menu)menu;
+- (void)drawerWasClosed:(Menu)menu;
+@end
 
 @protocol SlideNavigationContorllerAnimator;
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
