@@ -461,6 +461,12 @@ static SlideNavigationController *singletonInstance;
 					 completion:^(BOOL finished) {
 						 if (completion)
 							 completion();
+                         
+                         // Tell top most view controller if the delegate method was implemented
+                         if ([self.visibleViewController conformsToProtocol:@protocol(SlideNavigationControllerDelegate)] && [self.visibleViewController respondsToSelector:@selector(drawerWasOpened:)])
+                         {
+                             [(UIViewController<SlideNavigationControllerDelegate> *)self.visibleViewController drawerWasOpened:menu];
+                         }
 					 }];
 }
 
@@ -468,6 +474,7 @@ static SlideNavigationController *singletonInstance;
 {
 	[self enableTapGestureToCloseMenu:NO];
 	
+	Menu menu = (self.horizontalLocation >= 0) ? MenuLeft : MenuRight;
 	[UIView animateWithDuration:duration
 						  delay:0
 						options:UIViewAnimationOptionCurveEaseOut
@@ -479,6 +486,12 @@ static SlideNavigationController *singletonInstance;
 					 completion:^(BOOL finished) {
 						 if (completion)
 							 completion();
+                         
+                         // Tell top most view controller if the delegate method was implemented
+                         if ([self.visibleViewController conformsToProtocol:@protocol(SlideNavigationControllerDelegate)] && [self.visibleViewController respondsToSelector:@selector(drawerWasClosed:)])
+                         {
+                             [(UIViewController<SlideNavigationControllerDelegate> *)self.visibleViewController drawerWasClosed:menu];
+                         }
 					 }];
 }
 
