@@ -43,7 +43,7 @@ Setup
 ```
 Configuring Left and Right menu for different Viewcontrollers
 ---------
-You decide whether to enable or disable slide functionality on each viewController by implementing the following delegate methods of SlideNavigationControllerDelegate. These methods are optional, and if not implemented the menu functionality will be disabled for that particulat viewController.
+You decide whether to enable or disable slide functionality on **each viewController** by implementing the following delegate methods of SlideNavigationControllerDelegate. These methods are optional, and if not implemented the menu functionality will be disabled for that particulat viewController.
 ```
 @interface MyViewController : UIViewController <SlideNavigationControllerDelegate>
 @end
