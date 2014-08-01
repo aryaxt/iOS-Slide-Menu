@@ -3,7 +3,6 @@ iOS-Slide-Menu
 iOS Slide Menu built on top of UINavigationController, with configurable buttons, reveal animations, and tap/swiper gesture recognizers.
 
 - [Setup](https://github.com/aryaxt/iOS-Slide-Menu#setup)
-- [Switch ViewController](https://github.com/aryaxt/iOS-Slide-Menu#switch-between-viewcontrollers)
 - [Enable/Disable Left/Right Menu](https://github.com/aryaxt/iOS-Slide-Menu#configuring-left-and-right-menu-for-different-viewcontrollers)
 - [Public Properties](https://github.com/aryaxt/iOS-Slide-Menu#public-properties)
 - [Public Methods](https://github.com/aryaxt/iOS-Slide-Menu#public-methods)
@@ -41,13 +40,6 @@ Setup
     // Override point for customization after application launch.
     return YES;
 }
-```
-Switch Between ViewControllers
-----------
-Let's say a menu item was selected
-```
-SomeViewController *vc = [[SomeViewController alloc] init];
-[[SlideNavigationController sharedInstance] switchToViewController:vc withCompletion:nil];
 ```
 Configuring Left and Right menu for different Viewcontrollers
 ---------
