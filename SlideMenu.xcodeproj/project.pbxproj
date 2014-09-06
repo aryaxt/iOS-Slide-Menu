@@ -18,7 +18,6 @@
 		15371EF91728E3B400A508F4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15371EF81728E3B400A508F4 /* Default-568h@2x.png */; };
 		15371EFC1728E3B400A508F4 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15371EFA1728E3B400A508F4 /* MainStoryboard_iPhone.storyboard */; };
 		15371EFF1728E3B400A508F4 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15371EFD1728E3B400A508F4 /* MainStoryboard_iPad.storyboard */; };
-		15371F0A1728E3B400A508F4 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371F091728E3B400A508F4 /* SenTestingKit.framework */; };
 		15371F0B1728E3B400A508F4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE21728E3B400A508F4 /* UIKit.framework */; };
 		15371F0C1728E3B400A508F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE41728E3B400A508F4 /* Foundation.framework */; };
 		15371F141728E3B400A508F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15371F121728E3B400A508F4 /* InfoPlist.strings */; };
@@ -71,7 +70,6 @@
 		15371EFB1728E3B400A508F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		15371EFE1728E3B400A508F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		15371F081728E3B400A508F4 /* SlideMenuTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlideMenuTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		15371F091728E3B400A508F4 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		15371F111728E3B400A508F4 /* SlideMenuTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SlideMenuTests-Info.plist"; sourceTree = "<group>"; };
 		15371F131728E3B400A508F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		15371F151728E3B400A508F4 /* SlideMenuTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenuTests.h; sourceTree = "<group>"; };
@@ -126,7 +124,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15371F0A1728E3B400A508F4 /* SenTestingKit.framework in Frameworks */,
 				15371F0B1728E3B400A508F4 /* UIKit.framework in Frameworks */,
 				15371F0C1728E3B400A508F4 /* Foundation.framework in Frameworks */,
 			);
@@ -161,7 +158,6 @@
 				15371EE21728E3B400A508F4 /* UIKit.framework */,
 				15371EE41728E3B400A508F4 /* Foundation.framework */,
 				15371EE61728E3B400A508F4 /* CoreGraphics.framework */,
-				15371F091728E3B400A508F4 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -319,7 +315,7 @@
 			name = SlideMenuTests;
 			productName = SlideMenuTests;
 			productReference = 15371F081728E3B400A508F4 /* SlideMenuTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -327,6 +323,7 @@
 		15371ED51728E3B400A508F4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0600;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Aryan Ghassemi";
 			};
@@ -551,13 +548,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SlideMenu/SlideMenu-Prefix.pch";
 				INFOPLIST_FILE = "SlideMenuTests/SlideMenuTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -568,13 +565,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SlideMenu/SlideMenu-Prefix.pch";
 				INFOPLIST_FILE = "SlideMenuTests/SlideMenuTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};

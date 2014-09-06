@@ -33,7 +33,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell"];
-	cell.textLabel.text = [NSString stringWithFormat:@"Friend %d", indexPath.row];
+	cell.textLabel.text = [NSString stringWithFormat:@"Friend %ld", (long)indexPath.row];
 	return cell;
 }
 

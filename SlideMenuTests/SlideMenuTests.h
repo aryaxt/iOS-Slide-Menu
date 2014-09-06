@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Aryan Ghassemi. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface SlideMenuTests : SenTestCase
+@interface SlideMenuTests : XCTestCase
 
 @end
