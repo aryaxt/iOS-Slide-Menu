@@ -30,6 +30,21 @@
 	[button addTarget:[SlideNavigationController sharedInstance] action:@selector(toggleRightMenu) forControlEvents:UIControlEventTouchUpInside];
 	UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 	[SlideNavigationController sharedInstance].rightBarButtonItem = rightBarButtonItem;
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerDidClose object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSString *menu = note.userInfo[@"menu"];
+        NSLog(@"Closed %@", menu);
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerDidOpen object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSString *menu = note.userInfo[@"menu"];
+        NSLog(@"Opened %@", menu);
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerDidReveal object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSString *menu = note.userInfo[@"menu"];
+        NSLog(@"Revealed %@", menu);
+    }];
 	
 	
     // Override point for customization after application launch.

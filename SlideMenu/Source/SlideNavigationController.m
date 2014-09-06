@@ -42,6 +42,10 @@ typedef enum {
 
 @implementation SlideNavigationController
 
+NSString * const SlideNavigationControllerDidOpen = @"SlideNavigationControllerDidOpen";
+NSString * const SlideNavigationControllerDidClose = @"SlideNavigationControllerDidClose";
+NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
+
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .18
@@ -51,6 +55,9 @@ typedef enum {
 #define MENU_DEFAULT_SLIDE_OFFSET 60
 #define MENU_FAST_VELOCITY_FOR_SWIPE_FOLLOW_DIRECTION 1200
 #define STATUS_BAR_HEIGHT 20
+#define NOTIFICATION_USER_INFO_MENU_LEFT @"left"
+#define NOTIFICATION_USER_INFO_MENU_RIGHT @"right"
+#define NOTIFICATION_USER_INFO_MENU @"menu"
 
 static SlideNavigationController *singletonInstance;
 
@@ -462,12 +469,16 @@ static SlideNavigationController *singletonInstance;
 					 completion:^(BOOL finished) {
 						 if (completion)
 							 completion();
+                         
+                         [self postNotificationWithName:SlideNavigationControllerDidOpen forMenu:menu];
 					 }];
 }
 
 - (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
 {
 	[self enableTapGestureToCloseMenu:NO];
+    
+     Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
 	
 	[UIView animateWithDuration:duration
 						  delay:0
@@ -480,6 +491,8 @@ static SlideNavigationController *singletonInstance;
 					 completion:^(BOOL finished) {
 						 if (completion)
 							 completion();
+                         
+                         [self postNotificationWithName:SlideNavigationControllerDidClose forMenu:menu];
 					 }];
 }
 
@@ -488,6 +501,10 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	Menu menu = (self.horizontalLocation >= 0 && location >= 0) ? MenuLeft : MenuRight;
+    
+    if ((location > 0 && self.horizontalLocation <= 0) || (location < 0 && self.horizontalLocation >= 0)) {
+        [self postNotificationWithName:SlideNavigationControllerDidReveal forMenu:(location > 0) ? MenuLeft : MenuRight];
+    }
 	
 	if (UIInterfaceOrientationIsLandscape(orientation))
 	{
@@ -596,6 +613,13 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
+- (void)postNotificationWithName:(NSString *)name forMenu:(Menu)menu
+{
+    NSString *menuString = (menu == MenuLeft) ? NOTIFICATION_USER_INFO_MENU_LEFT : NOTIFICATION_USER_INFO_MENU_RIGHT;
+    NSDictionary *userInfo = @{ NOTIFICATION_USER_INFO_MENU : menuString };
+    [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
+}
+
 #pragma mark - UINavigationControllerDelegate Methods -
 
 - (void)navigationController:(UINavigationController *)navigationController
@@ -624,7 +648,6 @@ static SlideNavigationController *singletonInstance;
 		[self closeMenuWithCompletion:nil];
 	else
 		[self openMenu:MenuLeft withCompletion:nil];
-		
 }
 
 - (void)righttMenuSelected:(id)sender
@@ -669,6 +692,9 @@ static SlideNavigationController *singletonInstance;
         currentMenu = MenuRight;
     else
         currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
+    
+    if (![self shouldDisplayMenu:currentMenu forViewController:self.topViewController])
+        return;
     
     [self prepareMenuForReveal:currentMenu];
     
