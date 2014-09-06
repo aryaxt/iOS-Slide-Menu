@@ -7,6 +7,7 @@ iOS Slide Menu built on top of UINavigationController, with configurable buttons
 - [Public Properties](https://github.com/aryaxt/iOS-Slide-Menu#public-properties)
 - [Public Methods](https://github.com/aryaxt/iOS-Slide-Menu#public-methods)
 - [Custom Animations](https://github.com/aryaxt/iOS-Slide-Menu#custom-animations)
+- [Notifications](https://github.com/aryaxt/iOS-Slide-Menu#notifications)
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Slide-Menu/master/slideMenuAnimation.gif)
 
@@ -166,4 +167,19 @@ This method gets called as the menu reveal occurs, and passes the progress to be
 ###### - (void)clear;
 This method gets called if for any resons the instance of animator is being changed. For instance, the animator is changed from SlideNavigationContorllerAnimatorFade to SlideNavigationContorllerAnimatorSlide. In this method you should cleanup the state of the menu if neede. For instance if you added a view to the menu for reveal animation, you should remove it when clear gets called.
 Public Methods
+
+Notifications
+---------
+###### SlideNavigationControllerDidOpen
+This notification is posted EVERY time the menu goes inot a complete open state
+Userinfo contains a value with key "menu", which could have 2 values "left" and "right"
+
+###### SlideNavigationControllerDidClose
+This notification is posted EVERY time the menu goes inot a complete close state
+Userinfo contains a value with key "menu", which could have 2 values "left" and "right"
+
+###### SlideNavigationControllerDidReveal
+This notification is posted once everytim a menu reveals
+Userinfo contains a value with key "menu", which could have 2 values "left" and "right"
+
 
