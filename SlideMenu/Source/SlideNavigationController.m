@@ -38,6 +38,7 @@ typedef enum {
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
 @property (nonatomic, assign) Menu lastRevealedMenu;
+@property (nonatomic, assign) BOOL menuNeedsLayout;
 @end
 
 @implementation SlideNavigationController
@@ -46,7 +47,6 @@ NSString * const SlideNavigationControllerDidOpen = @"SlideNavigationControllerD
 NSString * const SlideNavigationControllerDidClose = @"SlideNavigationControllerDidClose";
 NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
 
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .18
 #define MENU_IMAGE @"menu-button"
@@ -124,31 +124,37 @@ static SlideNavigationController *singletonInstance;
 	// Update shadow size of enabled
 	if (self.enableShadow)
 		self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
+    
+    // When menu open we disable user interaction
+    // When rotates we want to make sure that userInteraction is enabled again
+    [self enableTapGestureToCloseMenu:NO];
+    
+    if (self.menuNeedsLayout)
+    {
+        [self updateMenuFrameAndTransformAccordingToOrientation];
+        
+        // Handle different horizontal/vertical slideOffset during rotation
+        // On iOS below 8 we just close the menu, iOS8 handles rotation better so we support keepiong the menu open
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && [self isMenuOpen])
+        {
+            Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
+            [self openMenu:menu withDuration:0 andCompletion:nil];
+        }
+        
+        self.menuNeedsLayout = NO;
+    }
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    self.menuNeedsLayout = YES;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	
-	// When menu open we disable user interaction
-	// When rotates we want to make sure that userInteraction is enabled again
-	[self enableTapGestureToCloseMenu:NO];
-	
-	// Avoid an ugnly shadow in background while rotating
-	self.view.layer.shadowOpacity = 0;
-}
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
-	
-	// Update rotation animation
-	[self updateMenuFrameAndTransformAccordingToOrientation];
-	
-	self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
-	
-	// we set shadowOpacity to 0 in willRotateToInterfaceOrientation, after the rotation we want to add the shadow back
-	self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
+    self.menuNeedsLayout = YES;
 }
 
 #pragma mark - Public Methods -
@@ -506,16 +512,24 @@ static SlideNavigationController *singletonInstance;
         [self postNotificationWithName:SlideNavigationControllerDidReveal forMenu:(location > 0) ? MenuLeft : MenuRight];
     }
 	
-	if (UIInterfaceOrientationIsLandscape(orientation))
-	{
-		rect.origin.x = 0;
-		rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
-	}
-	else
-	{
-		rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
-		rect.origin.y = 0;
-	}
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+    {
+        rect.origin.x = location;
+        rect.origin.y = 0;
+    }
+    else
+    {
+        if (UIInterfaceOrientationIsLandscape(orientation))
+        {
+            rect.origin.x = 0;
+            rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
+        }
+        else
+        {
+            rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
+            rect.origin.y = 0;
+        }
+    }
 	
 	self.view.frame = rect;
 	[self updateMenuAnimation:menu];
@@ -536,25 +550,22 @@ static SlideNavigationController *singletonInstance;
 	rect.origin.x = 0;
 	rect.origin.y = 0;
 	
-	BOOL isIos7 = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0");
+	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
+    {
+        return rect;
+    }
 	
 	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 	{
-		if (!isIos7)
-		{
-			// For some reasons in landscape belos the status bar is considered y=0, but in portrait it's considered y=20
-			rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
-			rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
-		}
+        // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
+        rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
+        rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
 	}
 	else
 	{
-		if (!isIos7)
-		{
-			// For some reasons in landscape belos the status bar is considered y=0, but in portrait it's considered y=20
-			rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
-			rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
-		}
+        // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
+        rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
+        rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
 	}
 	
 	return rect;
@@ -584,18 +595,25 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
-	if (UIInterfaceOrientationIsLandscape(orientation))
-	{
-		return (orientation == UIInterfaceOrientationLandscapeRight)
-			? rect.origin.y
-			: rect.origin.y*-1;
-	}
-	else
-	{
-		return (orientation == UIInterfaceOrientationPortrait)
-			? rect.origin.x
-			: rect.origin.x*-1;
-	}
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+    {
+        return rect.origin.x;
+    }
+    else
+    {
+        if (UIInterfaceOrientationIsLandscape(orientation))
+        {
+            return (orientation == UIInterfaceOrientationLandscapeRight)
+            ? rect.origin.y
+            : rect.origin.y*-1;
+        }
+        else
+        {
+            return (orientation == UIInterfaceOrientationPortrait)
+            ? rect.origin.x
+            : rect.origin.x*-1;
+        }
+    }
 }
 
 - (CGFloat)horizontalSize
@@ -603,14 +621,21 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
-	if (UIInterfaceOrientationIsLandscape(orientation))
-	{
-		return rect.size.height;
-	}
-	else
-	{
-		return rect.size.width;
-	}
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+    {
+        return rect.size.width;
+    }
+    else
+    {
+        if (UIInterfaceOrientationIsLandscape(orientation))
+        {
+            return rect.size.height;
+        }
+        else
+        {
+            return rect.size.width;
+        }
+    }
 }
 
 - (void)postNotificationWithName:(NSString *)name forMenu:(Menu)menu
