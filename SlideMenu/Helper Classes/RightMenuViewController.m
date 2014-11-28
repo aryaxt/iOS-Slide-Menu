@@ -80,31 +80,38 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	id <SlideNavigationContorllerAnimator> revealAnimator;
+    CGFloat animationDuration = 0;
 	
 	switch (indexPath.row)
 	{
 		case 0:
 			revealAnimator = nil;
+            animationDuration = .19;
 			break;
 			
 		case 1:
 			revealAnimator = [[SlideNavigationContorllerAnimatorSlide alloc] init];
+            animationDuration = .19;
 			break;
 			
 		case 2:
 			revealAnimator = [[SlideNavigationContorllerAnimatorFade alloc] init];
+            animationDuration = .18;
 			break;
 			
 		case 3:
 			revealAnimator = [[SlideNavigationContorllerAnimatorSlideAndFade alloc] initWithMaximumFadeAlpha:.8 fadeColor:[UIColor blackColor] andSlideMovement:100];
+            animationDuration = .19;
 			break;
 			
 		case 4:
 			revealAnimator = [[SlideNavigationContorllerAnimatorScale alloc] init];
+            animationDuration = .22;
 			break;
 			
 		case 5:
 			revealAnimator = [[SlideNavigationContorllerAnimatorScaleAndFade alloc] initWithMaximumFadeAlpha:.6 fadeColor:[UIColor blackColor] andMinimumScale:.8];
+            animationDuration = .22;
 			break;
 			
 		default:
@@ -112,6 +119,7 @@
 	}
 	
 	[[SlideNavigationController sharedInstance] closeMenuWithCompletion:^{
+        [SlideNavigationController sharedInstance].menuRevealAnimationDuration = animationDuration;
 		[SlideNavigationController sharedInstance].menuRevealAnimator = revealAnimator;
 	}];
 }

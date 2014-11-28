@@ -23,6 +23,7 @@
 	
 	[SlideNavigationController sharedInstance].rightMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
+    [SlideNavigationController sharedInstance].menuRevealAnimationDuration = .18;
 	
 	// Creating a custom bar button for right menu
 	UIButton *button  = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
