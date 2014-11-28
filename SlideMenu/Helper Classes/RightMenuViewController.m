@@ -20,9 +20,6 @@
 	
 	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"rightMenu.jpg"]];
 	self.tableView.backgroundView = imageView;
-	
-	self.view.layer.borderWidth = .6;
-	self.view.layer.borderColor = [UIColor lightGrayColor].CGColor;
 }
 
 #pragma mark - UITableView Delegate & Datasrouce -

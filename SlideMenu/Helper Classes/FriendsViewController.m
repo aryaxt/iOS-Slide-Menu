@@ -20,11 +20,6 @@
 	return YES;
 }
 
-- (BOOL)slideNavigationControllerShouldDisplayRightMenu
-{
-	return NO;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return 20;

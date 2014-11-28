@@ -851,4 +851,18 @@ static SlideNavigationController *singletonInstance;
 	_menuRevealAnimator = menuRevealAnimator;
 }
 
+- (void)setLeftMenu:(UIViewController *)leftMenu
+{
+    [_leftMenu.view removeFromSuperview];
+    
+    _leftMenu = leftMenu;
+}
+
+- (void)setRightMenu:(UIViewController *)rightMenu
+{
+    [_rightMenu.view removeFromSuperview];
+    
+    _rightMenu = rightMenu;
+}
+
 @end

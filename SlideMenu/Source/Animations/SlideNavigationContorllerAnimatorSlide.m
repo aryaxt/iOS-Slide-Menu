@@ -63,7 +63,7 @@
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
-        rect.origin.x = self.slideMovement;
+        rect.origin.x = (menu == MenuLeft) ? self.slideMovement*-1 : self.slideMovement;
     }
     else
     {

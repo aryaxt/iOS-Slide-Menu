@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="yzD-f0-X8n">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="yzD-f0-X8n">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Left Menu View Controller-->
@@ -70,7 +70,7 @@
             </objects>
             <point key="canvasLocation" x="11" y="49"/>
         </scene>
-        <!--Home View Controller - Home-->
+        <!--Home-->
         <scene sceneID="7Hl-22-JcN">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" id="mAB-md-uek" customClass="HomeViewController" sceneMemberID="viewController">
@@ -227,7 +227,7 @@
             </objects>
             <point key="canvasLocation" x="1040" y="-222"/>
         </scene>
-        <!--View Controller - No Menu-->
+        <!--No Menu-->
         <scene sceneID="b5b-is-lY2">
             <objects>
                 <viewController id="Tha-f2-JWx" sceneMemberID="viewController">
@@ -253,7 +253,7 @@
             </objects>
             <point key="canvasLocation" x="1503" y="-222"/>
         </scene>
-        <!--View Controller - Login-->
+        <!--Login-->
         <scene sceneID="fe8-Xu-DEa">
             <objects>
                 <viewController id="Rnc-YT-XEu" sceneMemberID="viewController">
@@ -289,13 +289,14 @@
                     <navigationItem key="navigationItem" title="Login" id="huN-S6-yGa"/>
                     <connections>
                         <segue destination="nrg-5w-bbF" kind="push" identifier="FakeSegue" id="Rkp-YM-Gz0"/>
+                        <segue destination="qY1-Jo-UbZ" kind="push" identifier="FakeSegue33" id="37q-Mo-UFN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QC9-GK-F3v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="499" y="49"/>
         </scene>
-        <!--Profile View Controller - Profile-->
+        <!--Profile-->
         <scene sceneID="xeE-nX-pb6">
             <objects>
                 <viewController storyboardIdentifier="ProfileViewController" id="nrg-5w-bbF" customClass="ProfileViewController" sceneMemberID="viewController">
@@ -334,7 +335,7 @@
             </objects>
             <point key="canvasLocation" x="1044" y="437"/>
         </scene>
-        <!--Friends View Controller - Friends-->
+        <!--Friends-->
         <scene sceneID="Hbs-BS-FvF">
             <objects>
                 <tableViewController storyboardIdentifier="FriendsViewController" title="Friends" id="qY1-Jo-UbZ" customClass="FriendsViewController" sceneMemberID="viewController">
@@ -370,13 +371,16 @@
                             <outlet property="delegate" destination="qY1-Jo-UbZ" id="FT7-ey-Dka"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="aah-ni-z8T">
+                        <barButtonItem key="rightBarButtonItem" title="Random Button" id="UsL-My-2Pu"/>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TeQ-ZL-OLP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042" y="1101"/>
         </scene>
-        <!--View Controller - Friends-->
+        <!--Friends-->
         <scene sceneID="yJW-sY-3g9">
             <objects>
                 <viewController title="Friends" id="yDw-XY-MRH" sceneMemberID="viewController">
@@ -401,7 +405,7 @@
             </objects>
             <point key="canvasLocation" x="1503" y="1100"/>
         </scene>
-        <!--Profile Detail View Controller - Right Menu Only-->
+        <!--Right Menu Only-->
         <scene sceneID="w1a-xD-Zgv">
             <objects>
                 <viewController storyboardIdentifier="ProfileDetailViewController" id="BLR-mt-TZ9" customClass="ProfileDetailViewController" sceneMemberID="viewController">
