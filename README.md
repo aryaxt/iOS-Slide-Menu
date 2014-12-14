@@ -33,9 +33,9 @@ Setup
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	LeftMenuViewController *leftMenu = [[LeftMenuViewController alloc] init];
-        RightMenuViewController *righMenu = [[RightMenuViewController alloc] init];
+        RightMenuViewController *rightMenu = [[RightMenuViewController alloc] init];
 	
-	[SlideNavigationController sharedInstance].righMenu = rightMenu;
+	[SlideNavigationController sharedInstance].rightMenu = rightMenu;
 	[SlideNavigationController sharedInstance].leftMenu = leftMenu;
 	
     // Override point for customization after application launch.
