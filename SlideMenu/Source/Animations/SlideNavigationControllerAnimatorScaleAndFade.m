@@ -1,5 +1,5 @@
 //
-//  SlideNavigationContorllerAnimationScale.m
+//  SlideNavigationControllerAnimationScaleAndFade.m
 //  SlideMenu
 //
 //  Created by Aryan Gh on 1/26/14.
@@ -25,56 +25,57 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "SlideNavigationContorllerAnimatorScale.h"
+#import "SlideNavigationControllerAnimatorScaleAndFade.h"
+#import "SlideNavigationControllerAnimatorFade.h"
+#import "SlideNavigationControllerAnimatorScale.h"
 
-@implementation SlideNavigationContorllerAnimatorScale
+@interface SlideNavigationControllerAnimatorScaleAndFade()
+@property (nonatomic, strong) SlideNavigationControllerAnimatorFade *fadeAnimation;
+@property (nonatomic, strong) SlideNavigationControllerAnimatorScale *scaleAnimation;
+@end
+
+@implementation SlideNavigationControllerAnimatorScaleAndFade
 
 #pragma mark - Initialization -
 
 - (id)init
 {
-	if (self = [self initWithMinimumScale:.9])
+	if (self = [self initWithMaximumFadeAlpha:.8 fadeColor:[UIColor blackColor] andMinimumScale:.8])
 	{
 	}
 	
 	return self;
 }
 
-- (id)initWithMinimumScale:(CGFloat)minimumScale
+- (id)initWithMaximumFadeAlpha:(CGFloat)maximumFadeAlpha fadeColor:(UIColor *)fadeColor andMinimumScale:(CGFloat)minimumScale
 {
 	if (self = [super init])
 	{
-		self.minimumScale = minimumScale;
+		self.fadeAnimation = [[SlideNavigationControllerAnimatorFade alloc] initWithMaximumFadeAlpha:maximumFadeAlpha andFadeColor:fadeColor];
+		self.scaleAnimation = [[SlideNavigationControllerAnimatorScale alloc] initWithMinimumScale:minimumScale];
 	}
 	
 	return self;
 }
 
-#pragma mark - SlideNavigationContorllerAnimation Methods -
+#pragma mark - SlideNavigationControllerAnimation Methods -
 
 - (void)prepareMenuForAnimation:(Menu)menu
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
-		? [SlideNavigationController sharedInstance].leftMenu
-		: [SlideNavigationController sharedInstance].rightMenu;
-	
-	menuViewController.view.transform = CGAffineTransformScale(menuViewController.view.transform, self.minimumScale, self.minimumScale);
+	[self.fadeAnimation prepareMenuForAnimation:menu];
+	[self.scaleAnimation prepareMenuForAnimation:menu];
 }
 
 - (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
-		? [SlideNavigationController sharedInstance].leftMenu
-		: [SlideNavigationController sharedInstance].rightMenu;
-	
-	CGFloat scale = MIN(1, (1-self.minimumScale) *progress + self.minimumScale);
-	menuViewController.view.transform = CGAffineTransformScale([SlideNavigationController sharedInstance].view.transform, scale, scale);
+	[self.fadeAnimation animateMenu:menu withProgress:progress];
+	[self.scaleAnimation animateMenu:menu withProgress:progress];
 }
 
 - (void)clear
 {
-	[SlideNavigationController sharedInstance].leftMenu.view.transform = CGAffineTransformScale([SlideNavigationController sharedInstance].view.transform, 1, 1);
-	[SlideNavigationController sharedInstance].rightMenu.view.transform = CGAffineTransformScale([SlideNavigationController sharedInstance].view.transform, 1, 1);
+	[self.fadeAnimation clear];
+	[self.scaleAnimation clear];
 }
 
 @end

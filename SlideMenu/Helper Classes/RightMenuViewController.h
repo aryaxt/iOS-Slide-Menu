@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SlideNavigationContorllerAnimator.h"
-#import "SlideNavigationContorllerAnimatorFade.h"
-#import "SlideNavigationContorllerAnimatorSlide.h"
-#import "SlideNavigationContorllerAnimatorScale.h"
-#import "SlideNavigationContorllerAnimatorScaleAndFade.h"
-#import "SlideNavigationContorllerAnimatorSlideAndFade.h"
+#import "SlideNavigationControllerAnimator.h"
+#import "SlideNavigationControllerAnimatorFade.h"
+#import "SlideNavigationControllerAnimatorSlide.h"
+#import "SlideNavigationControllerAnimatorScale.h"
+#import "SlideNavigationControllerAnimatorScaleAndFade.h"
+#import "SlideNavigationControllerAnimatorSlideAndFade.h"
 
 @interface RightMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 

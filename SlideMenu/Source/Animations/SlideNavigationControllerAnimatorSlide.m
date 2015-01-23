@@ -1,5 +1,5 @@
 //
-//  SlideNavigationContorllerAnimationSlide.m
+//  SlideNavigationControllerAnimationSlide.m
 //  SlideMenu
 //
 //  Created by Aryan Gh on 1/26/14.
@@ -25,9 +25,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "SlideNavigationContorllerAnimatorSlide.h"
+#import "SlideNavigationControllerAnimatorSlide.h"
 
-@implementation SlideNavigationContorllerAnimatorSlide
+@implementation SlideNavigationControllerAnimatorSlide
 
 #pragma mark - Initialization -
 
@@ -50,7 +50,7 @@
 	return self;
 }
 
-#pragma mark - SlideNavigationContorllerAnimation Methods -
+#pragma mark - SlideNavigationControllerAnimation Methods -
 
 - (void)prepareMenuForAnimation:(Menu)menu
 {

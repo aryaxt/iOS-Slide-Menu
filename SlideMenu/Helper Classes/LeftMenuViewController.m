@@ -7,11 +7,11 @@
 //
 
 #import "LeftMenuViewController.h"
-#import "SlideNavigationContorllerAnimatorFade.h"
-#import "SlideNavigationContorllerAnimatorSlide.h"
-#import "SlideNavigationContorllerAnimatorScale.h"
-#import "SlideNavigationContorllerAnimatorScaleAndFade.h"
-#import "SlideNavigationContorllerAnimatorSlideAndFade.h"
+#import "SlideNavigationControllerAnimatorFade.h"
+#import "SlideNavigationControllerAnimatorSlide.h"
+#import "SlideNavigationControllerAnimatorScale.h"
+#import "SlideNavigationControllerAnimatorScaleAndFade.h"
+#import "SlideNavigationControllerAnimatorSlideAndFade.h"
 
 @implementation LeftMenuViewController
 
