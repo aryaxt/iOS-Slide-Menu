@@ -107,10 +107,13 @@
         : (self.slideMovement * (1-progress));
     
     if (menu == MenuLeft)
+    {
         location = (location > 0) ? 0 : location;
-    
-    if (menu == MenuRight)
+    }
+    else
+    {
         location = (location < 0) ? 0 : location;
+    }    
     
     CGRect rect = menuViewController.view.frame;
     
