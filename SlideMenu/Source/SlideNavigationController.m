@@ -658,6 +658,13 @@ static SlideNavigationController *singletonInstance;
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
 }
 
+#pragma mark - UIGestureRecognizerDelegate Methods -
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+	return YES;
+}
+
 #pragma mark - UINavigationControllerDelegate Methods -
 
 - (void)navigationController:(UINavigationController *)navigationController
