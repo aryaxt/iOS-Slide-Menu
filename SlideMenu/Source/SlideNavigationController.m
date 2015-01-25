@@ -102,6 +102,16 @@ static SlideNavigationController *singletonInstance;
 	return self;
 }
 
+- (id)initWithNavigationBarClass:(Class)navigationBarClass toolbarClass:(Class)toolbarClass
+{
+	if (self = [super initWithNavigationBarClass:navigationBarClass toolbarClass:toolbarClass])
+	{
+		[self setup];
+	}
+	
+	return self;
+}
+
 - (void)setup
 {
 	if (singletonInstance)
@@ -109,8 +119,8 @@ static SlideNavigationController *singletonInstance;
 	
 	singletonInstance = self;
 	
-    self.menuRevealAnimationDuration = MENU_SLIDE_ANIMATION_DURATION;
-    self.menuRevealAnimationOption = MENU_SLIDE_ANIMATION_OPTION;
+	self.menuRevealAnimationDuration = MENU_SLIDE_ANIMATION_DURATION;
+	self.menuRevealAnimationOption = MENU_SLIDE_ANIMATION_OPTION;
 	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.panGestureSideOffset = 0;
