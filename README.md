@@ -96,6 +96,10 @@ Behaves exactly the same as leftbarButtonItem, but it's used as the right button
 Default value of portraitSlideOffset is 60. This means when the menu is open, the width of the visible portion of the navigation controller is 60 pixels in portrait mode
 ###### landscapeSlideOffset
 Default value of portraitSlideOffset is 60. This means when the menu is open, the width of the visible portion of the navigation controller is 60 pixels in landscape mode
+###### menuRevealAnimationDuration
+Default value of animation duration is .3, this property allows configuring animation duration
+###### menuRevealAnimationOption
+Defaults to UIViewAnimationOptionCurveEaseOut, you can change this property to configure animation options
 ###### menuRevealAnimator
 menuRevealAnimator is used to animate the left/right menu during reveal. The default value is nil, that means no animations occure when opening/closing the menu. 
 
