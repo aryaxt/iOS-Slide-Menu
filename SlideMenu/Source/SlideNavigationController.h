@@ -41,7 +41,7 @@ typedef  enum{
 	MenuRight = 2
 }Menu;
 
-@protocol SlideNavigationContorllerAnimator;
+@protocol SlideNavigationControllerAnimator;
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
 
 extern NSString * const SlideNavigationControllerDidOpen;
@@ -58,7 +58,7 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 @property (nonatomic, assign) CGFloat portraitSlideOffset;
 @property (nonatomic, assign) CGFloat landscapeSlideOffset;
 @property (nonatomic, assign) CGFloat panGestureSideOffset;
-@property (nonatomic, strong) id <SlideNavigationContorllerAnimator> menuRevealAnimator;
+@property (nonatomic, strong) id <SlideNavigationControllerAnimator> menuRevealAnimator;
 
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion __deprecated;
