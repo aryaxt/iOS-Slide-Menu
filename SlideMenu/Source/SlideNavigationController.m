@@ -147,6 +147,8 @@ static SlideNavigationController *singletonInstance;
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
     self.menuNeedsLayout = YES;
 }
 
