@@ -124,37 +124,37 @@ static SlideNavigationController *singletonInstance;
 	// Update shadow size of enabled
 	if (self.enableShadow)
 		self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
-    
+	
     // When menu open we disable user interaction
     // When rotates we want to make sure that userInteraction is enabled again
-    [self enableTapGestureToCloseMenu:NO];
-    
-    if (self.menuNeedsLayout)
-    {
-        [self updateMenuFrameAndTransformAccordingToOrientation];
-        
+	[self enableTapGestureToCloseMenu:NO];
+	
+	if (self.menuNeedsLayout)
+	{
+		[self updateMenuFrameAndTransformAccordingToOrientation];
+		
         // Handle different horizontal/vertical slideOffset during rotation
         // On iOS below 8 we just close the menu, iOS8 handles rotation better so we support keepiong the menu open
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && [self isMenuOpen])
-        {
-            Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
-            [self openMenu:menu withDuration:0 andCompletion:nil];
-        }
-        
-        self.menuNeedsLayout = NO;
-    }
+		if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && [self isMenuOpen])
+		{
+			Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
+			[self openMenu:menu withDuration:0 andCompletion:nil];
+		}
+		
+		self.menuNeedsLayout = NO;
+	}
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-    self.menuNeedsLayout = YES;
+	self.menuNeedsLayout = YES;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 
-    self.menuNeedsLayout = YES;
+	self.menuNeedsLayout = YES;
 }
 
 #pragma mark - Public Methods -
@@ -193,9 +193,9 @@ static SlideNavigationController *singletonInstance;
 }
 
 - (void)switchToViewController:(UIViewController *)viewController
-		 withSlideOutAnimation:(BOOL)slideOutAnimation
-					   popType:(PopType)poptype
-				 andCompletion:(void (^)())completion
+withSlideOutAnimation:(BOOL)slideOutAnimation
+popType:(PopType)poptype
+andCompletion:(void (^)())completion
 {
 	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
 	{
@@ -231,15 +231,15 @@ static SlideNavigationController *singletonInstance;
 		if (slideOutAnimation)
 		{
 			[UIView animateWithDuration:(slideOutAnimation) ? MENU_SLIDE_ANIMATION_DURATION : 0
-								  delay:0
-								options:UIViewAnimationOptionCurveEaseOut
-							 animations:^{
-								 CGFloat width = self.horizontalSize;
-								 CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
-								 [self moveHorizontallyToLocation:moveLocation];
-							 } completion:^(BOOL finished) {
-								 switchAndCallCompletion(YES);
-							 }];
+				delay:0
+				options:UIViewAnimationOptionCurveEaseOut
+				animations:^{
+					CGFloat width = self.horizontalSize;
+					CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
+					[self moveHorizontallyToLocation:moveLocation];
+				} completion:^(BOOL finished) {
+					switchAndCallCompletion(YES);
+				}];
 		}
 		else
 		{
@@ -258,27 +258,27 @@ static SlideNavigationController *singletonInstance;
 }
 
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController
-				  withSlideOutAnimation:(BOOL)slideOutAnimation
-						  andCompletion:(void (^)())completion
+withSlideOutAnimation:(BOOL)slideOutAnimation
+andCompletion:(void (^)())completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:slideOutAnimation popType:PopTypeRoot andCompletion:completion];
 }
 
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController
-						 withCompletion:(void (^)())completion
+withCompletion:(void (^)())completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeRoot andCompletion:completion];
 }
 
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController
-		 withSlideOutAnimation:(BOOL)slideOutAnimation
-				 andCompletion:(void (^)())completion
+withSlideOutAnimation:(BOOL)slideOutAnimation
+andCompletion:(void (^)())completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:slideOutAnimation popType:PopTypeAll andCompletion:completion];
 }
 
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController
-						 withCompletion:(void (^)())completion
+withCompletion:(void (^)())completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeAll andCompletion:completion];
 }
@@ -431,7 +431,7 @@ static SlideNavigationController *singletonInstance;
 	else
 	{
 		UIImage *image = [UIImage imageNamed:MENU_IMAGE];
-        return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
+		return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
 	}
 }
 
@@ -464,42 +464,42 @@ static SlideNavigationController *singletonInstance;
 	[self prepareMenuForReveal:menu];
 	
 	[UIView animateWithDuration:duration
-						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
-					 animations:^{
-						 CGRect rect = self.view.frame;
-						 CGFloat width = self.horizontalSize;
-						 rect.origin.x = (menu == MenuLeft) ? (width - self.slideOffset) : ((width - self.slideOffset )* -1);
-						 [self moveHorizontallyToLocation:rect.origin.x];
-					 }
-					 completion:^(BOOL finished) {
-						 if (completion)
-							 completion();
-                         
-                         [self postNotificationWithName:SlideNavigationControllerDidOpen forMenu:menu];
-					 }];
+		delay:0
+		options:UIViewAnimationOptionCurveEaseOut
+		animations:^{
+			CGRect rect = self.view.frame;
+			CGFloat width = self.horizontalSize;
+			rect.origin.x = (menu == MenuLeft) ? (width - self.slideOffset) : ((width - self.slideOffset )* -1);
+			[self moveHorizontallyToLocation:rect.origin.x];
+		}
+		completion:^(BOOL finished) {
+			if (completion)
+				completion();
+			
+			[self postNotificationWithName:SlideNavigationControllerDidOpen forMenu:menu];
+		}];
 }
 
 - (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
 {
 	[self enableTapGestureToCloseMenu:NO];
-    
-     Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
+	
+	Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
 	
 	[UIView animateWithDuration:duration
-						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
-					 animations:^{
-						 CGRect rect = self.view.frame;
-						 rect.origin.x = 0;
-						 [self moveHorizontallyToLocation:rect.origin.x];
-					 }
-					 completion:^(BOOL finished) {
-						 if (completion)
-							 completion();
-                         
-                         [self postNotificationWithName:SlideNavigationControllerDidClose forMenu:menu];
-					 }];
+		delay:0
+		options:UIViewAnimationOptionCurveEaseOut
+		animations:^{
+			CGRect rect = self.view.frame;
+			rect.origin.x = 0;
+			[self moveHorizontallyToLocation:rect.origin.x];
+		}
+		completion:^(BOOL finished) {
+			if (completion)
+				completion();
+			
+			[self postNotificationWithName:SlideNavigationControllerDidClose forMenu:menu];
+		}];
 }
 
 - (void)moveHorizontallyToLocation:(CGFloat)location
@@ -507,29 +507,29 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	Menu menu = (self.horizontalLocation >= 0 && location >= 0) ? MenuLeft : MenuRight;
-    
-    if ((location > 0 && self.horizontalLocation <= 0) || (location < 0 && self.horizontalLocation >= 0)) {
-        [self postNotificationWithName:SlideNavigationControllerDidReveal forMenu:(location > 0) ? MenuLeft : MenuRight];
-    }
 	
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
-    {
-        rect.origin.x = location;
-        rect.origin.y = 0;
-    }
-    else
-    {
-        if (UIInterfaceOrientationIsLandscape(orientation))
-        {
-            rect.origin.x = 0;
-            rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
-        }
-        else
-        {
-            rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
-            rect.origin.y = 0;
-        }
-    }
+	if ((location > 0 && self.horizontalLocation <= 0) || (location < 0 && self.horizontalLocation >= 0)) {
+		[self postNotificationWithName:SlideNavigationControllerDidReveal forMenu:(location > 0) ? MenuLeft : MenuRight];
+	}
+	
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+	{
+		rect.origin.x = location;
+		rect.origin.y = 0;
+	}
+	else
+	{
+		if (UIInterfaceOrientationIsLandscape(orientation))
+		{
+			rect.origin.x = 0;
+			rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
+		}
+		else
+		{
+			rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
+			rect.origin.y = 0;
+		}
+	}
 	
 	self.view.frame = rect;
 	[self updateMenuAnimation:menu];
@@ -538,8 +538,8 @@ static SlideNavigationController *singletonInstance;
 - (void)updateMenuAnimation:(Menu)menu
 {
 	CGFloat progress = (menu == MenuLeft)
-		? (self.horizontalLocation / (self.horizontalSize - self.slideOffset))
-		: (self.horizontalLocation / ((self.horizontalSize - self.slideOffset) * -1));
+	? (self.horizontalLocation / (self.horizontalSize - self.slideOffset))
+	: (self.horizontalLocation / ((self.horizontalSize - self.slideOffset) * -1));
 	
 	[self.menuRevealAnimator animateMenu:menu withProgress:progress];
 }
@@ -551,21 +551,21 @@ static SlideNavigationController *singletonInstance;
 	rect.origin.y = 0;
 	
 	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"))
-    {
-        return rect;
-    }
+	{
+		return rect;
+	}
 	
 	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
-        rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
-        rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
+		rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
+		rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
 	}
 	else
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
-        rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
-        rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
+		rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
+		rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
 	}
 	
 	return rect;
@@ -574,13 +574,13 @@ static SlideNavigationController *singletonInstance;
 - (void)prepareMenuForReveal:(Menu)menu
 {
 	// Only prepare menu if it has changed (ex: from MenuLeft to MenuRight or vice versa)
-    if (self.lastRevealedMenu && menu == self.lastRevealedMenu)
-        return;
-    
-    UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
+	if (self.lastRevealedMenu && menu == self.lastRevealedMenu)
+		return;
+	
+	UIViewController *menuViewController = (menu == MenuLeft) ? self.leftMenu : self.rightMenu;
 	UIViewController *removingMenuViewController = (menu == MenuLeft) ? self.rightMenu : self.leftMenu;
 
-    self.lastRevealedMenu = menu;
+	self.lastRevealedMenu = menu;
 	
 	[removingMenuViewController.view removeFromSuperview];
 	[self.view.window insertSubview:menuViewController.view atIndex:0];
@@ -595,25 +595,25 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
-    {
-        return rect.origin.x;
-    }
-    else
-    {
-        if (UIInterfaceOrientationIsLandscape(orientation))
-        {
-            return (orientation == UIInterfaceOrientationLandscapeRight)
-            ? rect.origin.y
-            : rect.origin.y*-1;
-        }
-        else
-        {
-            return (orientation == UIInterfaceOrientationPortrait)
-            ? rect.origin.x
-            : rect.origin.x*-1;
-        }
-    }
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+	{
+		return rect.origin.x;
+	}
+	else
+	{
+		if (UIInterfaceOrientationIsLandscape(orientation))
+		{
+			return (orientation == UIInterfaceOrientationLandscapeRight)
+			? rect.origin.y
+			: rect.origin.y*-1;
+		}
+		else
+		{
+			return (orientation == UIInterfaceOrientationPortrait)
+			? rect.origin.x
+			: rect.origin.x*-1;
+		}
+	}
 }
 
 - (CGFloat)horizontalSize
@@ -621,48 +621,58 @@ static SlideNavigationController *singletonInstance;
 	CGRect rect = self.view.frame;
 	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
-    {
-        return rect.size.width;
-    }
-    else
-    {
-        if (UIInterfaceOrientationIsLandscape(orientation))
-        {
-            return rect.size.height;
-        }
-        else
-        {
-            return rect.size.width;
-        }
-    }
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+	{
+		return rect.size.width;
+	}
+	else
+	{
+		if (UIInterfaceOrientationIsLandscape(orientation))
+		{
+			return rect.size.height;
+		}
+		else
+		{
+			return rect.size.width;
+		}
+	}
 }
 
 - (void)postNotificationWithName:(NSString *)name forMenu:(Menu)menu
 {
-    NSString *menuString = (menu == MenuLeft) ? NOTIFICATION_USER_INFO_MENU_LEFT : NOTIFICATION_USER_INFO_MENU_RIGHT;
-    NSDictionary *userInfo = @{ NOTIFICATION_USER_INFO_MENU : menuString };
-    [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
+	NSString *menuString = (menu == MenuLeft) ? NOTIFICATION_USER_INFO_MENU_LEFT : NOTIFICATION_USER_INFO_MENU_RIGHT;
+	NSDictionary *userInfo = @{ NOTIFICATION_USER_INFO_MENU : menuString };
+	[[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
 }
 
 #pragma mark - UINavigationControllerDelegate Methods -
 
 - (void)navigationController:(UINavigationController *)navigationController
-	  willShowViewController:(UIViewController *)viewController
-					animated:(BOOL)animated
+willShowViewController:(UIViewController *)viewController
+animated:(BOOL)animated
 {
-	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
-		viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
+	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController]) {
+		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldShowActionBarIcon)] &&
+			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldShowActionBarIcon])
+		{
+			viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
+		}
+	}
 	
-	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
-		viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+	if ([self shouldDisplayMenu:MenuRight forViewController:viewController]) {
+		if ([vc respondsToSelector:@selector(slideNavigationControllerShouldShowActionBarIcon)] &&
+			[(UIViewController<SlideNavigationControllerDelegate> *)vc slideNavigationControllerShouldShowActionBarIcon])
+		{
+			viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+		}
+	}
 }
 
 - (CGFloat)slideOffset
 {
 	return (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-		? self.landscapeSlideOffset
-		: self.portraitSlideOffset;
+	? self.landscapeSlideOffset
+	: self.portraitSlideOffset;
 }
 
 #pragma mark - IBActions -
@@ -699,34 +709,34 @@ static SlideNavigationController *singletonInstance;
 	CGFloat horizontalSize = [self horizontalSize];
 	
 	return (pointInView.x <= self.panGestureSideOffset || pointInView.x >= horizontalSize - self.panGestureSideOffset)
-		? YES
-		: NO;
+	? YES
+	: NO;
 }
 
 - (void)panDetected:(UIPanGestureRecognizer *)aPanRecognizer
 {
 	CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
-    CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
+	CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
 	NSInteger movement = translation.x - self.draggingPoint.x;
 	
-    Menu currentMenu;
-    
-    if (self.horizontalLocation > 0)
-        currentMenu = MenuLeft;
-    else if (self.horizontalLocation < 0)
-        currentMenu = MenuRight;
-    else
-        currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
-    
-    if (![self shouldDisplayMenu:currentMenu forViewController:self.topViewController])
-        return;
-    
-    [self prepareMenuForReveal:currentMenu];
-    
-    if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
+	Menu currentMenu;
+	
+	if (self.horizontalLocation > 0)
+		currentMenu = MenuLeft;
+	else if (self.horizontalLocation < 0)
+		currentMenu = MenuRight;
+	else
+		currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
+	
+	if (![self shouldDisplayMenu:currentMenu forViewController:self.topViewController])
+		return;
+	
+	[self prepareMenuForReveal:currentMenu];
+	
+	if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
 	{
 		self.draggingPoint = translation;
-    }
+	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateChanged)
 	{
 		static CGFloat lastHorizontalLocation = 0;
@@ -741,7 +751,7 @@ static SlideNavigationController *singletonInstance;
 	}
 	else if (aPanRecognizer.state == UIGestureRecognizerStateEnded)
 	{
-        NSInteger currentX = [self horizontalLocation];
+		NSInteger currentX = [self horizontalLocation];
 		NSInteger currentXOffset = (currentX > 0) ? currentX : currentX * -1;
 		NSInteger positiveVelocity = (velocity.x > 0) ? velocity.x : velocity.x * -1;
 		
@@ -784,7 +794,7 @@ static SlideNavigationController *singletonInstance;
 			else
 				[self openMenu:(currentX > 0) ? MenuLeft : MenuRight withCompletion:nil];
 		}
-    }
+	}
 }
 
 - (NSInteger)minXForDragging
@@ -853,16 +863,16 @@ static SlideNavigationController *singletonInstance;
 
 - (void)setLeftMenu:(UIViewController *)leftMenu
 {
-    [_leftMenu.view removeFromSuperview];
-    
-    _leftMenu = leftMenu;
+	[_leftMenu.view removeFromSuperview];
+	
+	_leftMenu = leftMenu;
 }
 
 - (void)setRightMenu:(UIViewController *)rightMenu
 {
-    [_rightMenu.view removeFromSuperview];
-    
-    _rightMenu = rightMenu;
+	[_rightMenu.view removeFromSuperview];
+	
+	_rightMenu = rightMenu;
 }
 
 @end
