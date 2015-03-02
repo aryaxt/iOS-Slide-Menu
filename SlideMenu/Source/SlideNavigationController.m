@@ -48,6 +48,7 @@ NSString * const SlideNavigationControllerDidClose = @"SlideNavigationController
 NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
 
 #define MENU_SLIDE_ANIMATION_DURATION .3
+#define MENU_SLIDE_ANIMATION_OPTION UIViewAnimationOptionCurveEaseOut
 #define MENU_QUICK_SLIDE_ANIMATION_DURATION .18
 #define MENU_IMAGE @"menu-button"
 #define MENU_SHADOW_RADIUS 10
@@ -101,6 +102,16 @@ static SlideNavigationController *singletonInstance;
 	return self;
 }
 
+- (id)initWithNavigationBarClass:(Class)navigationBarClass toolbarClass:(Class)toolbarClass
+{
+	if (self = [super initWithNavigationBarClass:navigationBarClass toolbarClass:toolbarClass])
+	{
+		[self setup];
+	}
+	
+	return self;
+}
+
 - (void)setup
 {
 	if (singletonInstance)
@@ -108,6 +119,8 @@ static SlideNavigationController *singletonInstance;
 	
 	singletonInstance = self;
 	
+	self.menuRevealAnimationDuration = MENU_SLIDE_ANIMATION_DURATION;
+	self.menuRevealAnimationOption = MENU_SLIDE_ANIMATION_OPTION;
 	self.landscapeSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.portraitSlideOffset = MENU_DEFAULT_SLIDE_OFFSET;
 	self.panGestureSideOffset = 0;
@@ -232,9 +245,9 @@ static SlideNavigationController *singletonInstance;
 	{
 		if (slideOutAnimation)
 		{
-			[UIView animateWithDuration:(slideOutAnimation) ? MENU_SLIDE_ANIMATION_DURATION : 0
+			[UIView animateWithDuration:(slideOutAnimation) ? self.menuRevealAnimationDuration : 0
 								  delay:0
-								options:UIViewAnimationOptionCurveEaseOut
+								options:self.menuRevealAnimationOption
 							 animations:^{
 								 CGFloat width = self.horizontalSize;
 								 CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
@@ -287,12 +300,12 @@ static SlideNavigationController *singletonInstance;
 
 - (void)closeMenuWithCompletion:(void (^)())completion
 {
-	[self closeMenuWithDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
+	[self closeMenuWithDuration:self.menuRevealAnimationDuration andCompletion:completion];
 }
 
 - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
 {
-	[self openMenu:menu withDuration:MENU_SLIDE_ANIMATION_DURATION andCompletion:completion];
+	[self openMenu:menu withDuration:self.menuRevealAnimationDuration andCompletion:completion];
 }
 
 - (void)toggleLeftMenu
@@ -467,7 +480,7 @@ static SlideNavigationController *singletonInstance;
 	
 	[UIView animateWithDuration:duration
 						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
+						options:self.menuRevealAnimationOption
 					 animations:^{
 						 CGRect rect = self.view.frame;
 						 CGFloat width = self.horizontalSize;
@@ -490,7 +503,7 @@ static SlideNavigationController *singletonInstance;
 	
 	[UIView animateWithDuration:duration
 						  delay:0
-						options:UIViewAnimationOptionCurveEaseOut
+						options:self.menuRevealAnimationOption
 					 animations:^{
 						 CGRect rect = self.view.frame;
 						 rect.origin.x = 0;
@@ -645,6 +658,13 @@ static SlideNavigationController *singletonInstance;
     NSString *menuString = (menu == MenuLeft) ? NOTIFICATION_USER_INFO_MENU_LEFT : NOTIFICATION_USER_INFO_MENU_RIGHT;
     NSDictionary *userInfo = @{ NOTIFICATION_USER_INFO_MENU : menuString };
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
+}
+
+#pragma mark - UIGestureRecognizerDelegate Methods -
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+	return YES;
 }
 
 #pragma mark - UINavigationControllerDelegate Methods -
