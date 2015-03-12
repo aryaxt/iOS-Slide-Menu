@@ -11,6 +11,10 @@ iOS Slide Menu built on top of UINavigationController, with configurable buttons
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Slide-Menu/master/slideMenuAnimation.gif)
 
+Version 1.4.5 Notes
+---------
+Enabling shouldRecognizeSimultaneouslyWithGestureRecognizer was causing issues, if you are seeing unexpected gesture behavior delete the pod and reinstall as that method has been removed
+
 Version 1.4.0 Notes
 ---------
 ```switchToViewController:withCompletion:``` method has been deprecated. In order to get the exact same behavior use ```popToRootAndSwitchToViewController:withCompletion```
