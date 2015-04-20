@@ -1,5 +1,6 @@
-iOS-Slide-Menu
+iOS-Slide-Menu [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Slide-Menu/badge.png)](http://cocoadocs.org/docsets/iOS-Slide-Menu)
 ---------
+
 iOS Slide Menu built on top of UINavigationController, with configurable buttons, reveal animations, and tap/swiper gesture recognizers.
 
 - [Setup](https://github.com/aryaxt/iOS-Slide-Menu#setup)
