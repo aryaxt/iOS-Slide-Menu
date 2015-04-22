@@ -39,6 +39,7 @@ typedef enum {
 @property (nonatomic, assign) CGPoint draggingPoint;
 @property (nonatomic, assign) Menu lastRevealedMenu;
 @property (nonatomic, assign) BOOL menuNeedsLayout;
+@property (nonatomic, assign) Menu revealingMenu;
 @end
 
 @implementation SlideNavigationController
@@ -305,6 +306,7 @@ static SlideNavigationController *singletonInstance;
 
 - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
 {
+    self.revealingMenu = menu;
 	[self openMenu:menu withDuration:self.menuRevealAnimationDuration andCompletion:completion];
 }
 
@@ -675,9 +677,12 @@ static SlideNavigationController *singletonInstance;
 
 - (CGFloat)slideOffset
 {
-	return (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-		? self.landscapeSlideOffset
-		: self.portraitSlideOffset;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        return (self.revealingMenu == MenuLeft) ? self.leftMenuOffsetLandscape : self.rightMenuOffsetLandscape;
+    }
+    else {
+        return (self.revealingMenu == MenuLeft) ? self.leftMenuOffsetPortrait : self.rightMenuOffsetPortrait;
+    }
 }
 
 #pragma mark - IBActions -
@@ -823,6 +828,18 @@ static SlideNavigationController *singletonInstance;
 }
 
 #pragma mark - Setter & Getter -
+
+- (void)setPortraitSlideOffset:(CGFloat)portraitSlideOffset {
+    _portraitSlideOffset = portraitSlideOffset;
+    _leftMenuOffsetPortrait = portraitSlideOffset;
+    _rightMenuOffsetPortrait = portraitSlideOffset;
+}
+
+- (void)setLandscapeSlideOffset:(CGFloat)landscapeSlideOffset {
+    _landscapeSlideOffset = landscapeSlideOffset;
+    _leftMenuOffsetPortrait = landscapeSlideOffset;
+    _rightMenuOffsetPortrait = landscapeSlideOffset;
+}
 
 - (UITapGestureRecognizer *)tapRecognizer
 {
