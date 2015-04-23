@@ -537,7 +537,7 @@ static SlideNavigationController *singletonInstance;
         if (UIDeviceOrientationIsLandscape(orientation))
         {
             rect.origin.x = 0;
-            rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location : location*-1;
+			rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location*-1 : location;
         }
         else
         {
@@ -621,8 +621,8 @@ static SlideNavigationController *singletonInstance;
         if (UIDeviceOrientationIsLandscape(orientation))
         {
             return (orientation == UIDeviceOrientationLandscapeRight)
-            ? rect.origin.y
-            : rect.origin.y*-1;
+            ? rect.origin.y*-1
+            : rect.origin.y;
         }
         else
         {

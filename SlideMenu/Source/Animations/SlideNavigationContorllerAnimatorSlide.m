@@ -122,7 +122,7 @@
     {
         if (UIDeviceOrientationIsLandscape(orientation))
         {
-            rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location : location*-1;
+            rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location*-1 : location;
         }
         else
         {
