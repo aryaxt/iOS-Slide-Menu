@@ -38,6 +38,7 @@ typedef enum {
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint draggingPoint;
 @property (nonatomic, assign) Menu lastRevealedMenu;
+@property (nonatomic, assign) Menu currentMenu;
 @property (nonatomic, assign) BOOL menuNeedsLayout;
 @end
 
