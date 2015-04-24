@@ -62,6 +62,11 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 @property (nonatomic, assign) UIViewAnimationOptions menuRevealAnimationOption;
 @property (nonatomic, strong) id <SlideNavigationContorllerAnimator> menuRevealAnimator;
 
+@property (nonatomic, assign) CGFloat leftMenuOffsetPortrait;
+@property (nonatomic, assign) CGFloat rightMenuOffsetPortrait;
+@property (nonatomic, assign) CGFloat leftMenuOffsetLandscape;
+@property (nonatomic, assign) CGFloat rightMenuOffsetLandscape;
+
 + (SlideNavigationController *)sharedInstance;
 - (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion __deprecated;
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;

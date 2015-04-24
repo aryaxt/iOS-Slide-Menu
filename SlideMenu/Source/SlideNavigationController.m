@@ -824,6 +824,18 @@ static SlideNavigationController *singletonInstance;
 
 #pragma mark - Setter & Getter -
 
+- (void)setPortraitSlideOffset:(CGFloat)portraitSlideOffset {
+    _portraitSlideOffset = portraitSlideOffset;
+    _leftMenuOffsetPortrait = portraitSlideOffset;
+    _rightMenuOffsetPortrait = portraitSlideOffset;
+}
+
+- (void)setLandscapeSlideOffset:(CGFloat)landscapeSlideOffset {
+    _landscapeSlideOffset = landscapeSlideOffset;
+    _leftMenuOffsetPortrait = landscapeSlideOffset;
+    _rightMenuOffsetPortrait = landscapeSlideOffset;
+}
+
 - (UITapGestureRecognizer *)tapRecognizer
 {
 	if (!_tapRecognizer)
