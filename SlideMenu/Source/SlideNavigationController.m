@@ -676,9 +676,12 @@ static SlideNavigationController *singletonInstance;
 
 - (CGFloat)slideOffset
 {
-	return (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
-		? self.landscapeSlideOffset
-		: self.portraitSlideOffset;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        return (self.currentMenu == MenuLeft) ? self.leftMenuOffsetLandscape : self.rightMenuOffsetLandscape;
+    }
+    else {
+        return (self.currentMenu == MenuLeft) ? self.leftMenuOffsetPortrait : self.rightMenuOffsetPortrait;
+    }
 }
 
 #pragma mark - IBActions -
