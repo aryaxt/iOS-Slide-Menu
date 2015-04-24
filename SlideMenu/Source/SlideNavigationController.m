@@ -306,6 +306,7 @@ static SlideNavigationController *singletonInstance;
 
 - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
 {
+    self.currentMenu = menu;
 	[self openMenu:menu withDuration:self.menuRevealAnimationDuration andCompletion:completion];
 }
 
@@ -727,20 +728,18 @@ static SlideNavigationController *singletonInstance;
 	CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
     CGPoint velocity = [aPanRecognizer velocityInView:aPanRecognizer.view];
 	NSInteger movement = translation.x - self.draggingPoint.x;
-	
-    Menu currentMenu;
     
     if (self.horizontalLocation > 0)
-        currentMenu = MenuLeft;
+        self.currentMenu = MenuLeft;
     else if (self.horizontalLocation < 0)
-        currentMenu = MenuRight;
+        self.currentMenu = MenuRight;
     else
-        currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
+        self.currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
     
-    if (![self shouldDisplayMenu:currentMenu forViewController:self.topViewController])
+    if (![self shouldDisplayMenu:self.currentMenu forViewController:self.topViewController])
         return;
     
-    [self prepareMenuForReveal:currentMenu];
+    [self prepareMenuForReveal:self.currentMenu];
     
     if (aPanRecognizer.state == UIGestureRecognizerStateBegan)
 	{
