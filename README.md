@@ -191,4 +191,8 @@ Userinfo contains a value with key "menu", which could have 2 values "left" and 
 This notification is posted once everytim a menu reveals
 Userinfo contains a value with key "menu", which could have 2 values "left" and "right"
 
+###### SlideNavigationControllerWillReveal
+This notification is posted once just before a menu reveals
+Userinfo contains a value with key "menu", which could have 2 values "left" and "right"
+
 

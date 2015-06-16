@@ -47,6 +47,7 @@ typedef  enum{
 extern NSString * const SlideNavigationControllerDidOpen;
 extern NSString  *const SlideNavigationControllerDidClose;
 extern NSString  *const SlideNavigationControllerDidReveal;
+extern NSString  *const SlideNavigationControllerWillReveal;
 
 @property (nonatomic, assign) BOOL avoidSwitchingToSameClassViewController;
 @property (nonatomic, assign) BOOL enableSwipeGesture;
