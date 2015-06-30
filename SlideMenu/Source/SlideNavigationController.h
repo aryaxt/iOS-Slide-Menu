@@ -44,6 +44,7 @@ typedef  enum{
 @protocol SlideNavigationContorllerAnimator;
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
 
+extern NSString * const SlideNavigationControllerWillOpen;
 extern NSString * const SlideNavigationControllerDidOpen;
 extern NSString  *const SlideNavigationControllerDidClose;
 extern NSString  *const SlideNavigationControllerDidReveal;
@@ -74,5 +75,7 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 - (void)toggleLeftMenu;
 - (void)toggleRightMenu;
 - (BOOL)isMenuOpen;
+
+- (void)prepareMenuForReveal:(Menu)menu;
 
 @end

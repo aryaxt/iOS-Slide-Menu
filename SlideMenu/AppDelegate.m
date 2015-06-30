@@ -42,6 +42,11 @@
         NSLog(@"Opened %@", menu);
     }];
     
+    [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerWillOpen object:nil queue:nil usingBlock:^(NSNotification *note) {
+        NSString *menu = note.userInfo[@"menu"];
+        NSLog(@"Opening %@", menu);
+    }];
+    
     [[NSNotificationCenter defaultCenter] addObserverForName:SlideNavigationControllerDidReveal object:nil queue:nil usingBlock:^(NSNotification *note) {
         NSString *menu = note.userInfo[@"menu"];
         NSLog(@"Revealed %@", menu);

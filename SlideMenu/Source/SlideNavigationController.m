@@ -43,9 +43,10 @@ typedef enum {
 
 @implementation SlideNavigationController
 
+NSString * const SlideNavigationControllerWillOpen = @"SlideNavigationControllerWillOpen";
 NSString * const SlideNavigationControllerDidOpen = @"SlideNavigationControllerDidOpen";
 NSString * const SlideNavigationControllerDidClose = @"SlideNavigationControllerDidClose";
-NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
+NSString * const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
 
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_SLIDE_ANIMATION_OPTION UIViewAnimationOptionCurveEaseOut
@@ -605,6 +606,8 @@ static SlideNavigationController *singletonInstance;
 	[self updateMenuFrameAndTransformAccordingToOrientation];
 	
 	[self.menuRevealAnimator prepareMenuForAnimation:menu];
+    
+    [self postNotificationWithName:SlideNavigationControllerWillOpen forMenu:menu];
 }
 
 - (CGFloat)horizontalLocation
