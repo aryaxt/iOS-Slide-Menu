@@ -1,6 +1,5 @@
-iOS-Slide-Menu [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Slide-Menu/badge.png)](http://cocoadocs.org/docsets/iOS-Slide-Menu)
+iOS-Slide-Menu
 ---------
-
 iOS Slide Menu built on top of UINavigationController, with configurable buttons, reveal animations, and tap/swiper gesture recognizers.
 
 - [Setup](https://github.com/aryaxt/iOS-Slide-Menu#setup)
@@ -11,10 +10,6 @@ iOS Slide Menu built on top of UINavigationController, with configurable buttons
 - [Notifications](https://github.com/aryaxt/iOS-Slide-Menu#notifications)
 
 ![alt tag](https://raw.github.com/aryaxt/iOS-Slide-Menu/master/slideMenuAnimation.gif)
-
-Version 1.4.5 Notes
----------
-Enabling shouldRecognizeSimultaneouslyWithGestureRecognizer was causing issues, if you are seeing unexpected gesture behavior delete the pod and reinstall as that method has been removed
 
 Version 1.4.0 Notes
 ---------
