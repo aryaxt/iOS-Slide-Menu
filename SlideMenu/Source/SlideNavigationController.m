@@ -43,10 +43,9 @@ typedef enum {
 
 @implementation SlideNavigationController
 
-NSString * const SlideNavigationControllerWillOpen = @"SlideNavigationControllerWillOpen";
 NSString * const SlideNavigationControllerDidOpen = @"SlideNavigationControllerDidOpen";
 NSString * const SlideNavigationControllerDidClose = @"SlideNavigationControllerDidClose";
-NSString * const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
+NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
 
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_SLIDE_ANIMATION_OPTION UIViewAnimationOptionCurveEaseOut
@@ -521,7 +520,7 @@ static SlideNavigationController *singletonInstance;
 - (void)moveHorizontallyToLocation:(CGFloat)location
 {
 	CGRect rect = self.view.frame;
-	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	Menu menu = (self.horizontalLocation >= 0 && location >= 0) ? MenuLeft : MenuRight;
     
     if ((location > 0 && self.horizontalLocation <= 0) || (location < 0 && self.horizontalLocation >= 0)) {
@@ -535,14 +534,14 @@ static SlideNavigationController *singletonInstance;
     }
     else
     {
-        if (UIDeviceOrientationIsLandscape(orientation))
+        if (UIInterfaceOrientationIsLandscape(orientation))
         {
             rect.origin.x = 0;
-			rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location*-1 : location;
+            rect.origin.y = (orientation == UIInterfaceOrientationLandscapeRight) ? location : location*-1;
         }
         else
         {
-            rect.origin.x = (orientation == UIDeviceOrientationPortrait) ? location : location*-1;
+            rect.origin.x = (orientation == UIInterfaceOrientationPortrait) ? location : location*-1;
             rect.origin.y = 0;
         }
     }
@@ -571,18 +570,16 @@ static SlideNavigationController *singletonInstance;
         return rect;
     }
 	
-	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
-	
-	if (UIDeviceOrientationIsLandscape(orientation))
+	if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
-        rect.origin.x = (orientation == UIDeviceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
+        rect.origin.x = (self.interfaceOrientation == UIInterfaceOrientationLandscapeRight) ? 0 : STATUS_BAR_HEIGHT;
         rect.size.width = self.view.frame.size.width-STATUS_BAR_HEIGHT;
 	}
 	else
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
-        rect.origin.y = (orientation == UIDeviceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
+        rect.origin.y = (self.interfaceOrientation == UIInterfaceOrientationPortrait) ? STATUS_BAR_HEIGHT : 0;
         rect.size.height = self.view.frame.size.height-STATUS_BAR_HEIGHT;
 	}
 	
@@ -606,14 +603,12 @@ static SlideNavigationController *singletonInstance;
 	[self updateMenuFrameAndTransformAccordingToOrientation];
 	
 	[self.menuRevealAnimator prepareMenuForAnimation:menu];
-    
-    [self postNotificationWithName:SlideNavigationControllerWillOpen forMenu:menu];
 }
 
 - (CGFloat)horizontalLocation
 {
 	CGRect rect = self.view.frame;
-	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
@@ -621,15 +616,15 @@ static SlideNavigationController *singletonInstance;
     }
     else
     {
-        if (UIDeviceOrientationIsLandscape(orientation))
+        if (UIInterfaceOrientationIsLandscape(orientation))
         {
-            return (orientation == UIDeviceOrientationLandscapeRight)
-            ? rect.origin.y*-1
-            : rect.origin.y;
+            return (orientation == UIInterfaceOrientationLandscapeRight)
+            ? rect.origin.y
+            : rect.origin.y*-1;
         }
         else
         {
-            return (orientation == UIDeviceOrientationPortrait)
+            return (orientation == UIInterfaceOrientationPortrait)
             ? rect.origin.x
             : rect.origin.x*-1;
         }
@@ -639,7 +634,7 @@ static SlideNavigationController *singletonInstance;
 - (CGFloat)horizontalSize
 {
 	CGRect rect = self.view.frame;
-	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+	UIInterfaceOrientation orientation = self.interfaceOrientation;
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
@@ -647,7 +642,7 @@ static SlideNavigationController *singletonInstance;
     }
     else
     {
-        if (UIDeviceOrientationIsLandscape(orientation))
+        if (UIInterfaceOrientationIsLandscape(orientation))
         {
             return rect.size.height;
         }
@@ -680,7 +675,7 @@ static SlideNavigationController *singletonInstance;
 
 - (CGFloat)slideOffset
 {
-	return (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
+	return (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
 		? self.landscapeSlideOffset
 		: self.portraitSlideOffset;
 }
