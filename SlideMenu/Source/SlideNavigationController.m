@@ -534,23 +534,17 @@ static SlideNavigationController *singletonInstance;
     }
     else
     {
-        // based on SO answer: http://stackoverflow.com/a/11996096
-        if (UIDeviceOrientationIsValidInterfaceOrientation([[UIDevice currentDevice] orientation]) == YES) {
-            if (UIDeviceOrientationIsLandscape(orientation))
-            {
-                rect.origin.x = 0;
-                rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location : location*-1;
-            }
-            else
-            {
-                rect.origin.x = (orientation == UIDeviceOrientationPortrait) ? location : location*-1;
-                rect.origin.y = 0;
-            }
-        }
+        // fallback to default (Portrait) orientation (based on SO answer http://stackoverflow.com/a/11996096 )
+        orientation = UIDeviceOrientationIsValidInterfaceOrientation(orientation) ? orientation : UIDeviceOrientationPortrait;
         
-        else {
-            // UIDeviceOrientationUnknown, so fallback to default origin
-            rect.origin.x = location;
+        if (UIDeviceOrientationIsLandscape(orientation))
+        {
+            rect.origin.x = 0;
+            rect.origin.y = (orientation == UIDeviceOrientationLandscapeRight) ? location : location*-1;
+        }
+        else
+        {
+            rect.origin.x = (orientation == UIDeviceOrientationPortrait) ? location : location*-1;
             rect.origin.y = 0;
         }
     }
@@ -581,7 +575,9 @@ static SlideNavigationController *singletonInstance;
 	
 	UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     
-	// ???: Should we handle (orientation == UIDeviceOrientationUnknown) case here?
+    // fallback to default (Portrait) orientation (based on SO answer http://stackoverflow.com/a/11996096 )
+    orientation = UIDeviceOrientationIsValidInterfaceOrientation(orientation) ? orientation : UIDeviceOrientationPortrait;
+    
 	if (UIDeviceOrientationIsLandscape(orientation))
 	{
         // For some reasons in landscape below the status bar is considered y=0, but in portrait it's considered y=20
@@ -628,7 +624,9 @@ static SlideNavigationController *singletonInstance;
     }
     else
     {
-        // ???: Should we handle (orientation == UIDeviceOrientationUnknown) case here?
+        // fallback to default (Portrait) orientation (based on SO answer http://stackoverflow.com/a/11996096 )
+        orientation = UIDeviceOrientationIsValidInterfaceOrientation(orientation) ? orientation : UIDeviceOrientationPortrait;
+        
         if (UIDeviceOrientationIsLandscape(orientation))
         {
             return (orientation == UIDeviceOrientationLandscapeRight)
@@ -655,7 +653,9 @@ static SlideNavigationController *singletonInstance;
     }
     else
     {
-        // ???: Should we handle (orientation == UIDeviceOrientationUnknown) case here?
+        // fallback to default (Portrait) orientation (based on SO answer http://stackoverflow.com/a/11996096 )
+        orientation = UIDeviceOrientationIsValidInterfaceOrientation(orientation) ? orientation : UIDeviceOrientationPortrait;
+        
         if (UIDeviceOrientationIsLandscape(orientation))
         {
             return rect.size.height;
@@ -689,10 +689,14 @@ static SlideNavigationController *singletonInstance;
 
 - (CGFloat)slideOffset
 {
-    // ???: Should we handle (orientation == UIDeviceOrientationUnknown) case here?
-	return (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
-		? self.landscapeSlideOffset
-		: self.portraitSlideOffset;
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    
+    // fallback to default (Portrait) orientation (based on SO answer http://stackoverflow.com/a/11996096 )
+    orientation = UIDeviceOrientationIsValidInterfaceOrientation(orientation) ? orientation : UIDeviceOrientationPortrait;
+    
+    return (UIDeviceOrientationIsLandscape(orientation))
+    ? self.landscapeSlideOffset
+    : self.portraitSlideOffset;
 }
 
 #pragma mark - IBActions -
