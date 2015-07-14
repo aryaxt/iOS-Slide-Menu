@@ -1,7 +1,7 @@
 iOS-Slide-Menu [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Slide-Menu/badge.png)](http://cocoadocs.org/docsets/iOS-Slide-Menu)
 ---------
 
-**NOTE: If your application supports both landscape and portrait user version 1.4.5**
+**NOTE: If your application supports both landscape and portrait and supports iOS versions below 8, use version 1.4.5**
 
 iOS Slide Menu built on top of UINavigationController, with configurable buttons, reveal animations, and tap/swiper gesture recognizers.
 
