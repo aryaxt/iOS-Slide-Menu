@@ -52,18 +52,18 @@
 
 #pragma mark - SlideNavigationContorllerAnimation Methods -
 
-- (void)prepareMenuForAnimation:(Menu)menu
+- (void)prepareMenuForAnimation:(MenuSide)menu
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
+	UIViewController *menuViewController = (menu == MenuSideLeft)
 		? [SlideNavigationController sharedInstance].leftMenu
 		: [SlideNavigationController sharedInstance].rightMenu;
 	
 	menuViewController.view.transform = CGAffineTransformScale(menuViewController.view.transform, self.minimumScale, self.minimumScale);
 }
 
-- (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
+- (void)animateMenu:(MenuSide)menu withProgress:(CGFloat)progress
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
+	UIViewController *menuViewController = (menu == MenuSideLeft)
 		? [SlideNavigationController sharedInstance].leftMenu
 		: [SlideNavigationController sharedInstance].rightMenu;
 	

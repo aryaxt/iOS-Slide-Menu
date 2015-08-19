@@ -32,10 +32,10 @@
 
 // Initial state of the view before animation starts
 // This gets called right before the menu is about to reveal
-- (void)prepareMenuForAnimation:(Menu)menu;
+- (void)prepareMenuForAnimation:(MenuSide)menu;
 
 // Animate the view based on the progress (progress is between 0 and 1)
-- (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress;
+- (void)animateMenu:(MenuSide)menu withProgress:(CGFloat)progress;
 
 // Gets called ff for any the instance of animator is being change
 // You should make any cleanup that is needed

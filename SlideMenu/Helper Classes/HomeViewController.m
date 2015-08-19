@@ -40,11 +40,11 @@
 
 - (IBAction)bounceMenu:(id)sender
 {
-	static Menu menu = MenuLeft;
+	static MenuSide menu = MenuSideLeft;
 	
 	[[SlideNavigationController sharedInstance] bounceMenu:menu withCompletion:nil];
 	
-	menu = (menu == MenuLeft) ? MenuRight : MenuLeft;
+	menu = (menu == MenuSideLeft) ? MenuSideRight : MenuSideLeft;
 }
 
 - (IBAction)slideOutAnimationSwitchChanged:(UISwitch *)sender
@@ -59,7 +59,7 @@
 
 - (IBAction)changeAnimationSelected:(id)sender
 {
-	[[SlideNavigationController sharedInstance] openMenu:MenuRight withCompletion:nil];
+	[[SlideNavigationController sharedInstance] openMenu:MenuSideRight withCompletion:nil];
 }
 
 - (IBAction)shadowSwitchSelected:(UISwitch *)sender
