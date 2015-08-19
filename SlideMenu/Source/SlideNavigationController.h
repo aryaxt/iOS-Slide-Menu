@@ -36,10 +36,10 @@
 - (BOOL)slideNavigationControllerShouldDisplayLeftMenu;
 @end
 
-typedef  enum{
-	MenuLeft = 1,
-	MenuRight = 2
-}Menu;
+typedef enum {
+	MenuSideLeft  = 1,
+	MenuSideRight = 2
+} MenuSide;
 
 @protocol SlideNavigationContorllerAnimator;
 @interface SlideNavigationController : UINavigationController <UINavigationControllerDelegate>
@@ -68,8 +68,8 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
-- (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion;
-- (void)openMenu:(Menu)menu withCompletion:(void (^)())completion;
+- (void)bounceMenu:(MenuSide)menu withCompletion:(void (^)())completion;
+- (void)openMenu:(MenuSide)menu withCompletion:(void (^)())completion;
 - (void)closeMenuWithCompletion:(void (^)())completion;
 - (void)toggleLeftMenu;
 - (void)toggleRightMenu;

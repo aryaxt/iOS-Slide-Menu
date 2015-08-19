@@ -60,13 +60,13 @@
 
 #pragma mark - SlideNavigationContorllerAnimation Methods -
 
-- (void)prepareMenuForAnimation:(Menu)menu
+- (void)prepareMenuForAnimation:(MenuSide)menu
 {
 	[self.fadeAnimation prepareMenuForAnimation:menu];
 	[self.scaleAnimation prepareMenuForAnimation:menu];
 }
 
-- (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
+- (void)animateMenu:(MenuSide)menu withProgress:(CGFloat)progress
 {
 	[self.fadeAnimation animateMenu:menu withProgress:progress];
 	[self.scaleAnimation animateMenu:menu withProgress:progress];

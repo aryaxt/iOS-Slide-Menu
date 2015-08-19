@@ -52,9 +52,9 @@
 
 #pragma mark - SlideNavigationContorllerAnimation Methods -
 
-- (void)prepareMenuForAnimation:(Menu)menu
+- (void)prepareMenuForAnimation:(MenuSide)menu
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
+	UIViewController *menuViewController = (menu == MenuSideLeft)
         ? [SlideNavigationController sharedInstance].leftMenu
         : [SlideNavigationController sharedInstance].rightMenu;
 	
@@ -63,7 +63,7 @@
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
     {
-        rect.origin.x = (menu == MenuLeft) ? self.slideMovement*-1 : self.slideMovement;
+        rect.origin.x = (menu == MenuSideLeft) ? self.slideMovement*-1 : self.slideMovement;
     }
     else
     {
@@ -71,22 +71,22 @@
         {
             if (orientation == UIDeviceOrientationLandscapeRight)
             {
-                rect.origin.y = (menu == MenuLeft) ? self.slideMovement*-1 : self.slideMovement;
+                rect.origin.y = (menu == MenuSideLeft) ? self.slideMovement*-1 : self.slideMovement;
             }
             else
             {
-                rect.origin.y = (menu == MenuRight) ? self.slideMovement*-1 : self.slideMovement;
+                rect.origin.y = (menu == MenuSideRight) ? self.slideMovement*-1 : self.slideMovement;
             }
         }
         else
         {
             if (orientation == UIDeviceOrientationPortrait)
             {
-                rect.origin.x = (menu == MenuLeft) ? self.slideMovement*-1 : self.slideMovement;
+                rect.origin.x = (menu == MenuSideLeft) ? self.slideMovement*-1 : self.slideMovement;
             }
             else
             {
-                rect.origin.x = (menu == MenuRight) ? self.slideMovement*-1 : self.slideMovement;
+                rect.origin.x = (menu == MenuSideRight) ? self.slideMovement*-1 : self.slideMovement;
             }
         }
     }
@@ -94,22 +94,22 @@
     menuViewController.view.frame = rect;
 }
 
-- (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
+- (void)animateMenu:(MenuSide)menu withProgress:(CGFloat)progress
 {
-    UIViewController *menuViewController = (menu == MenuLeft)
+    UIViewController *menuViewController = (menu == MenuSideLeft)
         ? [SlideNavigationController sharedInstance].leftMenu
         : [SlideNavigationController sharedInstance].rightMenu;
     
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     
-    NSInteger location = (menu == MenuLeft)
+    NSInteger location = (menu == MenuSideLeft)
         ? (self.slideMovement * -1) + (self.slideMovement * progress)
         : (self.slideMovement * (1-progress));
     
-    if (menu == MenuLeft)
+    if (menu == MenuSideLeft)
         location = (location > 0) ? 0 : location;
     
-    if (menu == MenuRight)
+    if (menu == MenuSideRight)
         location = (location < 0) ? 0 : location;
     
     CGRect rect = menuViewController.view.frame;
@@ -135,15 +135,15 @@
 
 - (void)clear
 {
-    [self clearMenu:MenuLeft];
-    [self clearMenu:MenuRight];
+    [self clearMenu:MenuSideLeft];
+    [self clearMenu:MenuSideRight];
 }
 
 #pragma mark - Private Method -
 
-- (void)clearMenu:(Menu)menu
+- (void)clearMenu:(MenuSide)menu
 {
-    UIViewController *menuViewController = (menu == MenuLeft)
+    UIViewController *menuViewController = (menu == MenuSideLeft)
     ? [SlideNavigationController sharedInstance].leftMenu
     : [SlideNavigationController sharedInstance].rightMenu;
     

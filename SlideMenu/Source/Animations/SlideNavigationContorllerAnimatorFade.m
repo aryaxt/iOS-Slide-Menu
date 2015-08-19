@@ -60,9 +60,9 @@
 
 #pragma mark - SlideNavigationContorllerAnimation Methods -
 
-- (void)prepareMenuForAnimation:(Menu)menu
+- (void)prepareMenuForAnimation:(MenuSide)menu
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
+	UIViewController *menuViewController = (menu == MenuSideLeft)
 		? [SlideNavigationController sharedInstance].leftMenu
 		: [SlideNavigationController sharedInstance].rightMenu;
 	
@@ -70,9 +70,9 @@
 	self.fadeAnimationView.frame = menuViewController.view.bounds;
 }
 
-- (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
+- (void)animateMenu:(MenuSide)menu withProgress:(CGFloat)progress
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
+	UIViewController *menuViewController = (menu == MenuSideLeft)
 		? [SlideNavigationController sharedInstance].leftMenu
 		: [SlideNavigationController sharedInstance].rightMenu;
 	
