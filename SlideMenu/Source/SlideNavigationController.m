@@ -668,11 +668,23 @@ static SlideNavigationController *singletonInstance;
 	  willShowViewController:(UIViewController *)viewController
 					animated:(BOOL)animated
 {
-	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
-		viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
+    if ([self shouldDisplayMenu:MenuLeft forViewController:viewController]) {
+        UIBarButtonItem* leftMenuButton = [self barButtonItemForMenu:MenuLeft];
+        // Add menu button to the left of the navigationItems buttons
+        NSArray* leftBarButtonItems = viewController.navigationItem.leftBarButtonItems;
+        leftBarButtonItems = [@[leftMenuButton] arrayByAddingObjectsFromArray:leftBarButtonItems];
+        
+        viewController.navigationItem.leftBarButtonItems = leftBarButtonItems;
+    }
 	
-	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
-		viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+    if ([self shouldDisplayMenu:MenuRight forViewController:viewController]) {
+        UIBarButtonItem* rightMenuButton = [self barButtonItemForMenu:MenuRight];
+        // Add menu button to the right of the navigationItems buttons
+        NSArray* rightBarButtonItems = viewController.navigationItem.rightBarButtonItems;
+        rightBarButtonItems = [rightBarButtonItems arrayByAddingObject:rightMenuButton];
+        
+		viewController.navigationItem.rightBarButtonItems = rightBarButtonItems;
+    }
 }
 
 - (CGFloat)slideOffset
