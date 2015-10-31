@@ -112,6 +112,19 @@ static SlideNavigationController *singletonInstance;
 	return self;
 }
 
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    UIStatusBarStyle ret;
+    if (self.viewControllers.count>0) {
+        ret = [self.viewControllers.lastObject preferredStatusBarStyle];
+    }
+    else {
+        ret = [super preferredStatusBarStyle];
+    }
+    return ret;
+}
+
 - (void)setup
 {
 	if (singletonInstance)
