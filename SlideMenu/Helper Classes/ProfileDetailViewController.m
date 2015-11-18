@@ -24,7 +24,7 @@
 
 - (BOOL)slideNavigationControllerShouldDisplayRightMenu
 {
-	return NO;
+	return YES;
 }
 
 @end
