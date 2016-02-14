@@ -445,7 +445,8 @@ static SlideNavigationController *singletonInstance;
 	}
 	else
 	{
-		UIImage *image = [UIImage imageNamed:MENU_IMAGE];
+        NSBundle* bundle = [NSBundle bundleForClass:[SlideNavigationController class]];
+        UIImage *image = [UIImage imageNamed:MENU_IMAGE inBundle:bundle compatibleWithTraitCollection:nil];
         return [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:selector];
 	}
 }
