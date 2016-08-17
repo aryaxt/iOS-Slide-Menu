@@ -721,6 +721,27 @@ static SlideNavigationController *singletonInstance;
 		: NO;
 }
 
+
+-(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    
+    // if menu is open, then let it close
+    if (self.horizontalLocation != 0)
+        return YES;
+    
+    if([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        UIPanGestureRecognizer *aPanRecognizer = (UIPanGestureRecognizer *)gestureRecognizer;
+        CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
+        Menu currentMenu = (translation.x > 0) ? MenuLeft : MenuRight;
+        
+        if (![self shouldDisplayMenu:currentMenu forViewController:self.topViewController]) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+
 - (void)panDetected:(UIPanGestureRecognizer *)aPanRecognizer
 {
 	CGPoint translation = [aPanRecognizer translationInView:aPanRecognizer.view];
