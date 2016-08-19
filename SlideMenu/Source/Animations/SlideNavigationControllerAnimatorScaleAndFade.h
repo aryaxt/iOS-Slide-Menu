@@ -1,5 +1,5 @@
 //
-//  SlideNavigationContorllerAnimationScaleAndFade.h
+//  SlideNavigationControllerAnimationScaleAndFade.h
 //  SlideMenu
 //
 //  Created by Aryan Gh on 1/26/14.
@@ -26,9 +26,9 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "SlideNavigationContorllerAnimator.h"
+#import "SlideNavigationControllerAnimator.h"
 
-@interface SlideNavigationContorllerAnimatorScaleAndFade : NSObject <SlideNavigationContorllerAnimator>
+@interface SlideNavigationControllerAnimatorScaleAndFade : NSObject <SlideNavigationControllerAnimator>
 
 - (id)initWithMaximumFadeAlpha:(CGFloat)maximumFadeAlpha fadeColor:(UIColor *)fadeColor andMinimumScale:(CGFloat)minimumScale;
 

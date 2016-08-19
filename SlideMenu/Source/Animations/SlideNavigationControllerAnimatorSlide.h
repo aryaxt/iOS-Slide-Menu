@@ -1,5 +1,5 @@
 //
-//  SlideNavigationContorllerAnimationScale.h
+//  SlideNavigationControllerAnimationSlide.h
 //  SlideMenu
 //
 //  Created by Aryan Gh on 1/26/14.
@@ -26,12 +26,12 @@
 // THE SOFTWARE.
 
 #import <Foundation/Foundation.h>
-#import "SlideNavigationContorllerAnimator.h"
+#import "SlideNavigationControllerAnimator.h"
 
-@interface SlideNavigationContorllerAnimatorScale : NSObject <SlideNavigationContorllerAnimator>
+@interface SlideNavigationControllerAnimatorSlide : NSObject <SlideNavigationControllerAnimator>
 
-@property (nonatomic, assign) CGFloat minimumScale;
+@property (nonatomic, assign) CGFloat slideMovement;
 
-- (id)initWithMinimumScale:(CGFloat)minimumScale;
+- (id)initWithSlideMovement:(CGFloat)slideMovement;
 
 @end

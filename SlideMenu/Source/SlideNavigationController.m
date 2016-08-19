@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 
 #import "SlideNavigationController.h"
-#import "SlideNavigationContorllerAnimator.h"
+#import "SlideNavigationControllerAnimator.h"
 
 typedef enum {
 	PopTypeAll,
@@ -862,7 +862,7 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
-- (void)setMenuRevealAnimator:(id<SlideNavigationContorllerAnimator>)menuRevealAnimator
+- (void)setMenuRevealAnimator:(id<SlideNavigationControllerAnimator>)menuRevealAnimator
 {
 	[self.menuRevealAnimator clear];
 	

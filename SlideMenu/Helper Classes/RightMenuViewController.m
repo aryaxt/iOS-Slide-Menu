@@ -79,7 +79,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	id <SlideNavigationContorllerAnimator> revealAnimator;
+	id <SlideNavigationControllerAnimator> revealAnimator;
 	CGFloat animationDuration = 0;
 	
 	switch (indexPath.row)
@@ -90,27 +90,27 @@
 			break;
 			
 		case 1:
-			revealAnimator = [[SlideNavigationContorllerAnimatorSlide alloc] init];
+			revealAnimator = [[SlideNavigationControllerAnimatorSlide alloc] init];
 			animationDuration = .19;
 			break;
 			
 		case 2:
-			revealAnimator = [[SlideNavigationContorllerAnimatorFade alloc] init];
+			revealAnimator = [[SlideNavigationControllerAnimatorFade alloc] init];
 			animationDuration = .18;
 			break;
 			
 		case 3:
-			revealAnimator = [[SlideNavigationContorllerAnimatorSlideAndFade alloc] initWithMaximumFadeAlpha:.8 fadeColor:[UIColor blackColor] andSlideMovement:100];
+			revealAnimator = [[SlideNavigationControllerAnimatorSlideAndFade alloc] initWithMaximumFadeAlpha:.8 fadeColor:[UIColor blackColor] andSlideMovement:100];
 			animationDuration = .19;
 			break;
 			
 		case 4:
-			revealAnimator = [[SlideNavigationContorllerAnimatorScale alloc] init];
+			revealAnimator = [[SlideNavigationControllerAnimatorScale alloc] init];
 			animationDuration = .22;
 			break;
 			
 		case 5:
-			revealAnimator = [[SlideNavigationContorllerAnimatorScaleAndFade alloc] initWithMaximumFadeAlpha:.6 fadeColor:[UIColor blackColor] andMinimumScale:.8];
+			revealAnimator = [[SlideNavigationControllerAnimatorScaleAndFade alloc] initWithMaximumFadeAlpha:.6 fadeColor:[UIColor blackColor] andMinimumScale:.8];
 			animationDuration = .22;
 			break;
 			

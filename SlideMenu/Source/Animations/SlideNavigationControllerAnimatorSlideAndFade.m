@@ -1,5 +1,5 @@
 //
-//  SlideNavigationContorllerAnimationFade.m
+//  SlideNavigationControllerAnimationSlideAndFade.m
 //  SlideMenu
 //
 //  Created by Aryan Gh on 1/26/14.
@@ -25,65 +25,57 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "SlideNavigationContorllerAnimatorFade.h"
+#import "SlideNavigationControllerAnimatorSlideAndFade.h"
+#import "SlideNavigationControllerAnimatorSlide.h"
+#import "SlideNavigationControllerAnimatorFade.h"
 
-@interface SlideNavigationContorllerAnimatorFade()
-@property (nonatomic, strong) UIView *fadeAnimationView;
+@interface SlideNavigationControllerAnimatorSlideAndFade()
+@property (nonatomic, strong) SlideNavigationControllerAnimatorFade *fadeAnimation;
+@property (nonatomic, strong) SlideNavigationControllerAnimatorSlide *slideAnimation;
 @end
 
-@implementation SlideNavigationContorllerAnimatorFade
+@implementation SlideNavigationControllerAnimatorSlideAndFade
 
 #pragma mark - Initialization -
 
 - (id)init
 {
-	if (self = [self initWithMaximumFadeAlpha:.8 andFadeColor:[UIColor blackColor]])
+	if (self = [self initWithMaximumFadeAlpha:.8 fadeColor:[UIColor blackColor] andSlideMovement:100])
 	{
 	}
 	
 	return self;
 }
 
-- (id)initWithMaximumFadeAlpha:(CGFloat)maximumFadeAlpha andFadeColor:(UIColor *)fadeColor
+- (id)initWithMaximumFadeAlpha:(CGFloat)maximumFadeAlpha fadeColor:(UIColor *)fadeColor andSlideMovement:(CGFloat)slideMovement
 {
 	if (self = [super init])
 	{
-		self.maximumFadeAlpha = maximumFadeAlpha;
-		self.fadeColor = fadeColor;
-		
-		self.fadeAnimationView = [[UIView alloc] init];
-		self.fadeAnimationView.backgroundColor = self.fadeColor;
+		self.fadeAnimation = [[SlideNavigationControllerAnimatorFade alloc] initWithMaximumFadeAlpha:maximumFadeAlpha andFadeColor:fadeColor];
+		self.slideAnimation = [[SlideNavigationControllerAnimatorSlide alloc] initWithSlideMovement:slideMovement];
 	}
 	
 	return self;
 }
 
-#pragma mark - SlideNavigationContorllerAnimation Methods -
+#pragma mark - SlideNavigationControllerAnimation Methods -
 
 - (void)prepareMenuForAnimation:(Menu)menu
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
-		? [SlideNavigationController sharedInstance].leftMenu
-		: [SlideNavigationController sharedInstance].rightMenu;
-	
-	self.fadeAnimationView.alpha = self.maximumFadeAlpha;
-	self.fadeAnimationView.frame = menuViewController.view.bounds;
+	[self.fadeAnimation prepareMenuForAnimation:menu];
+	[self.slideAnimation prepareMenuForAnimation:menu];
 }
 
 - (void)animateMenu:(Menu)menu withProgress:(CGFloat)progress
 {
-	UIViewController *menuViewController = (menu == MenuLeft)
-		? [SlideNavigationController sharedInstance].leftMenu
-		: [SlideNavigationController sharedInstance].rightMenu;
-	
-	self.fadeAnimationView.frame = menuViewController.view.bounds;
-	[menuViewController.view addSubview:self.fadeAnimationView];
-	self.fadeAnimationView.alpha = self.maximumFadeAlpha - (self.maximumFadeAlpha *progress);
+	[self.fadeAnimation animateMenu:menu withProgress:progress];
+	[self.slideAnimation animateMenu:menu withProgress:progress];
 }
 
 - (void)clear
 {
-	[self.fadeAnimationView removeFromSuperview];
+	[self.fadeAnimation clear];
+	[self.slideAnimation clear];
 }
 
 @end
