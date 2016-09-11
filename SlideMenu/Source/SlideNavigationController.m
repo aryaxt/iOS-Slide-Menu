@@ -663,17 +663,21 @@ static SlideNavigationController *singletonInstance;
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
 }
 
+- (void)setBarButtonItemsForViewController:(UIViewController*)viewController {
+    if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
+        viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
+    
+    if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
+        viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+}
+
 #pragma mark - UINavigationControllerDelegate Methods -
 
 - (void)navigationController:(UINavigationController *)navigationController
 	  willShowViewController:(UIViewController *)viewController
 					animated:(BOOL)animated
 {
-	if ([self shouldDisplayMenu:MenuLeft forViewController:viewController])
-		viewController.navigationItem.leftBarButtonItem = [self barButtonItemForMenu:MenuLeft];
-	
-	if ([self shouldDisplayMenu:MenuRight forViewController:viewController])
-		viewController.navigationItem.rightBarButtonItem = [self barButtonItemForMenu:MenuRight];
+    [self setBarButtonItemsForViewController:viewController];
 }
 
 - (CGFloat)slideOffset
@@ -881,6 +885,16 @@ static SlideNavigationController *singletonInstance;
     [_rightMenu.view removeFromSuperview];
     
     _rightMenu = rightMenu;
+}
+
+- (void)setLeftBarButtonItem:(UIBarButtonItem *)leftBarButtonItem {
+    _leftBarButtonItem = leftBarButtonItem;
+    [self setBarButtonItemsForViewController:self.topViewController];
+}
+
+- (void)setRightBarButtonItem:(UIBarButtonItem *)rightBarButtonItem {
+    _rightBarButtonItem = rightBarButtonItem;
+    [self setBarButtonItemsForViewController:self.topViewController];
 }
 
 @end
