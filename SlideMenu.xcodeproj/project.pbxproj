@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0ED05DC61DDD83E50003B3A7 /* SlideMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ED05DC41DDD83E50003B3A7 /* SlideMenu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05DCC1DDD84870003B3A7 /* SlideNavigationContorllerAnimatorSlide.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9AC101895A7BF006E6F27 /* SlideNavigationContorllerAnimatorSlide.m */; };
+		0ED05DCE1DDD84870003B3A7 /* SlideNavigationContorllerAnimatorFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9AC131895A7D7006E6F27 /* SlideNavigationContorllerAnimatorFade.m */; };
+		0ED05DD01DDD84870003B3A7 /* SlideNavigationContorllerAnimatorSlideAndFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9AC161895A7E7006E6F27 /* SlideNavigationContorllerAnimatorSlideAndFade.m */; };
+		0ED05DD21DDD84870003B3A7 /* SlideNavigationContorllerAnimatorScale.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9AC191895A80E006E6F27 /* SlideNavigationContorllerAnimatorScale.m */; };
+		0ED05DD41DDD84870003B3A7 /* SlideNavigationContorllerAnimatorScaleAndFade.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C9AC1C1895A81D006E6F27 /* SlideNavigationContorllerAnimatorScaleAndFade.m */; };
+		0ED05DD71DDD84870003B3A7 /* SlideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15371F271728E44E00A508F4 /* SlideNavigationController.m */; };
+		0ED05DD81DDD84930003B3A7 /* menu-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CBD6BF172BBB7100F0C53E /* menu-button.png */; };
+		0ED05DD91DDD84930003B3A7 /* menu-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15CBD6BD172BBB3600F0C53E /* menu-button@2x.png */; };
+		0ED05DFA1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorSlide.h in Headers */ = {isa = PBXBuildFile; fileRef = 15C9AC0F1895A7BF006E6F27 /* SlideNavigationContorllerAnimatorSlide.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05DFB1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorFade.h in Headers */ = {isa = PBXBuildFile; fileRef = 15C9AC121895A7D7006E6F27 /* SlideNavigationContorllerAnimatorFade.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05DFC1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorSlideAndFade.h in Headers */ = {isa = PBXBuildFile; fileRef = 15C9AC151895A7E7006E6F27 /* SlideNavigationContorllerAnimatorSlideAndFade.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05DFD1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorScale.h in Headers */ = {isa = PBXBuildFile; fileRef = 15C9AC181895A80E006E6F27 /* SlideNavigationContorllerAnimatorScale.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05DFE1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorScaleAndFade.h in Headers */ = {isa = PBXBuildFile; fileRef = 15C9AC1B1895A81D006E6F27 /* SlideNavigationContorllerAnimatorScaleAndFade.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05DFF1DDD87530003B3A7 /* SlideNavigationContorllerAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = 15C9AC1E1895A832006E6F27 /* SlideNavigationContorllerAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0ED05E001DDD87530003B3A7 /* SlideNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 15371F261728E44E00A508F4 /* SlideNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15371EE31728E3B400A508F4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE21728E3B400A508F4 /* UIKit.framework */; };
 		15371EE51728E3B400A508F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE41728E3B400A508F4 /* Foundation.framework */; };
 		15371EE71728E3B400A508F4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15371EE61728E3B400A508F4 /* CoreGraphics.framework */; };
@@ -54,6 +70,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0ED05DC21DDD83E50003B3A7 /* SlideMenu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SlideMenu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0ED05DC41DDD83E50003B3A7 /* SlideMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SlideMenu.h; sourceTree = "<group>"; };
+		0ED05DC51DDD83E50003B3A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15371EDE1728E3B400A508F4 /* SlideMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlideMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15371EE21728E3B400A508F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		15371EE41728E3B400A508F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -109,6 +128,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0ED05DBE1DDD83E50003B3A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15371EDB1728E3B400A508F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,11 +158,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0ED05DC31DDD83E50003B3A7 /* SlideMenu-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				0ED05DC41DDD83E50003B3A7 /* SlideMenu.h */,
+				0ED05DC51DDD83E50003B3A7 /* Info.plist */,
+			);
+			path = "SlideMenu-iOS";
+			sourceTree = "<group>";
+		};
 		15371ED31728E3B400A508F4 = {
 			isa = PBXGroup;
 			children = (
 				15371EE81728E3B400A508F4 /* SlideMenu */,
 				15371F0F1728E3B400A508F4 /* SlideMenuTests */,
+				0ED05DC31DDD83E50003B3A7 /* SlideMenu-iOS */,
 				15371EE11728E3B400A508F4 /* Frameworks */,
 				15371EDF1728E3B400A508F4 /* Products */,
 			);
@@ -147,6 +183,7 @@
 			children = (
 				15371EDE1728E3B400A508F4 /* SlideMenu.app */,
 				15371F081728E3B400A508F4 /* SlideMenuTests.xctest */,
+				0ED05DC21DDD83E50003B3A7 /* SlideMenu.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -280,7 +317,43 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		0ED05DBF1DDD83E50003B3A7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ED05DC61DDD83E50003B3A7 /* SlideMenu.h in Headers */,
+				0ED05DFA1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorSlide.h in Headers */,
+				0ED05DFB1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorFade.h in Headers */,
+				0ED05DFC1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorSlideAndFade.h in Headers */,
+				0ED05DFD1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorScale.h in Headers */,
+				0ED05DFE1DDD87530003B3A7 /* SlideNavigationContorllerAnimatorScaleAndFade.h in Headers */,
+				0ED05DFF1DDD87530003B3A7 /* SlideNavigationContorllerAnimator.h in Headers */,
+				0ED05E001DDD87530003B3A7 /* SlideNavigationController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		0ED05DC11DDD83E50003B3A7 /* SlideMenu-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0ED05DC91DDD83E50003B3A7 /* Build configuration list for PBXNativeTarget "SlideMenu-iOS" */;
+			buildPhases = (
+				0ED05DBD1DDD83E50003B3A7 /* Sources */,
+				0ED05DBE1DDD83E50003B3A7 /* Frameworks */,
+				0ED05DBF1DDD83E50003B3A7 /* Headers */,
+				0ED05DC01DDD83E50003B3A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SlideMenu-iOS";
+			productName = "SlideMenu-iOS";
+			productReference = 0ED05DC21DDD83E50003B3A7 /* SlideMenu.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		15371EDD1728E3B400A508F4 /* SlideMenu */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 15371F1A1728E3B400A508F4 /* Build configuration list for PBXNativeTarget "SlideMenu" */;
@@ -326,6 +399,12 @@
 				LastTestingUpgradeCheck = 0600;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Aryan Ghassemi";
+				TargetAttributes = {
+					0ED05DC11DDD83E50003B3A7 = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 15371ED81728E3B400A508F4 /* Build configuration list for PBXProject "SlideMenu" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -341,11 +420,21 @@
 			targets = (
 				15371EDD1728E3B400A508F4 /* SlideMenu */,
 				15371F071728E3B400A508F4 /* SlideMenuTests */,
+				0ED05DC11DDD83E50003B3A7 /* SlideMenu-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0ED05DC01DDD83E50003B3A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ED05DD81DDD84930003B3A7 /* menu-button.png in Resources */,
+				0ED05DD91DDD84930003B3A7 /* menu-button@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15371EDC1728E3B400A508F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,6 +481,19 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0ED05DBD1DDD83E50003B3A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ED05DCC1DDD84870003B3A7 /* SlideNavigationContorllerAnimatorSlide.m in Sources */,
+				0ED05DCE1DDD84870003B3A7 /* SlideNavigationContorllerAnimatorFade.m in Sources */,
+				0ED05DD01DDD84870003B3A7 /* SlideNavigationContorllerAnimatorSlideAndFade.m in Sources */,
+				0ED05DD21DDD84870003B3A7 /* SlideNavigationContorllerAnimatorScale.m in Sources */,
+				0ED05DD41DDD84870003B3A7 /* SlideNavigationContorllerAnimatorScaleAndFade.m in Sources */,
+				0ED05DD71DDD84870003B3A7 /* SlideNavigationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		15371EDA1728E3B400A508F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -467,6 +569,98 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0ED05DC71DDD83E50003B3A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "SlideMenu-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.matsuda.SlideMenu-iOS";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0ED05DC81DDD83E50003B3A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "SlideMenu-iOS/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.matsuda.SlideMenu-iOS";
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		15371F181728E3B400A508F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -580,6 +774,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0ED05DC91DDD83E50003B3A7 /* Build configuration list for PBXNativeTarget "SlideMenu-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0ED05DC71DDD83E50003B3A7 /* Debug */,
+				0ED05DC81DDD83E50003B3A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		15371ED81728E3B400A508F4 /* Build configuration list for PBXProject "SlideMenu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
