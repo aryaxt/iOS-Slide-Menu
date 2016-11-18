@@ -1,0 +1,5 @@
+framework module SlideMenu {
+    umbrella header "SlideMenu.h"
+    export *
+    module * { export * }
+}
