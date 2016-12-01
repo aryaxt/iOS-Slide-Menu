@@ -46,6 +46,8 @@ typedef enum {
 NSString * const SlideNavigationControllerDidOpen = @"SlideNavigationControllerDidOpen";
 NSString * const SlideNavigationControllerDidClose = @"SlideNavigationControllerDidClose";
 NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
+NSString  *const SlideNavigationControllerWillReveal = @"SlideNavigationControllerWillReveal";
+
 
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_SLIDE_ANIMATION_OPTION UIViewAnimationOptionCurveEaseOut
@@ -478,6 +480,8 @@ static SlideNavigationController *singletonInstance;
 	[self enableTapGestureToCloseMenu:YES];
 
 	[self prepareMenuForReveal:menu];
+    
+    [self postNotificationWithName:SlideNavigationControllerWillReveal forMenu:menu == MenuLeft ? MenuLeft : MenuRight];
 	
 	[UIView animateWithDuration:duration
 						  delay:0
