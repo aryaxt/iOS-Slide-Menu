@@ -127,6 +127,9 @@ static SlideNavigationController *singletonInstance;
 	self.avoidSwitchingToSameClassViewController = YES;
 	self.enableShadow = YES;
 	self.enableSwipeGesture = YES;
+    self.menuShadowRadius = MENU_SHADOW_RADIUS;
+    self.menuShadowOpacity = MENU_SHADOW_OPACITY;
+    self.menuShadowColor = [UIColor darkGrayColor];
 	self.delegate = self;
 }
 
@@ -329,9 +332,9 @@ static SlideNavigationController *singletonInstance;
 	
 	if (enable)
 	{
-		self.view.layer.shadowColor = [UIColor darkGrayColor].CGColor;
-		self.view.layer.shadowRadius = MENU_SHADOW_RADIUS;
-		self.view.layer.shadowOpacity = MENU_SHADOW_OPACITY;
+		self.view.layer.shadowColor = self.menuShadowColor.CGColor;
+		self.view.layer.shadowRadius = self.menuShadowRadius;
+		self.view.layer.shadowOpacity = self.menuShadowOpacity;
 		self.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.view.bounds].CGPath;
 		self.view.layer.shouldRasterize = YES;
 		self.view.layer.rasterizationScale = [UIScreen mainScreen].scale;
