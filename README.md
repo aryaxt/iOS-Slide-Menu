@@ -1,6 +1,5 @@
 iOS-Slide-Menu [![Version](http://cocoapod-badges.herokuapp.com/v/iOS-Slide-Menu/badge.png)](http://cocoadocs.org/docsets/iOS-Slide-Menu)
 ---------
-//
 
 **NOTE: If your application supports both landscape and portrait and supports iOS versions below 8, use version 1.4.5**
 
