@@ -68,6 +68,11 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+- (void)popToMainAndSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
+- (void)popToMainAndSwitchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion;
+- (void)popToController:(UIViewController *)goToController andSwitchToViewController:(UIViewController *)viewController withSlideOutAnimation:(BOOL)slideOutAnimation andCompletion:(void (^)())completion;
+- (void)popToController:(UIViewController *)goToController andSwitchToViewController:(UIViewController *)viewController andCompletion:(void (^)())completion;
+
 - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion;
 - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion;
 - (void)closeMenuWithCompletion:(void (^)())completion;
