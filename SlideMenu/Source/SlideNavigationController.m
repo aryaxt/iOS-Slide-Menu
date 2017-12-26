@@ -127,6 +127,7 @@ static SlideNavigationController *singletonInstance;
 	self.avoidSwitchingToSameClassViewController = YES;
 	self.enableShadow = YES;
 	self.enableSwipeGesture = YES;
+    self.shouldReloadView = NO;
 	self.delegate = self;
 }
 
@@ -212,12 +213,14 @@ static SlideNavigationController *singletonInstance;
 					   popType:(PopType)poptype
 				 andCompletion:(void (^)())completion
 {
-	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
+	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class] && !self.shouldReloadView)
 	{
 		[self closeMenuWithCompletion:completion];
 		return;
 	}
 	
+    self.shouldReloadView = NO;
+    
 	void (^switchAndCallCompletion)(BOOL) = ^(BOOL closeMenuBeforeCallingCompletion) {
 		if (poptype == PopTypeAll) {
 			[self setViewControllers:@[viewController]];
