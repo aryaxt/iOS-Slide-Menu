@@ -174,7 +174,7 @@ static SlideNavigationController *singletonInstance;
 
 #pragma mark - Public Methods -
 
-- (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion
+- (void)bounceMenu:(Menu)menu withCompletion:(void (^)(void))completion
 {
 	[self prepareMenuForReveal:menu];
 	NSInteger movementDirection = (menu == MenuLeft) ? 1 : -1;
@@ -210,7 +210,7 @@ static SlideNavigationController *singletonInstance;
 - (void)switchToViewController:(UIViewController *)viewController
 		 withSlideOutAnimation:(BOOL)slideOutAnimation
 					   popType:(PopType)poptype
-				 andCompletion:(void (^)())completion
+				 andCompletion:(void (^)(void))completion
 {
 	if (self.avoidSwitchingToSameClassViewController && [self.topViewController isKindOfClass:viewController.class])
 	{
@@ -267,43 +267,43 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
-- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)())completion
+- (void)switchToViewController:(UIViewController *)viewController withCompletion:(void (^)(void))completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeRoot andCompletion:completion];
 }
 
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController
 				  withSlideOutAnimation:(BOOL)slideOutAnimation
-						  andCompletion:(void (^)())completion
+						  andCompletion:(void (^)(void))completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:slideOutAnimation popType:PopTypeRoot andCompletion:completion];
 }
 
 - (void)popToRootAndSwitchToViewController:(UIViewController *)viewController
-						 withCompletion:(void (^)())completion
+						 withCompletion:(void (^)(void))completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeRoot andCompletion:completion];
 }
 
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController
 		 withSlideOutAnimation:(BOOL)slideOutAnimation
-				 andCompletion:(void (^)())completion
+				 andCompletion:(void (^)(void))completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:slideOutAnimation popType:PopTypeAll andCompletion:completion];
 }
 
 - (void)popAllAndSwitchToViewController:(UIViewController *)viewController
-						 withCompletion:(void (^)())completion
+						 withCompletion:(void (^)(void))completion
 {
 	[self switchToViewController:viewController withSlideOutAnimation:YES popType:PopTypeAll andCompletion:completion];
 }
 
-- (void)closeMenuWithCompletion:(void (^)())completion
+- (void)closeMenuWithCompletion:(void (^)(void))completion
 {
 	[self closeMenuWithDuration:self.menuRevealAnimationDuration andCompletion:completion];
 }
 
-- (void)openMenu:(Menu)menu withCompletion:(void (^)())completion
+- (void)openMenu:(Menu)menu withCompletion:(void (^)(void))completion
 {
 	[self openMenu:menu withDuration:self.menuRevealAnimationDuration andCompletion:completion];
 }
@@ -424,7 +424,7 @@ static SlideNavigationController *singletonInstance;
 	}
 }
 
-- (void)toggleMenu:(Menu)menu withCompletion:(void (^)())completion
+- (void)toggleMenu:(Menu)menu withCompletion:(void (^)(void))completion
 {
 	if ([self isMenuOpen])
 		[self closeMenuWithCompletion:completion];
@@ -473,7 +473,7 @@ static SlideNavigationController *singletonInstance;
 	return NO;
 }
 
-- (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)())completion
+- (void)openMenu:(Menu)menu withDuration:(float)duration andCompletion:(void (^)(void))completion
 {
 	[self enableTapGestureToCloseMenu:YES];
 
@@ -496,7 +496,7 @@ static SlideNavigationController *singletonInstance;
 					 }];
 }
 
-- (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)())completion
+- (void)closeMenuWithDuration:(float)duration andCompletion:(void (^)(void))completion
 {
 	[self enableTapGestureToCloseMenu:NO];
     
