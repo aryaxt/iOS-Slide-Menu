@@ -46,6 +46,7 @@ typedef enum {
 NSString * const SlideNavigationControllerDidOpen = @"SlideNavigationControllerDidOpen";
 NSString * const SlideNavigationControllerDidClose = @"SlideNavigationControllerDidClose";
 NSString  *const SlideNavigationControllerDidReveal = @"SlideNavigationControllerDidReveal";
+NSString  *const SlideNavigationControllerWillChangeLocation = @"SlideNavigationControllerWillChangeLocation";
 
 #define MENU_SLIDE_ANIMATION_DURATION .3
 #define MENU_SLIDE_ANIMATION_OPTION UIViewAnimationOptionCurveEaseOut
@@ -245,6 +246,9 @@ static SlideNavigationController *singletonInstance;
 	{
 		if (slideOutAnimation)
 		{
+            CGFloat width = self.horizontalSize;
+            CGFloat moveLocation = (self.horizontalLocation> 0) ? width : -1*width;
+            [self postLocationNotification:moveLocation duration: slideOutAnimation];
 			[UIView animateWithDuration:(slideOutAnimation) ? self.menuRevealAnimationDuration : 0
 								  delay:0
 								options:self.menuRevealAnimationOption
@@ -478,7 +482,9 @@ static SlideNavigationController *singletonInstance;
 	[self enableTapGestureToCloseMenu:YES];
 
 	[self prepareMenuForReveal:menu];
-	
+
+    CGFloat width = self.horizontalSize;
+    [self postLocationNotification:(width - self.slideOffset) duration: duration];
 	[UIView animateWithDuration:duration
 						  delay:0
 						options:self.menuRevealAnimationOption
@@ -501,7 +507,8 @@ static SlideNavigationController *singletonInstance;
 	[self enableTapGestureToCloseMenu:NO];
     
      Menu menu = (self.horizontalLocation > 0) ? MenuLeft : MenuRight;
-	
+
+    [self postLocationNotification:0 duration: duration];
 	[UIView animateWithDuration:duration
 						  delay:0
 						options:self.menuRevealAnimationOption
@@ -663,6 +670,12 @@ static SlideNavigationController *singletonInstance;
     [[NSNotificationCenter defaultCenter] postNotificationName:name object:nil userInfo:userInfo];
 }
 
+- (void)postLocationNotification:(CGFloat)location duration:(CGFloat)duration
+{
+    NSDictionary *userInfo = @{ @"location" : [NSNumber numberWithFloat:location], @"duration" : [NSNumber numberWithFloat:duration] };
+    [[NSNotificationCenter defaultCenter] postNotificationName:SlideNavigationControllerWillChangeLocation object:nil userInfo:userInfo];
+}
+
 #pragma mark - UINavigationControllerDelegate Methods -
 
 - (void)navigationController:(UINavigationController *)navigationController
@@ -753,7 +766,10 @@ static SlideNavigationController *singletonInstance;
 		newHorizontalLocation += movement;
 		
 		if (newHorizontalLocation >= self.minXForDragging && newHorizontalLocation <= self.maxXForDragging)
-			[self moveHorizontallyToLocation:newHorizontalLocation];
+        {
+            [self moveHorizontallyToLocation:newHorizontalLocation];
+            [self postLocationNotification:newHorizontalLocation duration: 0];
+        }
 		
 		self.draggingPoint = translation;
 	}
