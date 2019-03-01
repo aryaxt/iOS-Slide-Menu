@@ -71,6 +71,7 @@ extern NSString  *const SlideNavigationControllerDidReveal;
 - (void)bounceMenu:(Menu)menu withCompletion:(void (^)())completion;
 - (void)openMenu:(Menu)menu withCompletion:(void (^)())completion;
 - (void)closeMenuWithCompletion:(void (^)())completion;
+- (void)removeAllMenuFromSuperview;
 - (void)toggleLeftMenu;
 - (void)toggleRightMenu;
 - (BOOL)isMenuOpen;

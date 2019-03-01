@@ -608,6 +608,21 @@ static SlideNavigationController *singletonInstance;
 	[self.menuRevealAnimator prepareMenuForAnimation:menu];
 }
 
+- (void)removeAllMenuFromSuperview
+{
+    if (self.lastRevealedMenu == MenuLeft){
+        UIViewController *menuViewController = self.leftMenu;
+        [menuViewController.view removeFromSuperview];
+    } else if (self.lastRevealedMenu == MenuRight){
+        UIViewController *menuViewController = self.rightMenu;
+        [menuViewController.view removeFromSuperview];
+    }
+    
+    // Set lastRevealedMenu to Nil so we insert the Subview when prepareMenuForReveal is subsequently called
+    self.lastRevealedMenu = Nil;
+    return;
+}
+
 - (CGFloat)horizontalLocation
 {
 	CGRect rect = self.view.frame;
